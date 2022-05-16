@@ -1,3 +1,4 @@
 # Introspector
-*A Java application to visualize programs as trees*
+*A Java tool to visualize programs as trees*.
+
 
