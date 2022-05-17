@@ -1,3 +1,8 @@
+/**
+ * Tests for the Node class in the model package
+ * @author Francisco Ortin
+ */
+
 package introspector.model;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,17 +12,17 @@ import org.junit.jupiter.api.Test;
 
 class EnumNodeTest {
 
-    static enum Color {
-        RED, BLUE, GREEN;
+    enum Color {
+        RED, BLUE, GREEN
     }
 
     private Node blueNode, redNode, greenNode;
 
     @BeforeEach
     void createColors() {
-        this.blueNode = Node.buildNode("BlueNode", Color.BLUE, Color.BLUE.getClass());
-        this.greenNode = Node.buildNode("GreenNode", Color.GREEN, Color.GREEN.getClass());
-        this.redNode = Node.buildNode("RedNode", Color.RED, Color.RED.getClass());
+        this.blueNode = Node.buildNode("BlueNode", Color.BLUE);
+        this.greenNode = Node.buildNode("GreenNode", Color.GREEN);
+        this.redNode = Node.buildNode("RedNode", Color.RED);
     }
 
 

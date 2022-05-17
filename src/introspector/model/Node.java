@@ -1,3 +1,10 @@
+/**
+ * The abstract Node class represents the nodes in the tree that models the structure of the program at runtime.
+ * See the derived classes to find the appropriate one to instantiate.
+ * The buildMethod is a factory to create the nodes.
+ * @author Francisco Ortin
+ */
+
 package introspector.model;
 
 import java.lang.reflect.Field;
@@ -7,9 +14,9 @@ import javax.lang.model.type.NullType;
 
 public abstract class Node {
 
-	private Object value;
-	private String name;
-	private Class<?> type;
+	private final Object value;
+	private final String name;
+	private final Class<?> type;
 
 	protected Node(Field field, Object implicitObject) throws IllegalAccessException {
 		this(field.getName(), field.get(implicitObject), field.getType());
@@ -42,58 +49,61 @@ public abstract class Node {
 		sb.append(" (");
 		sb.append(type.getSimpleName());
 		sb.append(")");
-		if (builtinType(type))
-			sb.append(": " + value);
+		if (isBuiltinType(type))
+			sb.append(": ").append(value);
 		return sb.toString();
 	}
 
-	public static <T> boolean builtinType(Class<T> type) {
-		String className = type.getName();
-		if (className.equals("null")) return true;
-		if (className.equals("boolean")) return true;
-		if (className.equals("byte")) return true;
-		if (className.equals("short")) return true;
-		if (className.equals("char")) return true;
-		if (className.equals("int")) return true;
-		if (className.equals("long")) return true;
-		if (className.equals("float")) return true;
-		if (className.equals("double")) return true;
-		if (className.equals("long double")) return true;
-		if (className.equals("java.lang.Boolean")) return true;
-		if (className.equals("java.lang.Byte")) return true;
-		if (className.equals("java.lang.Short")) return true;
-		if (className.equals("java.lang.Character")) return true;
-		if (className.equals("java.lang.Integer")) return true;
-		if (className.equals("java.lang.Long")) return true;
-		if (className.equals("java.lang.Float")) return true;
-		if (className.equals("java.lang.Double")) return true;
-		if (className.equals("java.lang.String")) return true;
-		if (className.equals("javax.lang.introspector.model.type.NullType")) return true;
-		if (type.getSuperclass() != null && type.getSuperclass().getName().equals("java.lang.Enum")) return true;
-		return false;
+	static <T> boolean isBuiltinType(Class<T> type) {
+		return switch (type.getName()) {
+			case "null", "boolean", "byte", "short", "char", "int", "long", "float", "double",
+					"java.lang.Boolean", "java.lang.Byte", "java.lang.Short", "java.lang.Character",
+					"java.lang.Integer", "java.lang.Long", "java.lang.Float", "java.lang.Double", "java.lang.String",
+					"javax.lang.model.type.NullType" -> true;
+			// true if it is an enum, false otherwise
+			default -> type.getSuperclass() != null && type.getSuperclass().getName().equals("java.lang.Enum");
+		};
 	}
 
+	/**
+	 * Factory to create the nodes
+	 * @param name Name of the node
+	 * @param value Runtime object that will be represented as a node
+	 * @return The subclass of Node appropriate to represent the name object
+	 */
+	public static Node buildNode(String name, Object value) {
+		return buildNode(name, value, value.getClass());
+	}
+
+	/**
+	 * Factory to create the nodes
+	 * @param name Name of the node
+	 * @param value Runtime object that will be represented as a node
+	 * @param type The object class that will represent the type of the object (value)
+	 * @return The subclass of Node appropriate to represent the name object
+	 */
 	public static Node buildNode(String name, Object value, Class<?> type) {
-		if (type == null) type = NullType.class;
-		String className = type.getName();
-		if (builtinType(type)) return new BuiltinTypeNode(name, value, type);
-		if (className.equals("java.util.ArrayList")) return new CollectionNode(name, value, type);
-		if (className.equals("java.util.LinkedList")) return new CollectionNode(name, value, type);
-		if (className.equals("java.util.TreeSet")) return new CollectionNode(name, value, type);
-		if (className.equals("java.util.HashSet")) return new CollectionNode(name, value, type);
-		if (className.equals("java.util.Vector")) return new CollectionNode(name, value, type);
-		if (className.equals("java.util.HashMap")) return new MapNode(name, value, type);
-		if (className.equals("java.util.WeakHashMap")) return new MapNode(name, value, type);
-		if (className.equals("java.util.TreeMap")) return new MapNode(name, value, type);
-		if (className.equals("java.util.Hashtable")) return new MapNode(name, value, type);
-		if (className.charAt(0) == '[') return new ArrayNode(name, value, type);
+		if (type == null)
+			type = NullType.class;
+		if (isBuiltinType(type))
+			return new BuiltinTypeNode(name, value, type);
+		// collections (lists, sets, queues and dequeues
+		if (java.util.Collection.class.isAssignableFrom(type))
+			return new CollectionNode(name, value, type);
+		// maps
+		if (java.util.Map.class.isAssignableFrom(type))
+			return new MapNode(name, value, type);
+		if (type.getName().charAt(0) == '[')
+			return new ArrayNode(name, value, type);
 		return new ObjectNode(name, value, type);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		Node node = (Node) obj;
-		return this.name.equals(node.name);
+		if (obj instanceof Node node)
+			return this.name.equals(node.name);
+		else
+			return false;  // not the same type, different objects
 	}
 
 	@Override
