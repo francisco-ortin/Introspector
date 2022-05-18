@@ -1,7 +1,10 @@
 /**
- * Tests for the Node class in the model package
+ * Introspector, a tool to visualize as trees the structure of runtime Java programs.
+ * Copyright (c) <a href="https://reflection.uniovi.es/ortin/">Francisco Ortin</a>.
+ * MIT license.
  * @author Francisco Ortin
  */
+
 
 package introspector.model;
 
@@ -10,6 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for the EnumNode class in the model package
+ */
 class EnumNodeTest {
 
     enum Color {

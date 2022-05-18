@@ -1,7 +1,7 @@
 /**
- * The abstract Node class represents the nodes in the tree that models the structure of the program at runtime.
- * See the derived classes to find the appropriate one to instantiate.
- * The buildMethod is a factory to create the nodes.
+ * Introspector, a tool to visualize as trees the structure of runtime Java programs.
+ * Copyright (c) <a href="https://reflection.uniovi.es/ortin/">Francisco Ortin</a>.
+ * MIT license.
  * @author Francisco Ortin
  */
 
@@ -12,6 +12,11 @@ import java.util.*;
 
 import javax.lang.model.type.NullType;
 
+/**
+ * The abstract Node class represents the nodes in the tree that models the structure of the program at runtime.
+ * See the derived classes to find the appropriate one to instantiate.
+ * The buildMethod is a factory to create the nodes.
+ */
 public abstract class Node {
 
 	private final Object value;
