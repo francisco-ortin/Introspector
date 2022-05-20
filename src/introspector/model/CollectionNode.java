@@ -40,7 +40,7 @@ public class CollectionNode extends Node {
 	}
 
 	/**
-	 * Collection node has as many children and elements in the collection.
+	 * Collection node has as many children as elements in the collection.
 	 * A node is created for each child.
 	 *
 	 * @see Node#getChildren()

@@ -21,9 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class CollectionNodeTest {
 
-    /**
-     * Dummy class for testing purposes.
-     */
     private CollectionNode list, set, queue;
 
     @BeforeEach

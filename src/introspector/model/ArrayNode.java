@@ -40,7 +40,7 @@ public class ArrayNode extends Node {
 	}
 
 	/**
-	 * An array node has as many children and elements in the array.
+	 * An array node has as many children as elements in the array.
 	 * A node is created for each child.
 	 *
 	 * @see Node#getChildren()
