@@ -65,6 +65,7 @@ class ObjectNodeTest {
         );
     }
 
+
     @Test
     void getChildrenNumber() {
         assertAll(
@@ -72,6 +73,17 @@ class ObjectNodeTest {
                 () -> assertEquals(0, this.emptyClassNode.getChildren().size()),
                 () -> assertEquals(3, this.myClassNode.getChildren().size()),
                 () -> assertEquals(5, this.derivedClassNode.getChildren().size())
+        );
+    }
+
+    @Test
+    void getChildrenCache() {
+        assertAll(
+                // compare that the two collections are exactly the same
+                () -> assertTrue(this.objectNode.getChildren() == this.objectNode.getChildren()),
+                () -> assertTrue(this.emptyClassNode.getChildren() == this.emptyClassNode.getChildren()),
+                () -> assertTrue(this.myClassNode.getChildren() == this.myClassNode.getChildren()),
+                () -> assertTrue(this.derivedClassNode.getChildren() == this.derivedClassNode.getChildren())
         );
     }
 

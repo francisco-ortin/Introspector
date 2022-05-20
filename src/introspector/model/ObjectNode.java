@@ -63,6 +63,18 @@ public class ObjectNode extends Node {
 		return this.isLeafCache = true;
 	}
 
+
+	/**
+	 * Indicates if the isChildren method has been previously called, and hence cached.
+	 */
+	private boolean hasBeenGetChildrenCached = false;
+	/**
+	 * The cached value for getChildren.
+	 * Optimization to avoid computing getChildren with reflection any time it is invoked;
+	 */
+	private List<Node> getChildrenCache;
+
+
 	/**
 	 * An object has as many child nodes as fields.
 	 *
@@ -70,6 +82,11 @@ public class ObjectNode extends Node {
 	 */
 	@Override
 	public List<Node> getChildren() {
+		// use the cache when necessary
+		if (this.hasBeenGetChildrenCached)
+			return this.getChildrenCache;
+		this.hasBeenGetChildrenCached = true;
+		// compute the children
 		List<Node> nodes = new ArrayList<>();
 		List<Field> fields = new ArrayList<>();
 		Class<?> klass = this.getType();
@@ -97,7 +114,7 @@ public class ObjectNode extends Node {
 			} catch (Exception e) {
 				System.err.println("Introspector: " + e);
 			}
-		return nodes;
+		return this.getChildrenCache = nodes;
 	}
 
 }

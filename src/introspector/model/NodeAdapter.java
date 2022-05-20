@@ -10,32 +10,31 @@ package introspector.model;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO Mover la funcionalidad del NodeAdapter a Node para eliminar NodeAdapter (probar que funciona con CycleTest)
+
 public class NodeAdapter {
 
 	private Node node;
-	
-	private List<NodeAdapter> children;
-	
+
+	private List<Node> children;
+
 	public NodeAdapter(Node node) {
-		this.node=node;
-		if (!node.isLeaf()) {
-			List<Node> nodes=node.getChildren();
-			children=new ArrayList<NodeAdapter>();
-			for(Node n:nodes)  {
-				if (n.getValue()==node.getValue())
-					children.add(new NodeAdapter( 
-							new ObjectNode(n.getName(), "<self reference>", Object.class)));
-				else
-					children.add(new NodeAdapter(n));
-			}
-		}
-	}
-	
-	public Object getChild(int index) {
-		return children.get(index);
+		this.node = node;
+		if (node.getChildren() == null)
+			this.children = new ArrayList<>();
+		else
+			this.children = new ArrayList<>(node.getChildren());
 	}
 
-	public int getChildCount() {
+	public Object getChild(int index) {
+		// TODO A new NodeAdapter is created any time getChild is called (highly inefficient)
+		// It must be implemented lazy, with a cache
+		// It cannot be eager in the constructor, because it enters in a in an infinite loop for graphs
+		// Al pasarlo a Node YA NO TIENE NINGÚN PROBLEMA PORQUE ESTE ¡YA ES LAZY! Y, ADEMÁS, CACHEA LA COLLECCIÓN DE HIJOS
+		return new NodeAdapter(children.get(index));
+	}
+
+	public int getChildrenCount() {
 		return children.size();
 	}
 
@@ -52,10 +51,10 @@ public class NodeAdapter {
 			return "null";
 		return node.getValue().toString();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		NodeAdapter nodo=(NodeAdapter)obj;
+		NodeAdapter nodo = (NodeAdapter) obj;
 		return this.node.equals(nodo.node);
 	}
 
@@ -63,7 +62,7 @@ public class NodeAdapter {
 	public int hashCode() {
 		return node.hashCode();
 	}
-	
+
 	@Override
 	public String toString() {
 		return node.toString();
@@ -73,5 +72,5 @@ public class NodeAdapter {
 		return node.getType().getName();
 	}
 
-	
+
 }

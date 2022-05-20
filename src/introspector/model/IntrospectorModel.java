@@ -30,7 +30,7 @@ public class IntrospectorModel implements TreeModel {
 
 	public int getChildCount(Object parent) {
 		NodeAdapter nodo=(NodeAdapter)parent;
-		return nodo.getChildCount();
+		return nodo.getChildrenCount();
 	}
 
 	public boolean isLeaf(Object node) {
