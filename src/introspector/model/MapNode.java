@@ -14,8 +14,8 @@ import java.util.List;
 
 public class MapNode extends Node {
 
-	public MapNode(Field field, Object implicitObject) throws IllegalAccessException {
-		super(field, implicitObject);
+	public MapNode(String name, Object value){
+		super(name, value);
 	}
 
 	public MapNode(String name, Object value, Class<?> type) {
@@ -29,7 +29,7 @@ public class MapNode extends Node {
 
 	@Override
 	public List<Node> getChildren() {
-		List<Node> nodes=new ArrayList<Node>();
+		List<Node> nodes=new ArrayList<>();
 		for (Map.Entry<?, ?> entry:((Map<?,?>)getValue()).entrySet())
 			if (entry.getKey() == null) {
 				System.err.printf("Introspector: the map \"%s\" has a null key.\n", getName());

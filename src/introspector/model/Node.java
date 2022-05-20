@@ -23,30 +23,58 @@ public abstract class Node {
 	private final String name;
 	private final Class<?> type;
 
-	protected Node(Field field, Object implicitObject) throws IllegalAccessException {
-		this(field.getName(), field.get(implicitObject), field.getType());
+	/**
+	 * Creates a Node that wraps a Java Object
+	 * @param name The name to display the node
+	 * @param value The object that will be represented as a node
+	 */
+	protected Node(String name, Object value) {
+		this(name, value, value.getClass());
 	}
 
+	/**
+	 * Creates a Node that wraps a Java Object
+	 * @param name The name to display the node
+	 * @param value The object that will be represented as a node
+	 * @param type The type of the object
+	 */
 	protected Node(String name, Object value, Class<?> type) {
 		this.name = name;
 		this.value = value;
 		this.type = type;
 	}
 
+	/**
+	 * @return The name used to display the object represented as a node
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * @return The type of the object represented as a node
+	 */
 	public Class<?> getType() {
 		return type;
 	}
 
+	/**
+	 * @return The object represented as a node
+	 */
 	public Object getValue() {
 		return value;
 	}
 
+	/**
+	 * To know if a node is a leaf node.
+	 * @return Whether the node is a leaf node (no children) or not
+	 */
 	public abstract boolean isLeaf();
 
+	/**
+	 * Returns the child node of the current node.
+	 * @return The children of this node (null if there are no children)
+	 */
 	public abstract List<Node> getChildren();
 
 	public String toString() {
@@ -103,6 +131,11 @@ public abstract class Node {
 		return new ObjectNode(name, value, type);
 	}
 
+	/**
+	 * Two objects are equal when they have the same name
+	 * @param obj To object to be compared with
+	 * @return Whether the two objects are equal
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Node node)
@@ -111,6 +144,9 @@ public abstract class Node {
 			return false;  // not the same type, different objects
 	}
 
+	/**
+	 * @return The hash code of the name
+	 */
 	@Override
 	public int hashCode() {
 		return name.hashCode();

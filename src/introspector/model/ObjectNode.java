@@ -13,9 +13,8 @@ import java.util.List;
 
 public class ObjectNode extends Node {
 
-	public ObjectNode(Field field, Object objImplicito)
-			throws IllegalAccessException {
-		super(field, objImplicito);
+	public ObjectNode(String name, Object value){
+		super(name, value);
 	}
 
 	public ObjectNode(String name, Object value, Class<?> type) {
@@ -29,8 +28,8 @@ public class ObjectNode extends Node {
 
 	@Override
 	public List<Node> getChildren() {
-		List<Node> nodos = new ArrayList<Node>();
-		List<Field> atributos = new ArrayList<Field>();
+		List<Node> nodos = new ArrayList<>();
+		List<Field> atributos = new ArrayList<>();
 		Class<?> klass = this.getType();
 		do {
 			for (Field field : klass.getDeclaredFields()) {
