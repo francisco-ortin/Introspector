@@ -10,6 +10,8 @@ import introspector.view.IntrospectorTree;
 import java.util.List;
 import java.util.ArrayList;
 
+// TODO Probar con records
+
 public class IntrospectorDemo {
 	
 	public static void main(String... args) {
@@ -20,12 +22,12 @@ public class IntrospectorDemo {
 }
 
 enum Color {
-	red, blue, gree;
+	red, blue, green
 }
 
 class RootNode {
-	private Color color = Color.red;
-	private Node childNode = new Node("Child1");
+	private final Color color = Color.red;
+	private final Node childNode = new Node("Child1");
 	private List<String> stringChildren = new ArrayList<String>();
 	private int integerChild;
 	
