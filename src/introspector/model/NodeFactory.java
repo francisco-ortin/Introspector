@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * NodeFactory provides a mechanism to create Node instances.
  */
-public abstract class NodeFactory {
+public class NodeFactory {
 
 
 	public static <T> boolean isBuiltinType(Class<T> type) {

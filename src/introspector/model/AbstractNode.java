@@ -80,6 +80,8 @@ public abstract class AbstractNode implements Node {
 	 */
 	@Override
 	public Node getChild(int index) {
+		if (index >= this.getChildrenCount())
+			return null;
 		return this.getChildren().get(index);
 	}
 
@@ -115,24 +117,24 @@ public abstract class AbstractNode implements Node {
 	}
 
 	/**
-	 * Two objects are equal when they have the same name
+	 * Two objects are equal when they have the same value
 	 * @param obj To object to be compared with
 	 * @return Whether the two objects are equal
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof AbstractNode node)
-			return this.name.equals(node.name);
+			return this.value.equals(node.value);
 		else
 			return false;  // not the same type, different objects
 	}
 
 	/**
-	 * @return The hash code of the name
+	 * @return The hash code of the value
 	 */
 	@Override
 	public int hashCode() {
-		return name.hashCode();
+		return this.value.hashCode();
 	}
 
 	/**
