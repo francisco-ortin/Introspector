@@ -5,20 +5,15 @@
  * @author Francisco Ortin
  */
 
+package examples.ast;
 
-package introspector.ast;
+public class IntConstant extends Expresion {
 
-
-public class UnaryExpression extends Expresion {
-
-	public String operator;
-
-	public Expresion operand;
-
-	public UnaryExpression(String operator,Expresion operand) {
+	public int value;
+	
+	public IntConstant(int value) {
 		super();
-		this.operator=operator;
-		this.operand=operand;
+		this.value=value;
 	}
 
 

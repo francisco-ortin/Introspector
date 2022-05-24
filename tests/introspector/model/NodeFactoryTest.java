@@ -49,13 +49,19 @@ class NodeFactoryTest {
                 ()-> assertTrue(NodeFactory.isBuiltinType(Double.class)),
                 ()-> assertTrue(NodeFactory.isBuiltinType(String.class)),
                 ()-> assertTrue(NodeFactory.isBuiltinType(javax.lang.model.type.NullType.class)),
-                // enums
-                ()-> assertTrue(NodeFactory.isBuiltinType(Color.class)),
                 // non-builtin types
                 ()-> assertFalse(NodeFactory.isBuiltinType(Collection.class)),
                 ()-> assertFalse(NodeFactory.isBuiltinType(List.class)),
                 ()-> assertFalse(NodeFactory.isBuiltinType(Map.class)),
                 ()-> assertFalse(NodeFactory.isBuiltinType(AbstractNode.class))
+        );
+    }
+    @Test
+    void isEnumType() {
+        assertAll(
+                ()-> assertTrue(NodeFactory.isEnumType(Color.class)),
+                ()-> assertFalse(NodeFactory.isEnumType(byte.class)),
+                ()-> assertFalse(NodeFactory.isEnumType(String.class))
         );
     }
 

@@ -5,7 +5,8 @@
  * @author Francisco Ortin
  */
 
-package introspector;
+package examples;
+
 
 import introspector.model.Node;
 import introspector.model.NodeFactory;
@@ -14,7 +15,11 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class SimpleReflectionTest {
+/**
+ * Example use of introspector nodes without using the view.
+ * Creates different types of nodes and show them as text.
+ */
+public class SimpleReflectionExample {
 
 	public static void show(Field field, PrintStream out, Object implicitObject)
 			throws Exception {
@@ -97,7 +102,7 @@ public class SimpleReflectionTest {
 			map.put("list",list);
 			return map;
 		case 15:
-			return TestIntrospector.createTree();
+			return ASTExample.createTree();
 		default:
 			assert false;
 			return null;
@@ -105,9 +110,11 @@ public class SimpleReflectionTest {
 	}
 
 	public static void main(String[] args)  throws NullPointerException {
-		Object tree = createTrees(14);
-		show(NodeFactory.createNode("tree", tree, tree.getClass()), 0);
-		System.out.println();
+		for(int i=1; i<=15;i++) {
+			Object tree = createTrees(i);
+			show(NodeFactory.createNode("tree", tree), 0);
+			System.out.println();
+		}
 	}
 
 }

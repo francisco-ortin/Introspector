@@ -111,7 +111,7 @@ public abstract class AbstractNode implements Node {
 		sb.append(" (");
 		sb.append(type.getSimpleName());
 		sb.append(")");
-		if (NodeFactory.isBuiltinType(type))
+		if (NodeFactory.isBuiltinType(type) || NodeFactory.isEnumType(type))
 			sb.append(": ").append(value);
 		return sb.toString();
 	}

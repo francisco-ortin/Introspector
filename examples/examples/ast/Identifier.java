@@ -5,16 +5,20 @@
  * @author Francisco Ortin
  */
 
-package introspector.ast;
+package examples.ast;
 
-public abstract class ASTNode {
+public class Identifier extends Expresion {
 
-	public int line,column;
+	private final String name;
+	
+	public Identifier(String name) {
+		super();
+		this.name = name;
+	}
 
-	public ASTNode() {
-
+	@Override
+	public String toString() {
+		return this.name;
 	}
 	
-
 }
-

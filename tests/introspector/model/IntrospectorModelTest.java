@@ -35,17 +35,17 @@ class IntrospectorModelTest {
     void createNodes() {
         this.arrayModel = new IntrospectorModel("Array model", this.array = new int [] {1, 2, 3});
         this.objectModel = new IntrospectorModel("Object model", this.object = new EmptyClass());
-        this.arrayNode = (Node)arrayModel.getRoot();
-        this.objectNode = (Node)objectModel.getRoot();
+        this.arrayNode = arrayModel.getRoot();
+        this.objectNode = objectModel.getRoot();
     }
 
     @Test
     void getChild() {
         assertAll(
                 // array
-                ()-> assertEquals(1, ((Node)arrayModel.getChild(arrayNode, 0)).getValue()),
-                ()-> assertEquals(2, ((Node)arrayModel.getChild(arrayNode, 1)).getValue()),
-                ()-> assertEquals(3, ((Node)arrayModel.getChild(arrayNode, 2)).getValue()),
+                ()-> assertEquals(1, arrayModel.getChild(arrayNode, 0).getValue()),
+                ()-> assertEquals(2, arrayModel.getChild(arrayNode, 1).getValue()),
+                ()-> assertEquals(3, arrayModel.getChild(arrayNode, 2).getValue()),
                 // object
                 ()-> assertNull(objectModel.getChild(objectNode, 0))
                 );
@@ -59,16 +59,14 @@ class IntrospectorModelTest {
 
     @Test
     void getRoot() {
-        assertEquals(this.array, ((Node)this.arrayModel.getRoot()).getValue());
-        assertEquals(this.object, ((Node)this.objectModel.getRoot()).getValue());
+        assertEquals(this.array, this.arrayModel.getRoot().getValue());
+        assertEquals(this.object, this.objectModel.getRoot().getValue());
     }
 
     @Test
     void isLeaf() {
-        assertAll(
-                () -> assertFalse(this.arrayModel.isLeaf(this.arrayNode)),
-                () -> assertTrue(this.objectModel.isLeaf(this.objectNode))
-        );
+        assertFalse(this.arrayModel.isLeaf(this.arrayNode));
+        assertTrue(this.objectModel.isLeaf(this.objectNode));
     }
 
 

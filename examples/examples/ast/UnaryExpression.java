@@ -5,12 +5,21 @@
  * @author Francisco Ortin
  */
 
-package introspector.ast;
 
-public abstract class Statement extends ASTNode {
+package examples.ast;
 
-	public Statement() {
+
+public class UnaryExpression extends Expresion {
+
+	public String operator;
+
+	public Expresion operand;
+
+	public UnaryExpression(String operator,Expresion operand) {
 		super();
+		this.operator=operator;
+		this.operand=operand;
 	}
+
 
 }

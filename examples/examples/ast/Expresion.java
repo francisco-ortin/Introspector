@@ -5,16 +5,16 @@
  * @author Francisco Ortin
  */
 
-package introspector.ast;
 
-public class IntConstant extends Expresion {
+package examples.ast;
 
-	public int value;
+public abstract class Expresion extends Statement {
 	
-	public IntConstant(int value) {
+	public Type type;
+	
+	public Expresion() {
 		super();
-		this.value=value;
 	}
 
-
+	public boolean lvalue;
 }

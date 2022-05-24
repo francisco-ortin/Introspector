@@ -5,18 +5,17 @@
  * @author Francisco Ortin
  */
 
-package introspector;
-
+package examples;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
 
-public class SingletonTest {
+public class SingletonExample {
 
 	static class Singleton {
 
-		static private Singleton instance = new Singleton();
+		static private final Singleton instance = new Singleton();
 
-		private String field = "sample field";
+		private final String field = "sample field";
 
 		private Singleton() {
 		}

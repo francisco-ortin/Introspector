@@ -5,7 +5,8 @@
  * @author Francisco Ortin
  */
 
-package introspector;
+package examples;
+
 
 
 import introspector.model.IntrospectorModel;
@@ -13,22 +14,27 @@ import introspector.view.IntrospectorTree;
 
 import javax.swing.tree.TreeModel;
 
-public class InheritedAttributesTest {
+/**
+ * Example use of introspector when two attributes exist with the same name (one is inherited).
+ */
+public class InheritedAttributesExample {
 
 	static class A {
 		String field1 = "field1";
+		// the field "type" is repeated
 		String type = "A";
 	}
 
 	static class B extends A {
 		String field2 = "field2";
+		// the field "type" is repeated
 		String type = "B";
 	}
 
 	public static void main(String[] args) {
-			Object tree = new B();
-			TreeModel modelo=new IntrospectorModel("AST",tree);
-			new IntrospectorTree("Introspector", modelo);
+		Object tree = new B();
+		TreeModel model = new IntrospectorModel("AST", tree);
+		new IntrospectorTree("Introspector", model);
 	}
 
 }

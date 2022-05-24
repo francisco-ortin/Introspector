@@ -5,8 +5,12 @@
  * @author Francisco Ortin
  */
 
-package introspector.ast;
+package examples.ast;
 
-public class Type {
+public abstract class Statement extends ASTNode {
+
+	public Statement() {
+		super();
+	}
 
 }

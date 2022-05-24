@@ -6,7 +6,7 @@
  */
 
 
-package introspector.ast;
+package examples.ast;
 
 
 public class BinaryExpression extends Expresion {

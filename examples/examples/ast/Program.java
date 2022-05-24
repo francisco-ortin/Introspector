@@ -5,20 +5,19 @@
  * @author Francisco Ortin
  */
 
-package introspector.ast;
+package examples.ast;
 
 import java.util.List;
 import java.util.ArrayList;
 
 
-public class Write extends Statement {
+public class Program extends ASTNode {
 
-	public List<ASTNode> expressions=new ArrayList<ASTNode>();
-	
-	public Write(List<ASTNode> expressions) {
+	public List<ASTNode> statements = new ArrayList<>();
+
+	public Program(List<ASTNode> statements) {
 		super();
-		this.expressions.addAll(expressions);
+		this.statements.addAll(statements);
 	}
-
 
 }

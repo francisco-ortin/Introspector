@@ -17,15 +17,28 @@ import java.util.Map;
 public class NodeFactory {
 
 
+	/**
+	 * Method to know if a Class<T> is a built-in type.
+	 * @param type The type to be checked
+	 * @return Whether the type is built-in
+	 */
 	public static <T> boolean isBuiltinType(Class<T> type) {
 		return switch (type.getName()) {
 			case "null", "boolean", "byte", "short", "char", "int", "long", "float", "double",
 					"java.lang.Boolean", "java.lang.Byte", "java.lang.Short", "java.lang.Character",
 					"java.lang.Integer", "java.lang.Long", "java.lang.Float", "java.lang.Double", "java.lang.String",
 					"javax.lang.model.type.NullType" -> true;
-			// true if it is an enum, false otherwise
-			default -> type.getSuperclass() != null && type.getSuperclass().getName().equals("java.lang.Enum");
+			default -> false;
 		};
+	}
+
+	/**
+	 * Method to know if a Class<T> is an enum type.
+	 * @param type The type to be checked
+	 * @return Whether the type is an enum
+	 */
+	static <T> boolean isEnumType(Class<T> type) {
+ 		return type.getSuperclass() != null && type.getSuperclass().getName().equals("java.lang.Enum");
 	}
 
 	/**
@@ -50,6 +63,8 @@ public class NodeFactory {
 			type = NullType.class;
 		if (isBuiltinType(type))
 			return new BuiltinTypeNode(name, value, type);
+		if (isEnumType(type))
+			return new EnumNode(name, value, type);
 		// collections (lists, sets, queues and dequeues
 		if (Collection.class.isAssignableFrom(type))
 			return new CollectionNode(name, value, type);

@@ -6,15 +6,14 @@
  */
 
 
-package introspector.ast;
+package examples.ast;
 
-public abstract class Expresion extends Statement {
-	
-	public Type type;
-	
-	public Expresion() {
-		super();
+
+public class Asignment extends BinaryExpression {
+
+	public Asignment(Expresion operand1,Expresion operand2) {
+		super("=", operand1, operand2);
 	}
 
-	public boolean lvalue;
+	
 }

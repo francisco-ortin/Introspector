@@ -1,28 +1,31 @@
-/**
+ /**
  * Introspector, a tool to visualize as trees the structure of runtime Java programs.
  * Copyright (c) <a href="https://reflection.uniovi.es/ortin/">Francisco Ortin</a>.
  * MIT license.
  * @author Francisco Ortin
  */
 
-package introspector;
+package examples;
 
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
 import java.util.List;
 import java.util.ArrayList;
 
-public class EnumTest {
+ /**
+  * Example use of enumerations, lists, objects and integer fields.
+  */
+ public class EnumExample {
 
-	static enum Color {
-		red, blue, gree;
+	enum Color {
+		red, blue, green
 	}
 
 	static class RootNode {
-		private Color color = Color.red;
-		private Node childNode = new Node("Child1");
-		private List<String> stringChildren = new ArrayList<String>();
-		private int integerChild;
+		private final Color color = Color.red;
+		private final Node childNode = new Node("Child1");
+		private final List<String> stringChildren = new ArrayList<>();
+		private final int integerChild;
 
 		//private Color color = Color.red;
 
@@ -38,7 +41,7 @@ public class EnumTest {
 	}
 
 	static class Node {
-		private String name;
+		private final String name;
 
 		Node(String name) {
 			this.name = name;

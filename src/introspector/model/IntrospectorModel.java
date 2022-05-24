@@ -35,7 +35,7 @@ public class IntrospectorModel implements TreeModel {
 	 * @return The root node of the tree.
 	 */
 	@Override
-	public Object getRoot() {
+	public Node getRoot() {
 		return root;
 	}
 
@@ -46,7 +46,7 @@ public class IntrospectorModel implements TreeModel {
 	 * @return	the {@code index}-th child of the {@code parent} node.
 	 */
 	@Override
-	public Object getChild(Object parent, int index) {
+	public Node getChild(Object parent, int index) {
 		Node node = (Node)parent;
 		return node.getChild(index);
 	}
