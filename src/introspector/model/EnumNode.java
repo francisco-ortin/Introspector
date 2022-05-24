@@ -9,17 +9,23 @@ package introspector.model;
 
 import java.util.List;
 
-public class EnumNode extends Node {
+public class EnumNode extends AbstractNode  implements Node {
 
 	public EnumNode(String name, Object value, Class<?> type) {
 		super(name, value, type);
 	}
 
+	/**
+	 * @see Node#isLeaf()
+	 */
 	@Override
 	public boolean isLeaf() {
 		return true;
 	}
 
+	/**
+	 * @see AbstractNode#getChildren()
+	 */
 	public List<Node> getChildren() {
 		return null;
 	}

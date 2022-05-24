@@ -13,17 +13,17 @@ import java.util.*;
 /**
  * ArrayNode provides a Node implementation to represent any value whose type is an array.
  */
-public class ArrayNode extends Node {
+public class ArrayNode extends AbstractNode implements Node  {
 
 	/**
-	 * @see Node#Node(String, Object)
+	 * @see AbstractNode#AbstractNode(String, Object)
 	 */
 	public ArrayNode(String name, Object value) {
 		super(name, value);
 	}
 
 	/**
-	 * @see Node#Node(String, Object, Class)
+	 * @see AbstractNode#AbstractNode(String, Object, Class)
 	 */
 	public ArrayNode(String name, Object value, Class<?> type) {
 		super(name, value, type);
@@ -32,7 +32,7 @@ public class ArrayNode extends Node {
 	/**
 	 * An array node is not leaf.
 	 *
-	 * @see introspector.model.Node#isLeaf()
+	 * @see AbstractNode#isLeaf()
 	 */
 	@Override
 	public boolean isLeaf() {
@@ -43,7 +43,7 @@ public class ArrayNode extends Node {
 	 * An array node has as many children as elements in the array.
 	 * A node is created for each child.
 	 *
-	 * @see Node#getChildren()
+	 * @see AbstractNode#getChildren()
 	 */
 	@Override
 	public List<Node> getChildren() {
@@ -53,9 +53,9 @@ public class ArrayNode extends Node {
 			Object element = Array.get(getValue(), i);
 			if (element == null) {
 				System.err.printf("Introspector: the array \"%s\" has a null reference in its item number %d.\n", getName(), i);
-				children.add(buildNode(getName() + "[" + i + "]", null, null));
+				children.add(NodeFactory.createNode(getName() + "[" + i + "]", null, null));
 			} else
-				children.add(buildNode(getName() + "[" + i + "]", element, element.getClass()));
+				children.add(NodeFactory.createNode(getName() + "[" + i + "]", element, element.getClass()));
 		}
 		return children;
 	}

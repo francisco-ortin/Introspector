@@ -13,10 +13,10 @@ import javax.swing.tree.TreePath;
 
 public class IntrospectorModel implements TreeModel {
 	
-	private NodeAdapter root;
+	private final Node root;
 	
 	  public IntrospectorModel(String name,Object root) {
-		  this.root=new NodeAdapter(Node.buildNode(name,root,root.getClass()));
+		  this.root = NodeFactory.createNode(name,root,root.getClass());
 		  }
 
 	public Object getRoot() {
@@ -24,36 +24,35 @@ public class IntrospectorModel implements TreeModel {
 	}
 
 	public Object getChild(Object parent, int index) {
-		NodeAdapter nodo=(NodeAdapter)parent;
-		return nodo.getChild(index);
+		Node node=(Node)parent;
+		return node.getChild(index);
 	}
 
 	public int getChildCount(Object parent) {
-		NodeAdapter nodo=(NodeAdapter)parent;
-		return nodo.getChildrenCount();
+		Node node=(Node)parent;
+		return node.getChildrenCount();
 	}
 
-	public boolean isLeaf(Object node) {
-		NodeAdapter nodo=(NodeAdapter)node;
-		return nodo.isLeaf();
+	public boolean isLeaf(Object object) {
+		Node node=(Node)object;
+		return node.isLeaf();
 	}
 
 	public void valueForPathChanged(TreePath path, Object newValue) {
-		}
+		  // nothing to do when the value for path changes
+	}
 
 	public int getIndexOfChild(Object parent, Object child) {
-		NodeAdapter nodo=(NodeAdapter)parent;
-		return nodo.getIndexOfChild(child);
+		Node node=(Node)parent;
+		return node.getIndexOfChild(child);
 	}
 
 	public void addTreeModelListener(TreeModelListener l) {
-		// TODO Auto-generated method stub
-
+		// Nothing to do when a tree model listener is added
 	}
 
 	public void removeTreeModelListener(TreeModelListener l) {
-		// TODO Auto-generated method stub
-
+		// Nothing to do when a tree model listener is removed
 	}
 
 }

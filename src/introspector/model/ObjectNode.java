@@ -15,17 +15,17 @@ import java.util.List;
  * ObjectNode provides a Node implementation to represent any object whose type is neither built-in
  * nor a collection. It has as many children as field references pointing to other objects.
  */
-public class ObjectNode extends Node {
+public class ObjectNode extends AbstractNode  implements Node {
 
 	/**
-	 * @see Node#Node(String, Object)
+	 * @see AbstractNode#AbstractNode(String, Object)
 	 */
 	public ObjectNode(String name, Object value){
 		super(name, value);
 	}
 
 	/**
-	 * @see Node#Node(String, Object, Class)
+	 * @see AbstractNode#AbstractNode(String, Object, Class)
 	 */
 	public ObjectNode(String name, Object value, Class<?> type) {
 		super(name, value, type);
@@ -44,7 +44,7 @@ public class ObjectNode extends Node {
 	/**
 	 * An object is a leaf node when it has no fields
 	 *
-	 * @see introspector.model.Node#isLeaf()
+	 * @see AbstractNode#isLeaf()
 	 */
 
 	@Override
@@ -78,7 +78,7 @@ public class ObjectNode extends Node {
 	/**
 	 * An object has as many child nodes as fields.
 	 *
-	 * @see Node#getChildren()
+	 * @see AbstractNode#getChildren()
 	 */
 	@Override
 	public List<Node> getChildren() {
@@ -107,9 +107,9 @@ public class ObjectNode extends Node {
 					name += ":" + field.getDeclaringClass().getName();
 				Object fieldValue = field.get(this.getValue());
 				if (fieldValue == null)
-					nodes.add(buildNode(name, "null", field.getType()));
+					nodes.add(NodeFactory.createNode(name, "null", field.getType()));
 				else {
-					nodes.add(buildNode(name, fieldValue, fieldValue.getClass()));
+					nodes.add(NodeFactory.createNode(name, fieldValue, fieldValue.getClass()));
 				}
 			} catch (Exception e) {
 				System.err.println("Introspector: " + e);

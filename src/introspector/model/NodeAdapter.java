@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 // TODO Mover la funcionalidad del NodeAdapter a Node para eliminar NodeAdapter (probar que funciona con CycleTest)
-
+/*
 public class NodeAdapter {
 
-	private Node node;
+	private AbstractNode node;
 
-	private List<Node> children;
+	private List<AbstractNode> children;
 
-	public NodeAdapter(Node node) {
+	public NodeAdapter(AbstractNode node) {
 		this.node = node;
 		if (node.getChildren() == null)
 			this.children = new ArrayList<>();
@@ -74,3 +74,4 @@ public class NodeAdapter {
 
 
 }
+*/

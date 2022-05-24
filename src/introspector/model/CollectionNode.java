@@ -14,17 +14,17 @@ import java.util.List;
 /**
  * CollectionNode provides a Node implementation to represent any value whose type is a java.util.Collection.
  */
-public class CollectionNode extends Node {
+public class CollectionNode extends AbstractNode implements Node  {
 
 	/**
-	 * @see Node#Node(String, Object)
+	 * @see AbstractNode#AbstractNode(String, Object)
 	 */
 	public CollectionNode(String name, Object value) {
 		super(name, value);
 	}
 
 	/**
-	 * @see Node#Node(String, Object, Class)
+	 * @see AbstractNode#AbstractNode(String, Object, Class)
 	 */
 	public CollectionNode(String name, Object value, Class<?> type) {
 		super(name, value, type);
@@ -33,7 +33,7 @@ public class CollectionNode extends Node {
 	/**
 	 * A collection node is not leaf.
 	 *
-	 * @see introspector.model.Node#isLeaf()
+	 * @see AbstractNode#isLeaf()
 	 */
 	public boolean isLeaf() {
 		return false;
@@ -43,20 +43,20 @@ public class CollectionNode extends Node {
 	 * Collection node has as many children as elements in the collection.
 	 * A node is created for each child.
 	 *
-	 * @see Node#getChildren()
+	 * @see AbstractNode#getChildren()
 	 */
 	@Override
 	public List<Node> getChildren() {
 		List<Node> nodes = new ArrayList<>();
 		Collection<?> fields = (Collection<?>) this.getValue();
-		int i = 0;
+		int index = 0;
 		for (Object field : fields) {
 			if (field == null) {
 				System.err.printf("Introspector: the collection \"%s\" has a null reference in its item number %d.\n",
-						getName(), i);
-				nodes.add(buildNode(getName() + "[" + i++ + "]", null, null));
+						getName(), index);
+				nodes.add(NodeFactory.createNode(getName() + "[" + index++ + "]", null, null));
 			} else
-				nodes.add(buildNode(getName() + "[" + i++ + "]", field, field.getClass()));
+				nodes.add(NodeFactory.createNode(getName() + "[" + index++ + "]", field, field.getClass()));
 		}
 		return nodes;
 	}

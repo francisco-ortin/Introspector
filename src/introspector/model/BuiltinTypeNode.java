@@ -7,23 +7,22 @@
 
 package introspector.model;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 /**
  * BuiltinTypeNode provides a Node implementation to represent any value whose type is built-in.
  */
-public class BuiltinTypeNode extends Node {
+public class BuiltinTypeNode extends AbstractNode implements Node {
 
 	/**
-	 * @see Node#Node(String, Object)
+	 * @see AbstractNode#AbstractNode(String, Object)
 	 */
 	public BuiltinTypeNode(String name, Object value) {
 		super(name, value);
 	}
 
 	/**
-	 * @see Node#Node(String, Object, Class)
+	 * @see AbstractNode#AbstractNode(String, Object, Class)
 	 */
 	public BuiltinTypeNode(String name, Object value, Class<?> type) {
 		super(name, value, type);
@@ -32,7 +31,7 @@ public class BuiltinTypeNode extends Node {
 	/**
 	 * A builtin node is leaf.
 	 *
-	 * @see introspector.model.Node#isLeaf()
+	 * @see AbstractNode#isLeaf()
 	 */
 	public boolean isLeaf() {
 		return true;
@@ -41,7 +40,7 @@ public class BuiltinTypeNode extends Node {
 	/**
 	 * A builtin node has no children.
 	 *
-	 * @see Node#getChildren()
+	 * @see AbstractNode#getChildren()
 	 */
 	public List<Node> getChildren() {
 		return null;

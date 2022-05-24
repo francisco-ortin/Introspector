@@ -7,44 +7,40 @@
 
 package introspector;
 
-import java.io.PrintStream;
-import java.lang.reflect.*;
-import java.util.*;
-
 import introspector.model.Node;
+import introspector.model.NodeFactory;
+
+import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class SimpleReflectionTest {
 
 	public static void show(Field field, PrintStream out, Object implicitObject)
 			throws Exception {
-		StringBuilder sb = new StringBuilder();
-		sb.append(field.getName());
-		sb.append(" (");
-		sb.append(field.getType().getName());
-		sb.append("): ");
-		sb.append(field.get(implicitObject));
+		StringBuilder sb = new StringBuilder(field.getName())
+			.append(" (")
+			.append(field.getType().getName())
+			.append("): ")
+			.append(field.get(implicitObject));
 		out.println(sb);
 	}
 
 	private static String prefix(int level) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < level; i++)
-			sb.append("| ");
-		return sb.toString();
+		return "| ".repeat(Math.max(0, level));
 	}
 
 	public static void show(Node node, int n) {
 		System.out.print(prefix(n));
 		System.out.println(node.toString());
 		if (!node.isLeaf()) {
-			List<Node> children = node.getChildren();
-			for (Node child : children)
-				show(child, n + 1);
+			for (int i=0; i<node.getChildrenCount(); i++)
+				show(node.getChild(i), n + 1);
 		}
 	}
 
 	public static Object createTrees(int n) {
-		Collection<Object> list = new ArrayList<Object>(), list2;
+		Collection<Object> list = new ArrayList<>(), list2;
 		Map<Object, Object> map;
 		list.add("hi");
 		list.add(334.34);
@@ -63,40 +59,40 @@ public class SimpleReflectionTest {
 		case 6:
 			return list;
 		case 7:
-			return new LinkedList<Object>(list);
+			return new LinkedList<>(list);
 		case 8:
-			list2 = new HashSet<Object>();
+			list2 = new HashSet<>();
 			list2.add(list);
 			list2.add(3);
 			return list2;
 		case 9:
-			list2 = new TreeSet<Object>();
+			list2 = new TreeSet<>();
 			list2.add(34);
 			list2.add(-13);
 			list2.add(13);
 			return list2;
 		case 10:
-			Vector<Object> vector = new Vector<Object>();
+			Vector<Object> vector = new Vector<>();
 			vector.add(list);
 			return vector;
 		case 11:
-			map = new HashMap<Object, Object>();
+			map = new HashMap<>();
 			map.put("one", 1);
 			map.put("two", list);
 			map.put("three", 2.3);
 			return map;
 		case 12:
-			map = new TreeMap<Object, Object>();
+			map = new TreeMap<>();
 			map.put("one", 1);
 			map.put("-one", -11);
 			map.put("zero", 0);
 			return map;
 		case 13:
-			map = new WeakHashMap<Object, Object>();
+			map = new WeakHashMap<>();
 			map.put("one", 1);
 			return map;
 		case 14:
-			map = new Hashtable<Object, Object>();
+			map = new Hashtable<>();
 			map.put("one", 1);
 			map.put("list",list);
 			return map;
@@ -108,9 +104,9 @@ public class SimpleReflectionTest {
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args)  throws NullPointerException {
 		Object tree = createTrees(14);
-		show(Node.buildNode("tree", tree, tree.getClass()), 0);
+		show(NodeFactory.createNode("tree", tree, tree.getClass()), 0);
 		System.out.println();
 	}
 

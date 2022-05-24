@@ -7,7 +7,7 @@
 
 package introspector.view;
 
-import introspector.model.NodeAdapter;
+import introspector.model.Node;
 
 import java.awt.*;
 import javax.swing.*;
@@ -23,13 +23,11 @@ import javax.swing.tree.TreePath;
  */
 public class IntrospectorTree extends JFrame implements TreeSelectionListener {
 
-	private static final long serialVersionUID = -5808696754140959887L;
+	private final JTextArea textArea;
 
-	private JTextArea textArea;
+	private final JLabel labelClass;
 
-	private JLabel labelClass;
-
-	private JTree tree;
+	private final JTree tree;
 
 	/**
 	 * In pixels, the default size of the window.
@@ -79,7 +77,7 @@ public class IntrospectorTree extends JFrame implements TreeSelectionListener {
 	public void valueChanged(TreeSelectionEvent event) {
 		TreePath path = tree.getSelectionPath();
 		if (path != null) {
-			NodeAdapter node = (NodeAdapter) path.getLastPathComponent();
+			Node node = (Node) path.getLastPathComponent();
 			textArea.setText(node.getNodeDescription());
 			labelClass.setText(node.getClassName());
 		}

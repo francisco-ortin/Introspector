@@ -22,13 +22,13 @@ class EnumNodeTest {
         RED, BLUE, GREEN
     }
 
-    private Node blueNode, redNode, greenNode;
+    private AbstractNode blueNode, redNode, greenNode;
 
     @BeforeEach
     void createColors() {
-        this.blueNode = Node.buildNode("BlueNode", Color.BLUE);
-        this.greenNode = Node.buildNode("GreenNode", Color.GREEN);
-        this.redNode = Node.buildNode("RedNode", Color.RED);
+        this.blueNode = (AbstractNode)NodeFactory.createNode("BlueNode", Color.BLUE);
+        this.greenNode = (AbstractNode)NodeFactory.createNode("GreenNode", Color.GREEN);
+        this.redNode =(AbstractNode) NodeFactory.createNode("RedNode", Color.RED);
     }
 
 
