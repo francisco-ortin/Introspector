@@ -9,6 +9,7 @@ package introspector.model;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,8 +57,11 @@ public class ObjectNode extends AbstractNode  implements Node {
 		// checks if there are fields in the given object
 		Class<?> klass = this.getType();
 		do {
-			if (klass.getDeclaredFields().length > 0)
-				return this.isLeafCache = false;
+			boolean hasIntelliJField = Arrays.stream(klass.getDeclaredFields())
+					.anyMatch(field -> field.getName().equals(FIELD_NAME_ADDED_BY_INTELLIJ));
+			int minNumberOfFields = hasIntelliJField ? 2 : 1;
+			if (klass.getDeclaredFields().length >= minNumberOfFields)
+				return this.isLeafCache = false;  // the object has children (without considering the one added by IntelliJ)
 			klass = klass.getSuperclass(); // check in the superclasses
 		} while (klass != null);
 		return this.isLeafCache = true;
@@ -74,6 +78,7 @@ public class ObjectNode extends AbstractNode  implements Node {
 	 */
 	private List<Node> getChildrenCache;
 
+	public static final String FIELD_NAME_ADDED_BY_INTELLIJ = "__$lineHits$__";
 
 	/**
 	 * An object has as many child nodes as fields.
@@ -92,6 +97,9 @@ public class ObjectNode extends AbstractNode  implements Node {
 		Class<?> klass = this.getType();
 		do {
 			for (Field field : klass.getDeclaredFields()) {
+				if (field.getName().equals(FIELD_NAME_ADDED_BY_INTELLIJ))
+					// one field is added by IntelliJ to store the number of lines covered (should not be included)
+					continue;
 				field.setAccessible(true);
 				if (!fields.contains(field))
 					fields.add(field);

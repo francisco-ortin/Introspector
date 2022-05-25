@@ -26,7 +26,7 @@ public class ASTExample {
 	 * write a,c*2;
 	 */
 	public static ASTNode createTree() {
-		Statement s1, s2, s3;
+		/*Statement s1, s2, s3;
 		// * First line
 		List<ASTNode> list = new ArrayList<>();
 		list.add(new Identifier("a"));
@@ -52,7 +52,8 @@ public class ASTExample {
 		list.add(s1);
 		list.add(s2);
 		list.add(s3);
-		return new Program(list);
+		return new Program(list);*/
+		return new Program(new ArrayList<>());
 	}
 
 

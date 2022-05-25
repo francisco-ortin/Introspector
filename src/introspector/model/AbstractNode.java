@@ -98,7 +98,7 @@ public abstract class AbstractNode implements Node {
 	 */
 	@Override
 	public int getIndexOfChild(Object child) {
-		return this.getChildren().indexOf(child);
+		return this.getChildren().indexOf((Node)child);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public abstract class AbstractNode implements Node {
 	}
 
 	/**
-	 * Two objects are equal when they have the same value
+	 * Two objects are equal when they have the same name
 	 * @param obj To object to be compared with
 	 * @return Whether the two objects are equal
 	 */
@@ -130,11 +130,11 @@ public abstract class AbstractNode implements Node {
 	}
 
 	/**
-	 * @return The hash code of the value
+	 * @return The hash code of the name
 	 */
 	@Override
 	public int hashCode() {
-		return this.value.hashCode();
+		return this.name.hashCode();
 	}
 
 	/**
@@ -142,9 +142,9 @@ public abstract class AbstractNode implements Node {
 	 */
 	@Override
 	public String getNodeDescription() {
-		if (this.getValue() == null)
+		if (this.getName() == null)
 			return "null";
-		return this.getValue().toString();
+		return this.getName();
 	}
 
 	/**
