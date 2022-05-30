@@ -9,6 +9,11 @@ package examples;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
 
+/**
+ * Example use of Introspector with graphs where cycles exist (not as a tree).
+ * The cycles are represented as repeated nodes, so they could be expanded infinitive.
+ * A direct recursive type is the Singleton design pattern.
+ */
 public class SingletonExample {
 
 	static class Singleton {

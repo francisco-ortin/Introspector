@@ -10,12 +10,16 @@ package introspector.view;
 import introspector.model.Node;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the window view to visualize the program as a tree.
@@ -23,10 +27,19 @@ import javax.swing.tree.TreePath;
  */
 public class IntrospectorTree extends JFrame implements TreeSelectionListener {
 
+	/**
+	 * Text area that describes the current node, calling its toString() method
+	 */
 	private final JTextArea textArea;
 
+	/**
+	 * Above the textArea, this label shows the runtime type of the object represented by the current node.
+	 */
 	private final JLabel labelClass;
 
+	/**
+	 * The tree view
+	 */
 	private final JTree tree;
 
 	/**
@@ -38,15 +51,55 @@ public class IntrospectorTree extends JFrame implements TreeSelectionListener {
 		this(title, model, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 	}
 
+	/**
+	 * Creates the toolbar
+	 * @return The toolbar created
+	 */
+	private JToolBar createToolBar() {
+		JToolBar toolBar = new JToolBar();
+		toolBar.setFloatable(false);
+		// button expand all
+		JButton buttonExpandAll = new JButton(new ImageIcon("imgs/expand.png"));
+		buttonExpandAll.setToolTipText("Expand all the nodes");
+		buttonExpandAll.setMnemonic('E');  // shortcut is alt+E
+		buttonExpandAll.addActionListener(event -> this.expandAllAction(
+				(Node)this.tree.getModel().getRoot(),
+				new TreePath(new Object[]{this.tree.getModel().getRoot()}),
+				new ArrayList<>()
+		));
+		toolBar.add(buttonExpandAll);
+		toolBar.addSeparator();
+		// button export to html
+		JButton  buttonExportHTML = new JButton(new ImageIcon("imgs/html.png"));
+		buttonExportHTML.setToolTipText("Export to HTML");
+		buttonExportHTML.setMnemonic('H');  // shortcut is alt+H
+		buttonExportHTML.addActionListener(
+				event -> JOptionPane.showMessageDialog(null, ("HTML"))
+		);
+		toolBar.add(buttonExportHTML);
+		// button export to text
+		JButton buttonExportText = new JButton(new ImageIcon("imgs/txt.png"));
+		buttonExportText.setToolTipText("Export to text");
+		buttonExportText.setMnemonic('T');  // shortcut is alt+T
+		buttonExportText.addActionListener(
+				event -> JOptionPane.showMessageDialog(null, ("Text"))
+		);
+		toolBar.add(buttonExportText);
+		// return the toolbar
+		return toolBar;
+	}
+
 	public IntrospectorTree(String title, TreeModel model, int width, int height) {
 		super(title);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(width, height);
 
-		tree = new JTree(model);
-		textArea = new JTextArea();
-		textArea.setEditable(false);
-		textArea.setLineWrap(true);
+		this.add(this.createToolBar(), BorderLayout.NORTH);
+
+		this.tree = new JTree(model);
+		this.textArea = new JTextArea();
+		this.textArea.setEditable(false);
+		this.textArea.setLineWrap(true);
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setDividerSize(2);
@@ -74,6 +127,12 @@ public class IntrospectorTree extends JFrame implements TreeSelectionListener {
 		this.setVisible(true);
 	}
 
+	/**
+	 * When the selected node is changed, its description is shown in the text area and its dynamic type in
+	 * the label.
+	 * @param event the event that characterizes the change.
+	 */
+	@Override
 	public void valueChanged(TreeSelectionEvent event) {
 		TreePath path = tree.getSelectionPath();
 		if (path != null) {
@@ -84,6 +143,25 @@ public class IntrospectorTree extends JFrame implements TreeSelectionListener {
 		else { // No node has been selected
 			textArea.setText("");
 			labelClass.setText("");
+		}
+	}
+
+	/**
+	 * Action that expands all the nodes in a tree view
+	 * @param node the node we want al the children to be expanded transitively
+	 * @param treePath the path describing when the node is placed in the tree
+	 * @param alreadyVisited the list of nodes visited to avoid infinite loops in graphs
+	 */
+	void expandAllAction(Node node, TreePath treePath, List<Node> alreadyVisited) {
+		if (node.isLeaf())
+			return; // done if nothing has to be expanded
+		if (alreadyVisited.contains(node))
+			return; // already visited; avoids infinite loops in cycles (graphs)
+		alreadyVisited.add(node);
+		this.tree.expandPath(treePath);
+		for (int i=0; i<node.getChildrenCount(); i++) {
+			Node childNode = node.getChild(i);
+			expandAllAction(childNode, treePath.pathByAddingChild(childNode), alreadyVisited);
 		}
 	}
 
