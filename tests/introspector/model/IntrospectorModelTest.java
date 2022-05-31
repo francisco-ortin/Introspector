@@ -73,11 +73,11 @@ class IntrospectorModelTest {
     @Test
     void getIndexOfChild() {
         assertEquals(0, this.arrayModel.getIndexOfChild(this.arrayNode,
-                NodeFactory.createNode("", 1)));
+                NodeFactory.createNode("Array model[0]", 1)));
         assertEquals(1, this.arrayModel.getIndexOfChild(this.arrayNode,
-                NodeFactory.createNode("", 2)));
+                NodeFactory.createNode("Array model[1]", 2)));
         assertEquals(2, this.arrayModel.getIndexOfChild(this.arrayNode,
-                NodeFactory.createNode("", 3)));
+                NodeFactory.createNode("Array model[2]", 3)));
         // not found child
         assertEquals(-1, this.objectModel.getIndexOfChild(this.objectNode, this.objectNode));
     }

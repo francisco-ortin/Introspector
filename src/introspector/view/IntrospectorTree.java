@@ -62,10 +62,10 @@ public class IntrospectorTree extends JFrame implements TreeSelectionListener {
 		JButton buttonExpandAll = new JButton(new ImageIcon("imgs/expand.png"));
 		buttonExpandAll.setToolTipText("Expand all the nodes");
 		buttonExpandAll.setMnemonic('E');  // shortcut is alt+E
-		buttonExpandAll.addActionListener(event -> this.expandAllAction(
+		buttonExpandAll.addActionListener(event -> new ExpandTree().expandAll(
+				this.tree,
 				(Node)this.tree.getModel().getRoot(),
-				new TreePath(new Object[]{this.tree.getModel().getRoot()}),
-				new ArrayList<>()
+				new TreePath(new Object[]{this.tree.getModel().getRoot()})
 		));
 		toolBar.add(buttonExpandAll);
 		toolBar.addSeparator();
@@ -147,22 +147,10 @@ public class IntrospectorTree extends JFrame implements TreeSelectionListener {
 	}
 
 	/**
-	 * Action that expands all the nodes in a tree view
-	 * @param node the node we want al the children to be expanded transitively
-	 * @param treePath the path describing when the node is placed in the tree
-	 * @param alreadyVisited the list of nodes visited to avoid infinite loops in graphs
+	 * @return the JTree in the view
 	 */
-	void expandAllAction(Node node, TreePath treePath, List<Node> alreadyVisited) {
-		if (node.isLeaf())
-			return; // done if nothing has to be expanded
-		if (alreadyVisited.contains(node))
-			return; // already visited; avoids infinite loops in cycles (graphs)
-		alreadyVisited.add(node);
-		this.tree.expandPath(treePath);
-		for (int i=0; i<node.getChildrenCount(); i++) {
-			Node childNode = node.getChild(i);
-			expandAllAction(childNode, treePath.pathByAddingChild(childNode), alreadyVisited);
-		}
+	JTree getTree() {
+		return this.tree;
 	}
 
 }

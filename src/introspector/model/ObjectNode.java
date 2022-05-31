@@ -93,6 +93,8 @@ public class ObjectNode extends AbstractNode  implements Node {
 		this.hasBeenGetChildrenCached = true;
 		// compute the children
 		List<Node> nodes = new ArrayList<>();
+		if (this.getValue() == null)
+			return this.getChildrenCache = nodes; // no child when the object reference is null
 		List<Field> fields = new ArrayList<>();
 		Class<?> klass = this.getType();
 		do {
@@ -113,14 +115,15 @@ public class ObjectNode extends AbstractNode  implements Node {
 				if (nodes.stream().filter(node -> node.getName().equals(field.getName())).toArray().length >0)
 					// the field name is repeated (inherited from a superclass)
 					name += ":" + field.getDeclaringClass().getName();
-				Object fieldValue = field.get(this.getValue());
-				if (fieldValue == null)
-					nodes.add(NodeFactory.createNode(name, "null", field.getType()));
+				if (this.getValue() == null)
+					nodes.add(NodeFactory.createNode(name, null, field.getType()));
 				else {
-					nodes.add(NodeFactory.createNode(name, fieldValue, fieldValue.getClass()));
+					Object fieldValue = field.get(this.getValue());
+					nodes.add(NodeFactory.createNode(name, fieldValue, fieldValue==null ? field.getType() : fieldValue.getClass()));
 				}
 			} catch (Exception e) {
 				System.err.println("Introspector: " + e);
+				//e.printStackTrace(System.err);
 			}
 		return this.getChildrenCache = nodes;
 	}

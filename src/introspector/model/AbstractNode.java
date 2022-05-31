@@ -98,7 +98,12 @@ public abstract class AbstractNode implements Node {
 	 */
 	@Override
 	public int getIndexOfChild(Object child) {
-		return this.getChildren().indexOf((Node)child);
+		if (child instanceof Node childNode) {
+			for (int i=0; i<this.getChildrenCount(); i++)
+				if (this.getChildren().get(i).getName().equals(childNode.getName()))
+					return i;
+		}
+		return -1; // no child was found
 	}
 
 	/**
@@ -117,14 +122,14 @@ public abstract class AbstractNode implements Node {
 	}
 
 	/**
-	 * Two objects are equal when they have the same name
+	 * Two nodes are equal when they wrap the same exact object (identity comparison)
 	 * @param obj To object to be compared with
 	 * @return Whether the two objects are equal
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof AbstractNode node)
-			return this.value.equals(node.value);
+			return this.value == node.value;
 		else
 			return false;  // not the same type, different objects
 	}
@@ -142,9 +147,9 @@ public abstract class AbstractNode implements Node {
 	 */
 	@Override
 	public String getNodeDescription() {
-		if (this.getName() == null)
+		if (this.getValue() == null)
 			return "null";
-		return this.getName();
+		return this.getValue().toString();
 	}
 
 	/**

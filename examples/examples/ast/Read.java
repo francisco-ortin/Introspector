@@ -18,5 +18,9 @@ public class Read extends Statement {
 		this.expressions.addAll(expressions);
 	}
 
+	@Override
+	public String toString() {
+		return "read " + this.expressions.toString();
+	}
 
 }

@@ -20,4 +20,8 @@ public class Program extends ASTNode {
 		this.statements.addAll(statements);
 	}
 
+	@Override
+	public String toString() {
+		return String.format("Program with %d statements", this.statements.size());
+	}
 }

@@ -21,5 +21,10 @@ public class UnaryExpression extends Expresion {
 		this.operand=operand;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("%s %s", this.operator, this.operand);
+	}
+
 
 }

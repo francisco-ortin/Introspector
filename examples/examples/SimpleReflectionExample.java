@@ -10,7 +10,11 @@ package examples;
 
 import introspector.model.Node;
 import introspector.model.NodeFactory;
+import introspector.view.ConsoleTreeSerializer;
+import introspector.view.TxtTreeSerializer;
+import introspector.view.WriteTree;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -20,29 +24,6 @@ import java.util.*;
  * Creates different types of nodes and show them as text.
  */
 public class SimpleReflectionExample {
-
-	public static void show(Field field, PrintStream out, Object implicitObject)
-			throws Exception {
-		StringBuilder sb = new StringBuilder(field.getName())
-			.append(" (")
-			.append(field.getType().getName())
-			.append("): ")
-			.append(field.get(implicitObject));
-		out.println(sb);
-	}
-
-	private static String prefix(int level) {
-		return "| ".repeat(Math.max(0, level));
-	}
-
-	public static void show(Node node, int n) {
-		System.out.print(prefix(n));
-		System.out.println(node.toString());
-		if (!node.isLeaf()) {
-			for (int i=0; i<node.getChildrenCount(); i++)
-				show(node.getChild(i), n + 1);
-		}
-	}
 
 	public static Object createTrees(int n) {
 		Collection<Object> list = new ArrayList<>(), list2;
@@ -109,12 +90,16 @@ public class SimpleReflectionExample {
 		}
 	}
 
-	public static void main(String[] args)  throws NullPointerException {
+	public static void main(String[] args) throws NullPointerException, IOException {
+		WriteTree writeTree = new WriteTree();
 		for(int i=1; i<=15;i++) {
 			Object tree = createTrees(i);
-			show(NodeFactory.createNode("tree", tree), 0);
-			System.out.println();
+			writeTree.traverse(NodeFactory.createNode("tree", tree), new ConsoleTreeSerializer(true));
 		}
+
+		Object tree = createTrees(15);
+		writeTree.traverse(NodeFactory.createNode("tree", tree), new TxtTreeSerializer("output.txt", true));
+
 	}
 
 }

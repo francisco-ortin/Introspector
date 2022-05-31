@@ -24,5 +24,8 @@ public class BinaryExpression extends Expresion {
 		this.operand2=operand2;
 	}
 
-
+	@Override
+	public String toString() {
+		return String.format("%s %s %s", this.operand1, this.operator, this.operand2);
+	}
 }

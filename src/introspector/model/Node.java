@@ -21,58 +21,58 @@ public interface Node {
 	/**
 	 * @return The name used to display the object represented as a node
 	 */
-	public String getName();
+	String getName();
 
 	/**
 	 * @return The type of the object represented as a node
 	 */
-	public Class<?> getType();
+	Class<?> getType();
 
 	/**
 	 * @return The object represented as a node
 	 */
-	public Object getValue();
+	Object getValue();
 
 	/**
 	 * To know if a node is a leaf node.
 	 * @return Whether the node is a leaf node (no children) or not
 	 */
-	public boolean isLeaf();
+	boolean isLeaf();
 
 	/**
 	 * Gets the index-th child of the current node.
 	 * @param index The index of the child to be found.
 	 * @return The index-th child; null if the index is out of bounds.
 	 */
-	public Node getChild(int index);
+	Node getChild(int index);
 
 	/**
 	 * Returns the number of children of the current node.
 	 * @return The number of children of the current node.
 	 */
-	public int getChildrenCount();
+	int getChildrenCount();
 
 	/**
 	 * Searches for a child and returns its index.
-	 * Equals of the object wrapped by the node is used to perform the comparisons.
+	 * The child node is searched by comparing their names.
 	 * @param child The object to be found (compared by structure with equals)
 	 * @return The index of the child found; -1 if it no child is found.
 	 */
-	public int getIndexOfChild(Object child);
+	int getIndexOfChild(Object child);
 
 	/**
 	 * A textual description of the node.
 	 * toString must be defined for the wrapped objects.
 	 * @return The string representation of the node.
 	 */
-	public String getNodeDescription();
+	String getNodeDescription();
 
 
 	/**
 	 * Returns the short name of the type whose object is wrapped by the node.
 	 * @return A short name of the type of the object wrapped by the node.
 	 */
-	public String getClassName();
+	String getClassName();
 
 
 

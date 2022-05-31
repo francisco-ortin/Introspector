@@ -13,12 +13,16 @@ import java.util.ArrayList;
 
 public class Write extends Statement {
 
-	public List<ASTNode> expressions=new ArrayList<>();
-	
+	public List<ASTNode> expressions = new ArrayList<>();
+
 	public Write(List<ASTNode> expressions) {
 		super();
 		this.expressions.addAll(expressions);
 	}
 
+	@Override
+	public String toString() {
+		return "write " + this.expressions.toString();
+	}
 
 }
