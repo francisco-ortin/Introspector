@@ -6,14 +6,15 @@
  */
 
 
-package introspector.view;
+package introspector.controller;
 
+import controller.ExpandTreeController;
 import introspector.model.IntrospectorModel;
 import introspector.model.Node;
+import introspector.view.IntrospectorTree;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.tree.TreePath;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * This class tests the expandAll method in ExpandTree
  */
-class ExpandTreeTest {
+class ExpandTreeControllerTest {
 
     /**
      * Dummy classes for testing purposes.
@@ -77,7 +78,7 @@ class ExpandTreeTest {
     void directCycle() {
         IntrospectorModel model = new IntrospectorModel("Root", new DirectCycle());
         IntrospectorTree view = new IntrospectorTree("View", model);
-        List<Node> visitedNodes = new ExpandTree().expandAll(view.getTree(), model.getRoot(),
+        List<Node> visitedNodes = new ExpandTreeController().expandAll(view.getTree(), model.getRoot(),
                 new TreePath(new Object[]{model.getRoot()}));
         assertEquals(4, visitedNodes.size()); // Root + filed + strings + the repeated strings
         assertTrue(visitedNodes.stream().anyMatch(node -> node.getName().equals("field")));
@@ -91,7 +92,7 @@ class ExpandTreeTest {
     void testIndirectCycle() {
         IntrospectorModel model = new IntrospectorModel("Root", new Root());
         IntrospectorTree view = new IntrospectorTree("View", model);
-        List<Node> visitedNodes = new ExpandTree().expandAll(view.getTree(), model.getRoot(),
+        List<Node> visitedNodes = new ExpandTreeController().expandAll(view.getTree(), model.getRoot(),
                 new TreePath(new Object[]{model.getRoot()}));
         assertEquals(4, visitedNodes.size()); // Root + a + b + c
         assertTrue(visitedNodes.stream().anyMatch(node -> node.getName().equals("a")));
@@ -106,7 +107,7 @@ class ExpandTreeTest {
     void testNoCycle() {
         IntrospectorModel model = new IntrospectorModel("Root", new NoCycle());
         IntrospectorTree view = new IntrospectorTree("View", model);
-        List<Node> visitedNodes = new ExpandTree().expandAll(view.getTree(), model.getRoot(),
+        List<Node> visitedNodes = new ExpandTreeController().expandAll(view.getTree(), model.getRoot(),
                 new TreePath(new Object[]{model.getRoot()}));
         assertEquals(7, visitedNodes.size()); // Root + a + b + c + a + b + c
         assertTrue(visitedNodes.stream().anyMatch(node -> node.getName().equals("a")));

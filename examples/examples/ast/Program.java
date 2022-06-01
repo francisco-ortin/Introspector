@@ -18,7 +18,10 @@ public class Program extends ASTNode {
 	public Program(List<ASTNode> statements) {
 		super();
 		this.statements.addAll(statements);
+		this.selfReference = this;
 	}
+
+	Program selfReference;
 
 	@Override
 	public String toString() {

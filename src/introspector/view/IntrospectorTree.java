@@ -7,19 +7,15 @@
 
 package introspector.view;
 
+import controller.ExpandTreeController;
 import introspector.model.Node;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This is the window view to visualize the program as a tree.
@@ -62,7 +58,7 @@ public class IntrospectorTree extends JFrame implements TreeSelectionListener {
 		JButton buttonExpandAll = new JButton(new ImageIcon("imgs/expand.png"));
 		buttonExpandAll.setToolTipText("Expand all the nodes");
 		buttonExpandAll.setMnemonic('E');  // shortcut is alt+E
-		buttonExpandAll.addActionListener(event -> new ExpandTree().expandAll(
+		buttonExpandAll.addActionListener(event -> new ExpandTreeController().expandAll(
 				this.tree,
 				(Node)this.tree.getModel().getRoot(),
 				new TreePath(new Object[]{this.tree.getModel().getRoot()})
@@ -149,7 +145,7 @@ public class IntrospectorTree extends JFrame implements TreeSelectionListener {
 	/**
 	 * @return the JTree in the view
 	 */
-	JTree getTree() {
+	public JTree getTree() {
 		return this.tree;
 	}
 

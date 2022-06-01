@@ -5,7 +5,7 @@
  * @author Francisco Ortin
  */
 
-package introspector.view;
+package introspector.model.traverse;
 
 
 import java.io.IOException;

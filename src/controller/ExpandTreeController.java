@@ -5,23 +5,19 @@
  * @author Francisco Ortin
  */
 
-package introspector.view;
+package controller;
 
 import introspector.model.Node;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This represents different ways of expanding tree views (JTrees).
  */
-public class ExpandTree {
+public class ExpandTreeController {
 
 	/**
 	 * Expands all the nodes in a tree view

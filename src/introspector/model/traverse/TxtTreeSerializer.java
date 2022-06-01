@@ -5,11 +5,10 @@
  * @author Francisco Ortin
  */
 
-package introspector.view;
+package introspector.model.traverse;
 
 
 import introspector.model.Node;
-import introspector.model.NodeFactory;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -104,30 +103,32 @@ public class TxtTreeSerializer implements TreeSerializer {
     }
 
     /**
-     * @see TreeSerializer#afterTraversing(Node, int) 
+     * @see TreeSerializer#afterTraversing(Node, int, boolean)
      */
     @Override
-    public void afterTraversing(Node node, int n) {
+    public void afterTraversing(Node node, int depth, boolean hasBeenVisited) {
     }
 
     /**
-     * @see TreeSerializer#beforeTraversing(Node, int) 
+     * @see TreeSerializer#beforeTraversing(Node, int, boolean)
      */
     @Override
-    public void beforeTraversing(Node node, int n) throws IOException {
-        write(prefix(n));
+    public void beforeTraversing(Node node, int depth, boolean hasBeenVisited) throws IOException {
+        write(prefix(depth));
     }
 
     /**
-     * @see TreeSerializer#traversing(Node, int) 
+     * @see TreeSerializer#traversing(Node, int, boolean)
      */
     @Override
-    public void traversing(Node node, int n) throws IOException {
+    public void traversing(Node node, int depth, boolean hasBeenVisited) throws IOException {
         if (this.allInfo) {
             StringBuilder sb = new StringBuilder(node.getName());
             Class<?> type = node.getType();
-            sb.append(" (").append(type.getSimpleName()).append(")")
-                    .append(": ");
+            sb.append(" (").append(type.getSimpleName()).append(")");
+            if (hasBeenVisited)
+                sb.append(" <cyclic reference>"); // there is a cycle in the data structure (it is a graph)
+            sb.append(": ");
             if (node.getValue() == null)
                 sb.append("null");
             else

@@ -8,16 +8,13 @@
 package examples;
 
 
-import introspector.model.Node;
 import introspector.model.NodeFactory;
-import introspector.view.ConsoleTreeSerializer;
-import introspector.view.HtmlTreeSerializer;
-import introspector.view.TxtTreeSerializer;
-import introspector.view.WriteTree;
+import introspector.model.traverse.ConsoleTreeSerializer;
+import introspector.model.traverse.HtmlTreeSerializer;
+import introspector.model.traverse.TxtTreeSerializer;
+import introspector.model.traverse.WriteTreeTraversal;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -92,16 +89,17 @@ public class SimpleReflectionExample {
 	}
 
 	public static void main(String[] args) throws NullPointerException, IOException {
-		WriteTree writeTree = new WriteTree();
-		/*for(int i=1; i<=15;i++) {
+		WriteTreeTraversal writeTree = new WriteTreeTraversal();
+		// show all the trees in the console
+		for(int i=1; i<=15;i++) {
 			Object tree = createTrees(i);
 			writeTree.traverse(NodeFactory.createNode("tree", tree), new ConsoleTreeSerializer(true));
 		}
-		*/
+		// write the AST as txt and html
 		Object tree = createTrees(15);
-		//writeTree.traverse(NodeFactory.createNode("tree", tree), new TxtTreeSerializer("output.txt", true));
+		writeTree.traverse(NodeFactory.createNode("tree", tree), new TxtTreeSerializer("out/output.txt", true));
 		writeTree.traverse(NodeFactory.createNode("tree", tree),
-				new HtmlTreeSerializer("outuput.html", true));
+				new HtmlTreeSerializer("out/output.html", true));
 	}
 
 }

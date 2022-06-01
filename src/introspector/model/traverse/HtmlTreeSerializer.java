@@ -5,12 +5,7 @@
  * @author Francisco Ortin
  */
 
-package introspector.view;
-
-// TODO Hacer que el botón HTML sea bonito
-// TODO Hacer testing de WriteTree
-// TODO Hacer testing de TextTreeSerializer
-// TODO Hacer testing de HTMLTreeSerializer
+package introspector.model.traverse;
 
 import introspector.model.Node;
 
@@ -104,7 +99,7 @@ public class HtmlTreeSerializer implements TreeSerializer {
     <meta charset="utf-8">
     <meta name="description" content="HTML view of a tree, generated with the Introspector tool">
     <meta name="keywords" content="Introspector, tree, html, view">
-    <meta name="author" content="Francisco Ortin">    
+    <meta name="author" content="Francisco Ortin">
     <title>Introspector HTML tree view</title>
     <style>
 """ + cssContent + """
@@ -135,52 +130,55 @@ public class HtmlTreeSerializer implements TreeSerializer {
 
 
     /**
-     * @see TreeSerializer#beforeTraversing(Node, int)
+     * @see TreeSerializer#beforeTraversing(Node, int, boolean)
      */
     @Override
-    public void beforeTraversing(Node node, int n) throws IOException {
+    public void beforeTraversing(Node node, int depth, boolean hasBeenVisited) {
     }
 
     /**
-     * @see TreeSerializer#traversing(Node, int)
+     * @see TreeSerializer#traversing(Node, int, boolean)
      */
     @Override
-    public void traversing(Node node, int n) throws IOException {
+    public void traversing(Node node, int depth, boolean hasBeenVisited) throws IOException {
         if (node.isLeaf()) {
-            write(String.format("%s<li>%s</li>\n", this.prefix(n), this.nodeDescription(node)));
+            write(String.format("%s<li>%s</li>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));
         }
         else {
-            write(String.format("%s<li>\n", this.prefix(n)));
-            write(String.format("%s<details>\n", this.prefix(n)));
-            write(String.format("%s<summary>%s</summary>\n", this.prefix(n), this.nodeDescription(node)));
-            write(String.format("%s<ul>\n", this.prefix(n)));
+            write(String.format("%s<li>\n", this.prefix(depth)));
+            write(String.format("%s<details>\n", this.prefix(depth)));
+            write(String.format("%s<summary>%s</summary>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));
+            write(String.format("%s<ul>\n", this.prefix(depth)));
         }
     }
 
     /**
-     * @see TreeSerializer#afterTraversing(Node, int) 
+     * @see TreeSerializer#afterTraversing(Node, int, boolean)
      */
     @Override
-    public void afterTraversing(Node node, int n) throws IOException {
+    public void afterTraversing(Node node, int depth, boolean hasBeenVisited) throws IOException {
         if (!node.isLeaf()) {
-            write(String.format("%s</ul>\n", this.prefix(n)));
-            write(String.format("%s</details>\n", this.prefix(n)));
-            write(String.format("%s</li>\n", this.prefix(n)));
+            write(String.format("%s</ul>\n", this.prefix(depth)));
+            write(String.format("%s</details>\n", this.prefix(depth)));
+            write(String.format("%s</li>\n", this.prefix(depth)));
         }
     }
 
     /**
      * Returns the textual representation of a node, considering the allInfo field
      * @param node the node to be converted into string
+     * @param cycle if this node is a cycle (has already been visited)
      * @return the textual representation of a node
      */
-    private String nodeDescription(Node node) {
+    private String nodeDescription(Node node, boolean cycle) {
         StringBuilder sb = new StringBuilder();
         if (this.allInfo) {
             sb.append(node.getName());
             Class<?> type = node.getType();
-            sb.append(" (").append(type.getSimpleName()).append(")")
-                    .append(": ");
+            sb.append(" (").append(type.getSimpleName()).append(")");
+            if (cycle)
+                    sb.append(" &lt;cyclic reference&gt;");
+            sb.append(": ");
             if (node.getValue() == null)
                 sb.append("null");
             else
