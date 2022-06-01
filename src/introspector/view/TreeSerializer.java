@@ -21,7 +21,7 @@ public interface TreeSerializer {
     /**
      * This method is called at the beginning of the tree traversal
      */
-    void beginTraverse();
+    void beginTraverse() throws IOException;
 
     /**
      * This method is called after the whole tree has been traversed
@@ -41,6 +41,6 @@ public interface TreeSerializer {
     /**
      * This method is called after one node is traversed
      */
-    void afterTraversing(Node node, int n);
+    void afterTraversing(Node node, int n) throws IOException;
 
 }
