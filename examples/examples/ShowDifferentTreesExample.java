@@ -21,7 +21,7 @@ import java.util.*;
  * Example use of introspector nodes without using the view.
  * Creates different types of nodes and show them as text.
  */
-public class SimpleReflectionExample {
+public class ShowDifferentTreesExample {
 
 	public static Object createTrees(int n) {
 		Collection<Object> list = new ArrayList<>(), list2;

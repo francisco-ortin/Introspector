@@ -10,7 +10,7 @@ package examples;
 
 
 import introspector.model.IntrospectorModel;
-import introspector.view.IntrospectorTree;
+import introspector.view.IntrospectorView;
 
 import javax.swing.tree.TreeModel;
 
@@ -34,7 +34,7 @@ public class InheritedAttributesExample {
 	public static void main(String[] args) {
 		Object tree = new B();
 		TreeModel model = new IntrospectorModel("AST", tree);
-		new IntrospectorTree("Introspector", model);
+		new IntrospectorView("Introspector", model);
 	}
 
 }

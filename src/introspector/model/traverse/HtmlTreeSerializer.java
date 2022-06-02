@@ -93,26 +93,26 @@ public class HtmlTreeSerializer implements TreeSerializer {
         String cssContent = Files.readString(Path.of("css/template.css")),
                 jsContent = Files.readString(Path.of("js/template.js"));
         this.write("""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="HTML view of a tree, generated with the Introspector tool">
-    <meta name="keywords" content="Introspector, tree, html, view">
-    <meta name="author" content="Francisco Ortin">
-    <title>Introspector HTML tree view</title>
-    <style>
-""" + cssContent + """
-    </style>
-    <script>
-""" + jsContent + """
-    </script>
-</head>
-
-<body>
-<button id="expandButton" onclick="buttonClickedAction()">Expand All</button>
-<ul class="tree">
-""");
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="utf-8">
+                    <meta name="description" content="HTML view of a tree, generated with the Introspector tool">
+                    <meta name="keywords" content="Introspector, tree, html, view">
+                    <meta name="author" content="Francisco Ortin">
+                    <title>Introspector HTML tree view</title>
+                    <style>
+                """ + cssContent + """
+                    </style>
+                    <script>
+                """ + jsContent + """
+                    </script>
+                </head>
+                
+                <body>
+                <button id="expandButton" onclick="buttonClickedAction()">Expand All</button>
+                <ul class="tree">
+                """);
     }
     
     /**
@@ -121,10 +121,10 @@ public class HtmlTreeSerializer implements TreeSerializer {
     @Override
     public void endTraverse() throws IOException {
         this.write("""
-</ul>
-</body>
-</html>
-""");
+                </ul>
+                </body>
+                </html>
+                """);
         this.outputTxtFile.close();
     }
 

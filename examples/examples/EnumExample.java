@@ -8,7 +8,7 @@
 package examples;
 
 import introspector.model.IntrospectorModel;
-import introspector.view.IntrospectorTree;
+import introspector.view.IntrospectorView;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -53,7 +53,7 @@ import java.util.ArrayList;
 
 	public static void main(String... args) {
 		IntrospectorModel model = new IntrospectorModel("Root", new RootNode());
-		new IntrospectorTree("Tree", model);
+		new IntrospectorView("Tree", model);
 	}
 	
 }

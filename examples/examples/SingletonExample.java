@@ -7,7 +7,7 @@
 
 package examples;
 import introspector.model.IntrospectorModel;
-import introspector.view.IntrospectorTree;
+import introspector.view.IntrospectorView;
 
 /**
  * Example use of Introspector with graphs where cycles exist (not as a tree).
@@ -33,7 +33,7 @@ public class SingletonExample {
 
 	public static void main(String... args) {
 		IntrospectorModel model = new IntrospectorModel("Root", Singleton.getInstance());
-		new IntrospectorTree("Tree", model);
+		new IntrospectorView("Tree", model);
 	}
 	
 }

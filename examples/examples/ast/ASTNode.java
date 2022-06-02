@@ -9,7 +9,7 @@ package examples.ast;
 
 public abstract class ASTNode {
 
-    int line;
+    public int line;
     int column;
 
 }
