@@ -8,8 +8,9 @@
 package examples;
 
 import java.util.*;
-import introspector.model.IntrospectorModel;
+
 import examples.ast.*;
+import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
 
 import javax.swing.tree.TreeModel;
@@ -63,7 +64,7 @@ public class ASTExample {
 	public static void main(String[] args) {
 		ASTNode tree = createTree();
 		TreeModel model = new IntrospectorModel("AST", tree);
-		new IntrospectorView("Introspector", model, false);
+		new IntrospectorView("Introspector", model);
 	}
 
 }

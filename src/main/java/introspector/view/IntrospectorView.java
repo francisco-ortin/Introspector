@@ -13,6 +13,7 @@ import introspector.controller.NodeSelectedController;
 import introspector.controller.TreeMouseClickController;
 
 import java.awt.*;
+import java.util.Objects;
 import javax.swing.*;
 import javax.swing.tree.TreeModel;
 
@@ -79,21 +80,21 @@ public class IntrospectorView extends JFrame {
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		// button expand all
-		JButton buttonExpandAll = new JButton(new ImageIcon("images/expand.png"));
+		JButton buttonExpandAll = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/expand.png"))));
 		buttonExpandAll.setToolTipText("Expand all the nodes (Alt+E)");
 		buttonExpandAll.setMnemonic('E');  // shortcut is alt+E
 		buttonExpandAll.addActionListener(event -> new ExpandTreeController().expandAllFromRootNode(this.tree));  // action
 		toolBar.add(buttonExpandAll);
 		toolBar.addSeparator();
 		// button export to html
-		JButton  buttonExportHTML = new JButton(new ImageIcon("images/html.png"));
+		JButton  buttonExportHTML = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/html.png"))));
 		buttonExportHTML.setToolTipText("Export to HTML  (Alt+H)");
 		buttonExportHTML.setMnemonic('H');  // shortcut is alt+H
 		buttonExportHTML.addActionListener(event ->  new ExportTreeController(this, this.tree)
 				.exportToHtml(this.labelStatus, false));
 		toolBar.add(buttonExportHTML);
 		// button export to text
-		JButton buttonExportText = new JButton(new ImageIcon("images/txt.png"));
+		JButton buttonExportText = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/txt.png"))));
 		buttonExportText.setToolTipText("Export to text (Alt+T)");
 		buttonExportText.setMnemonic('T');  // shortcut is alt+T
 		buttonExportText.addActionListener(event ->  new ExportTreeController(this, this.tree)
@@ -192,7 +193,8 @@ public class IntrospectorView extends JFrame {
 		Container content = this.getContentPane();
 		content.add(splitPane, "Center");
 
-		Image icon = Toolkit.getDefaultToolkit().getImage("images/tree.png");
+		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/tree.png"));
+
 		this.setIconImage(icon);
 
 		// controllers

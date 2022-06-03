@@ -6,7 +6,6 @@
  */
 package introspector.model.traverse;
 
-import introspector.model.Node;
 import introspector.model.NodeFactory;
 import org.junit.jupiter.api.Test;
 

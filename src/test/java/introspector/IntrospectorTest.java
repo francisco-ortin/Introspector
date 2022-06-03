@@ -9,10 +9,12 @@ package introspector;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests the Introspector Facade as an API
@@ -38,9 +40,19 @@ public class IntrospectorTest {
     }
 
 
+    private static boolean createDirIfItDoesNotExist(String directoryName) {
+        File directory = new File(directoryName);
+        if (!directory.exists()) {
+            return directory.mkdir();
+        }
+        return true; // already exists
+    }
+
     @Test
     public void testWriteTreeAsTxt() throws IOException {
-        final String outputFileName = "out/output.txt";
+        final String directoryName = "out/";
+        final String outputFileName = directoryName + "output.txt";
+        createDirIfItDoesNotExist(directoryName);
         // int
         Introspector.writeTreeAsTxt(33, "tree", outputFileName);
         Path outputPath = Path.of(outputFileName);
@@ -69,7 +81,9 @@ public class IntrospectorTest {
 
     @Test
     public void testWriteTreeAsTxtShortInfo() throws IOException {
-        final String outputFileName = "out/output.txt";
+        final String directoryName = "out/";
+        final String outputFileName = directoryName + "output.txt";
+        createDirIfItDoesNotExist(directoryName);
         // object
         Introspector.writeTreeAsTxt(new DummyB(), "tree", outputFileName, false); // short info
         Path outputPath = Path.of(outputFileName);
@@ -83,7 +97,9 @@ public class IntrospectorTest {
 
     @Test
     public void testWriteTreeAsHtml() throws IOException {
-        final String outputFileName = "out/output.html";
+        final String directoryName = "out/";
+        final String outputFileName = directoryName + "output.html";
+        createDirIfItDoesNotExist(directoryName);
         // int
         Introspector.writeTreeAsHtml(33, "tree", outputFileName);
         Path outputPath = Path.of(outputFileName);
@@ -126,7 +142,9 @@ public class IntrospectorTest {
 
     @Test
     public void testWriteTreeAsHtmlShortInfo() throws IOException {
-        final String outputFileName = "out/output.html";
+        final String directoryName = "out/";
+        final String outputFileName = directoryName + "output.html";
+        createDirIfItDoesNotExist(directoryName);
         // object
         Introspector.writeTreeAsHtml(new DummyB(), "tree", outputFileName, false); // short info
         Path outputPath = Path.of(outputFileName);

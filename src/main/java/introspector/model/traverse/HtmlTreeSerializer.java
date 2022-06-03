@@ -8,15 +8,16 @@
 package introspector.model.traverse;
 
 import introspector.model.Node;
+import introspector.view.ViewHelper;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
- * Stores a tree as an html file
+ * Stores a tree as a html file
  */
 public class HtmlTreeSerializer implements TreeSerializer {
 
@@ -86,12 +87,33 @@ public class HtmlTreeSerializer implements TreeSerializer {
     }
 
     /**
+     * Reads the contents of a file in a resource folder
+     * @param resourceName the name of the resource
+     * @return the contents of the file
+     */
+    private  String readResourceFile(String resourceName) {
+        StringBuilder sb = new StringBuilder();
+        InputStream input = this.getClass().getClassLoader().getResourceAsStream(resourceName);
+        try (InputStreamReader streamReader = new InputStreamReader(input, StandardCharsets.UTF_8);
+             BufferedReader reader = new BufferedReader(streamReader)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return sb.toString();
+    }
+
+    /**
      * @see TreeSerializer#beginTraverse
      */
     @Override
     public void beginTraverse() throws IOException {
-        String cssContent = Files.readString(Path.of("css/template.css")),
-                jsContent = Files.readString(Path.of("js/template.js"));
+        String cssContent = readResourceFile("css/template.css"),
+                jsContent =readResourceFile("js/template.js");
         this.write("""
                 <!DOCTYPE html>
                 <html lang="en">

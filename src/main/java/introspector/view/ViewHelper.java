@@ -17,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.TreeModel;
 import java.awt.*;
 import java.io.File;
+import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -88,5 +89,18 @@ public class ViewHelper extends JFrame {
 		}
 		return Optional.empty();
 	}
+
+	/**
+	 * Gets the file path for a resource
+	 * @param resourceName the name of the resource
+	 * @return the whole path where the resource is placed
+	 */
+	public static String getResourceNamePath(String resourceName) {
+		URL resource  = ViewHelper.class.getClassLoader().getResource(resourceName);
+		if(resource == null)
+			return null;
+		return new File(resource.getFile()).getAbsolutePath();
+	}
+
 
 }

@@ -8,15 +8,11 @@
 
 package introspector;
 
-import examples.CycleExample;
-import introspector.model.ArrayNode;
 import introspector.model.IntrospectorModel;
 import introspector.model.Node;
 import introspector.model.NodeFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
