@@ -7,18 +7,21 @@
 
 package examples.ast;
 
-public class IntConstant extends Expresion {
+/**
+ * Variables of the language.
+ */
+public class Variable extends Expression {
 
-	public int value;
+	private String name;
 	
-	public IntConstant(int value) {
-		super();
-		this.value=value;
+	public Variable(int line, int column, String name) {
+		super(line, column);
+		this.name = name;
 	}
 
 	@Override
 	public String toString() {
-		return "" + value;
+		return this.name;
 	}
-
+	
 }

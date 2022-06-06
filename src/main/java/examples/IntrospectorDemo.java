@@ -5,6 +5,7 @@ package examples; /**
  * @author Francisco Ortin
  */
 
+import introspector.Introspector;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
 import java.util.List;
@@ -15,19 +16,34 @@ import java.util.ArrayList;
  * It includes enums, records, objects, lists, and built-in types.
  */
 public class IntrospectorDemo {
-	
+
+	/**
+	 * Shows haw to use Introspector as an application and as an API
+	 * @param args
+	 */
 	public static void main(String... args) {
-		IntrospectorModel model = new IntrospectorModel("Root", new RootNode());
+		// we use introspector as ana application to visualize an object structure as a tree
+		RootClass rootObject = new RootClass();
+		IntrospectorModel model = new IntrospectorModel("Root", rootObject);
 		new IntrospectorView("Tree", model);
+		// Introspector can also be used programmatically to dump object structures as html and txt files
+		Introspector.writeTreeAsTxt(rootObject, "Root", "out/output.txt");
+		Introspector.writeTreeAsHtml(rootObject, "Root", "out/output.html", true);
 	}
 	
 }
 
+/**
+ * Example enumeration
+ */
 enum Color {
 	red, blue, green
 }
 
-class RootNode {
+/**
+ * Example class whose objects will be used as root nodes of a tree to be visualized.
+ */
+class RootClass {
 	private final Color color = Color.red;
 	private final Node childNode = new Node("Child1");
 	private final List<String> stringChildren = new ArrayList<>();
@@ -35,7 +51,7 @@ class RootNode {
 	private final Person personRecord;
 	//private examples.Color color = examples.Color.red;
 
-	RootNode() {
+	RootClass() {
 		int i;
 		for (i = 2; i <= 10; i++)
 			this.stringChildren.add("StrChild" + i);
@@ -49,6 +65,9 @@ class RootNode {
 	}
 }
 
+/**
+ * Example child class representing an intermediate node.
+ */
 class Node {
 	private final String name;
 	
@@ -60,5 +79,11 @@ class Node {
 	public String toString() { return this.name; }
 }
 
+/**
+ * Example record.
+ * @param id primary key of the person
+ * @param firstName first name of the person
+ * @param lastName family name of the person
+ */
 record Person(int id, String firstName, String lastName) {
 }

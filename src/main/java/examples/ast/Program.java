@@ -10,13 +10,15 @@ package examples.ast;
 import java.util.List;
 import java.util.ArrayList;
 
-
+/**
+ * The root node of the AST representing a program.
+ */
 public class Program extends ASTNode {
 
-	public List<ASTNode> statements = new ArrayList<>();
+	public List<Statement> statements = new ArrayList<>();
 
-	public Program(List<ASTNode> statements) {
-		super();
+	public Program(int line, int column, List<Statement> statements) {
+		super(line, column);
 		this.statements.addAll(statements);
 	}
 

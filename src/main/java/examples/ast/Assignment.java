@@ -9,11 +9,20 @@
 package examples.ast;
 
 
-public class Assignment extends BinaryExpression {
+/**
+ * Assignments as statements.
+ */
+public class Assignment extends Statement {
 
-	public Assignment(Expresion operand1, Expresion operand2) {
-		super("=", operand1, operand2);
+	final Expression lhs, rhs;
+	public Assignment(int line, int column, Expression lhs, Expression rhs) {
+		super(line, column);
+		this.lhs = lhs;
+		this.rhs = rhs;
 	}
 
-	
+	@Override
+	public String toString() {
+		return this.lhs + " = " + this.rhs;
+	}
 }

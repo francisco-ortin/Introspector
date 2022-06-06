@@ -7,10 +7,13 @@
 
 package examples.ast;
 
-public abstract class Statement extends ASTNode {
+/**
+ * A generalization of any statement
+ */
+public class Statement extends ASTNode {
 
-	public Statement() {
-		super();
+	public Statement(int line, int column) {
+		super(line, column);
 	}
 
 }

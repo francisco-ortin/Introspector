@@ -17,10 +17,16 @@ import java.util.ArrayList;
   */
  public class EnumExample {
 
-	enum Color {
+	 /**
+	  * Example enumeration.
+	  */
+	 enum Color {
 		red, blue, green
 	}
 
+	 /**
+	  * Examples class used as a root node of the tree.
+	  */
 	static class RootNode {
 		private final Color color = Color.red;
 		private final Node childNode = new Node("Child1");
@@ -40,6 +46,9 @@ import java.util.ArrayList;
 		public String toString() { return "Root node"; }
 	}
 
+	 /**
+	  * Example child class representing an intermediate node.
+	  */
 	static class Node {
 		private final String name;
 

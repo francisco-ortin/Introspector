@@ -21,20 +21,32 @@ public class CycleExample {
 		new IntrospectorView("Tree", model);
 	}
 
+	/**
+	 * Example class.
+	 */
 	static class NodeA {
 		public  NodeB b;
 	}
 
+	/**
+	 * Example class.
+	 */
 	static class NodeB {
 		public  NodeC c;
 	}
 
+	/**
+	 * Example class that may have cycles.
+	 */
 	static class NodeC {
 		// cycle
 		public  NodeA a;
 	}
 
 
+	/**
+	 * Example class whose objects will be used as root nodes of a tree to be visualized.
+	 */
 	static class Root {
 		private final NodeA a;
 

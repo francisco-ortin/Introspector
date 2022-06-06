@@ -19,12 +19,18 @@ import javax.swing.tree.TreeModel;
  */
 public class InheritedAttributesExample {
 
+	/**
+	 * Example class with a type filed to be repeated in a derived class.
+	 */
 	static class A {
 		String field1 = "field1";
 		// the field "type" is repeated
 		String type = "A";
 	}
 
+	/**
+	 * Example class that defines a type filed and inherits another type field.
+	 */
 	static class B extends A {
 		String field2 = "field2";
 		// the field "type" is repeated

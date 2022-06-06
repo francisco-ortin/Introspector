@@ -9,6 +9,9 @@ package introspector.model;
 
 import java.util.List;
 
+/**
+ * EnumNode provides a Node implementation to represent any enum object.
+ */
 public class EnumNode extends AbstractNode  implements Node {
 
 	public EnumNode(String name, Object value, Class<?> type) {

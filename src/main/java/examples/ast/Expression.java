@@ -8,12 +8,15 @@
 
 package examples.ast;
 
-public abstract class Expresion extends Statement {
+/**
+ * Expressions of the language.
+ */
+public abstract class Expression extends ASTNode {
 	
 	public Type type;
 	
-	public Expresion() {
-		super();
+	public Expression(int line, int column) {
+		super(line, column);
 	}
 
 	public boolean lvalue;

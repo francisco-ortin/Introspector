@@ -19,16 +19,19 @@ import java.util.Map;
 public interface Node {
 
 	/**
+	 * Returns the name of the node
 	 * @return The name used to display the object represented as a node
 	 */
 	String getName();
 
 	/**
+	 * Returns the type of the object represented as a node
 	 * @return The type of the object represented as a node
 	 */
 	Class<?> getType();
 
 	/**
+	 * Returns the object represented as a node
 	 * @return The object represented as a node
 	 */
 	Object getValue();

@@ -7,10 +7,18 @@
 
 package examples.ast;
 
+/**
+ * All nodes in the AST implement this ASTNode class.
+ */
 public abstract class ASTNode {
 
-    public int line;
+    int line;
     int column;
+
+    public ASTNode(int line, int column) {
+        this.line = line;
+        this.column = column;
+    }
 
 }
 

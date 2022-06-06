@@ -16,6 +16,9 @@ import introspector.view.IntrospectorView;
  */
 public class SingletonExample {
 
+	/**
+	 * Example Singleton class that has a direct recursive reference (cycle) via its instance field.
+	 */
 	static class Singleton {
 
 		static private final Singleton instance = new Singleton();

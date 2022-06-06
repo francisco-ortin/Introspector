@@ -18,8 +18,8 @@ public class NodeFactory {
 
 
 	/**
-	 * Method to know if a Class<T> is a built-in type.
-	 * @param type The type to be checked
+	 * Method to know if the {@code type} parameter is a built-in type.
+	 * @param type The type to know whether it is built-in
 	 * @return Whether the type is built-in
 	 */
 	public static <T> boolean isBuiltinType(Class<T> type) {
@@ -33,8 +33,8 @@ public class NodeFactory {
 	}
 
 	/**
-	 * Method to know if a Class<T> is an enum type.
-	 * @param type The type to be checked
+	 * Method to know if a the {@code type} parameter is an enum type.
+	 * @param type The type to know whether it is an enum
 	 * @return Whether the type is an enum
 	 */
 	static <T> boolean isEnumType(Class<T> type) {

@@ -17,8 +17,19 @@ import java.util.*;
  */
 public abstract class AbstractNode implements Node {
 
+	/**
+	 * The object that is wrapped by the node
+	 */
 	private final Object value;
+
+	/**
+	 * The name of the node
+	 */
 	private final String name;
+
+	/**
+	 * The type of the node
+	 */
 	private final Class<?> type;
 
 	/**

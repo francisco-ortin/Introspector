@@ -16,6 +16,8 @@ public class BuiltinTypeNode extends AbstractNode implements Node {
 
 	/**
 	 * @see AbstractNode#AbstractNode(String, Object)
+	 * @param name the name of the node
+	 * @param value the object to be wrapped by the node
 	 */
 	public BuiltinTypeNode(String name, Object value) {
 		super(name, value);
@@ -23,6 +25,9 @@ public class BuiltinTypeNode extends AbstractNode implements Node {
 
 	/**
 	 * @see AbstractNode#AbstractNode(String, Object, Class)
+	 * @param name the name of the node
+	 * @param value the object to be wrapped by the node
+	 * @param type the type of the object wrapped by the node
 	 */
 	public BuiltinTypeNode(String name, Object value, Class<?> type) {
 		super(name, value, type);

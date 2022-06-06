@@ -7,6 +7,13 @@
 
 package examples.ast;
 
-public class Type {
+/**
+ * This node represents any type in the language, yet to be defined.
+ */
+public abstract class Type extends ASTNode {
+
+    public Type(int line, int column) {
+        super(line, column);
+    }
 
 }

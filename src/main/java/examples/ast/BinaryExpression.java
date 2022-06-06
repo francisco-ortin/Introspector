@@ -9,16 +9,19 @@
 package examples.ast;
 
 
-public class BinaryExpression extends Expresion {
+/**
+ * Expressions with two operands and one operator.
+ */
+public class BinaryExpression extends Expression {
 
 	public String operator;
 
-	public Expresion operand1;
+	public Expression operand1;
 
-	public Expresion operand2;
+	public Expression operand2;
 
-	public BinaryExpression(String operator, Expresion operand1, Expresion operand2) {
-		super();
+	public BinaryExpression(int line, int column, String operator, Expression operand1, Expression operand2) {
+		super(line, column);
 		this.operator=operator;
 		this.operand1=operand1;
 		this.operand2=operand2;

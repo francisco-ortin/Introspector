@@ -10,17 +10,21 @@ package examples.ast;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Read statement that represents reading from the keyboard.
+ */
 public class Read extends Statement {
 
-	public List<ASTNode> expressions=new ArrayList<>();
+	public Expression expression;
 	
-	public Read(List<ASTNode> expressions) {
-		this.expressions.addAll(expressions);
+	public Read(int line, int column, Expression expression) {
+		super(line, column);
+		this.expression = expression;
 	}
 
 	@Override
 	public String toString() {
-		return "read " + this.expressions.toString();
+		return "read " + this.expression;
 	}
 
 }

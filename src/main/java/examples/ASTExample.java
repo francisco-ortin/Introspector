@@ -21,39 +21,35 @@ import javax.swing.tree.TreeModel;
 public class ASTExample {
 
 	/**
-	 * This method creates the AST for the following program: <br/>
+	 * <p>This method creates the AST for the following program:</p>
+	 * <pre>
 	 * read a,b;
 	 * a = (-b+3)*c;
 	 * write a,c*2;
+	 * </pre>
 	 */
 	public static ASTNode createTree() {
-		Statement s1, s2, s3;
+		Statement s1, s2, s3, s4, s5;
 		// * First line
-		List<ASTNode> list = new ArrayList<>();
-		list.add(new Identifier("a"));
-		list.add(new Identifier("b"));
-		s1 = new Read(list);
+		s1 = new Read(1, 1, new Variable(1, 6, "a"));
+		s2 = new Read(1, 1, new Variable(1, 8, "b"));
 		// * Second line
-		s2 = new Assignment(new Identifier("a"),
-				new BinaryExpression("*",
-						new BinaryExpression("+",
-								new UnaryExpression("-",
-										new Identifier("b")),
-								new IntConstant(3)),
-						new Identifier("c")));
+		s3 = new Assignment(2, 1, new Variable(2, 1, "a"),
+				new BinaryExpression(2, 10, "*",
+						new BinaryExpression(2, 8, "+",
+								new UnaryExpression(2, 6, "-",
+										new Variable(2, 7, "b")),
+								new IntLiteral(2, 9, 3)),
+						new Variable(2, 11, "c")));
 		// * Third line 
-		list = new ArrayList<>();
-		list.add(new Identifier("a"));
-		list.add(new BinaryExpression("*",
-				new Identifier("c"),
-				new IntConstant(2)));
-		s3 = new Write(list);
+		s4 = new Write(3, 1, new Variable(3, 7, "a"));
+		s5 = new Write(3, 1,
+				new BinaryExpression(3, 10, "*",
+						new Variable(3, 9, "c"),
+						new IntLiteral(3, 11, 2)));
 		// * Builds and returns the AST
-		list = new ArrayList<>();
-		list.add(s1);
-		list.add(s2);
-		list.add(s3);
-		return new Program(list);
+		List<Statement> list = new ArrayList<>(Arrays.asList(s1, s2, s3, s4, s5));
+		return new Program(1,1, list);
 	}
 
 

@@ -7,18 +7,21 @@
 
 package examples.ast;
 
-public class Identifier extends Expresion {
+/**
+ * Integer literals of the language.
+ */
+public class IntLiteral extends Expression {
 
-	private final String name;
+	public int value;
 	
-	public Identifier(String name) {
-		super();
-		this.name = name;
+	public IntLiteral(int line, int column, int value) {
+		super(line, column);
+		this.value=value;
 	}
 
 	@Override
 	public String toString() {
-		return this.name;
+		return "" + value;
 	}
-	
+
 }

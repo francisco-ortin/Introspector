@@ -134,6 +134,11 @@ public class IntrospectorView extends JFrame {
 		return popupMenu;
 	}
 
+	/**
+	 * A DTO to represent a panel and a label with the same object
+	 * @param panel the panel
+	 * @param label the label
+	 */
 	record PanelAndLabel(JPanel panel, JLabel label) {}
 
 	/**

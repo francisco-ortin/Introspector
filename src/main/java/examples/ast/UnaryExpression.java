@@ -9,14 +9,17 @@
 package examples.ast;
 
 
-public class UnaryExpression extends Expresion {
+/**
+ * An expression with one operand and one operator.
+ */
+public class UnaryExpression extends Expression {
 
 	public String operator;
 
-	public Expresion operand;
+	public Expression operand;
 
-	public UnaryExpression(String operator,Expresion operand) {
-		super();
+	public UnaryExpression(int line, int column, String operator, Expression operand) {
+		super(line, column);
 		this.operator=operator;
 		this.operand=operand;
 	}
