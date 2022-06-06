@@ -1,4 +1,12 @@
 # Introspector
+
+[![License](https://img.shields.io/github/license/francisco-ortin/introspector)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/francisco-ortin/introspector?include_prereleases)](https://github.com/francisco-ortin/introspector/releases)
+[![Documentation](https://img.shields.io/static/v1?label=docs&message=Javadoc&color=blue)](https://francisco-ortin.github.io/Introspector/)
+<img alt="Code size" src="https://img.shields.io/github/languages/code-size/francisco-ortin/introspector">
+<img alt="Repo size" src="https://img.shields.io/github/repo-size/francisco-ortin/introspector">
+
+
 *A tool to visualize as trees the structure of runtime Java programs*.
 
 Introspector is a Java tool that allows you to visualize any runtime structure of
@@ -12,7 +20,7 @@ or as an API to store the object structures as HTML or txt files.
 
 To run Introspector, just download the last .jar file from the
 [releases](https://github.com/francisco-ortin/Introspector/releases)
-section. Then taken any Java object you want to visualize as a tree and
+section. Then, take any Java object you want to visualize as a tree and
 add the two following lines:
 
 ``` Java
