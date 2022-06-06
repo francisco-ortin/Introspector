@@ -127,3 +127,4 @@ Check out the [reference documentation](https://francisco-ortin.github.io/Intros
 ## License
 
 [MIT license](LICENSE).
+
