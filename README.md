@@ -22,7 +22,7 @@ add the two following lines:
  
 A window like the following one will be displayed:
 
-WINDOW KKKKKKKKKKKKKKKKK
+![Introspector screenshot](src/main/resources/images/screenshot.png)
 
 The previous window is shown for the following IntrospectorDemo.java 
 program included in the *examples* package:
