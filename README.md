@@ -2,7 +2,6 @@
 
 [![License](https://img.shields.io/github/license/francisco-ortin/introspector)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/francisco-ortin/introspector?include_prereleases)](https://github.com/francisco-ortin/introspector/releases)
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 [![Documentation](https://img.shields.io/static/v1?label=docs&message=Javadoc&color=blue)](https://francisco-ortin.github.io/Introspector/)
 <img alt="Code size" src="https://img.shields.io/github/languages/code-size/francisco-ortin/introspector">
 <img alt="Repo size" src="https://img.shields.io/github/repo-size/francisco-ortin/introspector">
