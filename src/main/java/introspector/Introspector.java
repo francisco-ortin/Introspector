@@ -19,10 +19,6 @@ import java.io.IOException;
  */
 public class Introspector {
 
-	// TODO generar el Javadoc con un script,  copiarlo a un directorio docs
-	// TODO hacer el Readme.md con cómo instalarlo, usarlo como aplicación, usarlo como API, compilarlo, compilarlo con Maven y tetearlo con Maven
-	// TODO configurar GitHub para que  publique como web el directorio docs (la salida del Javadoc)
-
 	/**
 	 * Utility class
 	 */
