@@ -9,6 +9,8 @@ package examples;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
 
+import java.util.Optional;
+
 /**
  * Example use of Introspector with graphs where cycles exist (not as a tree).
  * The cycles are represented as repeated nodes, so they could be expanded infinitive.
@@ -23,13 +25,16 @@ public class SingletonExample {
 
 		static private final Singleton instance = new Singleton();
 
-		private final String field = "sample field";
-
 		private Singleton() {
 		}
 
 		static public Singleton getInstance() {
-			return instance;
+			return Singleton.instance;
+		}
+
+		@Override
+		public String toString() {
+			return "Singleton instance example object";
 		}
 	}
 

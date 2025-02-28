@@ -8,8 +8,11 @@
 package introspector.model;
 
 import javax.lang.model.type.NullType;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * NodeFactory provides a mechanism to create Node instances.
@@ -71,9 +74,19 @@ public class NodeFactory {
 		// maps
 		if (Map.class.isAssignableFrom(type))
 			return new MapNode(name, value, type);
+		// arrays
 		if (type.getName().charAt(0) == '[')
 			return new ArrayNode(name, value, type);
+		if (type.getName().equals("java.util.Optional")) {
+			if (value == null)
+				return createNode(name, null, null);
+			Object childValue = ((Optional<?>)value).isPresent() ? ((Optional<?>)value).get() : null;
+			if (childValue == null)
+				return createNode(name, null, null);
+			return createNode(name, childValue, childValue.getClass());
+		}
 		return new ObjectNode(name, value, type);
 	}
+
 
 }
