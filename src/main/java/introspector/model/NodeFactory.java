@@ -42,6 +42,15 @@ public class NodeFactory {
 	}
 
 	/**
+	 * Method to know if a the {@code type} parameter is an Optional type.
+	 * @param type The type to know whether it is an Optional
+	 * @return Whether the type is an Optional
+	 */
+	static <T> boolean isOptionalType(Class<T> type) {
+		return type.getName().equals("java.util.Optional");
+	}
+
+	/**
 	 * Factory to create the nodes
 	 * @param name Name of the node
 	 * @param value Runtime object that will be represented as a node
@@ -73,6 +82,8 @@ public class NodeFactory {
 			return new MapNode(name, value, type);
 		if (type.getName().charAt(0) == '[')
 			return new ArrayNode(name, value, type);
+		if (isOptionalType(type))
+			return new OptionalNode(name, value, type);
 		return new ObjectNode(name, value, type);
 	}
 
