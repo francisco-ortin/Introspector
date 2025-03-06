@@ -7,15 +7,14 @@
 
 package introspector.view;
 
-import introspector.controller.ExpandTreeController;
-import introspector.controller.ExportTreeController;
-import introspector.controller.NodeSelectedController;
-import introspector.controller.TreeMouseClickController;
+import introspector.controller.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 import javax.swing.*;
 import javax.swing.tree.TreeModel;
+import java.util.List;
 
 /**
  * This is the window view to visualize the program as a tree.
@@ -26,17 +25,17 @@ public class IntrospectorView extends JFrame {
 	/**
 	 * Text area that describes the current node, calling its toString() method
 	 */
-	private final JTextArea textArea;
+	// TODO private final List<JTextArea> textAreas = new ArrayList<>();
 
 	/**
 	 * Above the textArea, this label shows the runtime type of the object represented by the current node.
 	 */
-	private final JLabel labelClass;
+	//TODO private final List<JLabel> labelClasses = new ArrayList<>();
 
 	/**
 	 * The tree view
 	 */
-	private final JTree tree;
+	private final List<JTree> trees =new ArrayList<>();
 
 	/**
 	 * Popup menu used over the JTree
@@ -83,23 +82,29 @@ public class IntrospectorView extends JFrame {
 		JButton buttonExpandAll = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/expand.png"))));
 		buttonExpandAll.setToolTipText("Expand all the nodes (Alt+E)");
 		buttonExpandAll.setMnemonic('E');  // shortcut is alt+E
-		buttonExpandAll.addActionListener(event -> new ExpandTreeController().expandAllFromRootNode(this.tree));  // action
+		this.trees.forEach(tree -> buttonExpandAll.addActionListener(event -> new ExpandTreeController().expandAllFromRootNode(tree)));  // action
 		toolBar.add(buttonExpandAll);
 		toolBar.addSeparator();
 		// button export to html
 		JButton  buttonExportHTML = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/html.png"))));
 		buttonExportHTML.setToolTipText("Export to HTML  (Alt+H)");
 		buttonExportHTML.setMnemonic('H');  // shortcut is alt+H
-		buttonExportHTML.addActionListener(event ->  new ExportTreeController(this, this.tree)
-				.exportToHtml(this.labelStatus, false));
+		this.trees.forEach(tree -> buttonExportHTML.addActionListener(event ->  new ExportTreeController(this, tree)
+				.exportToHtml(this.labelStatus, false)));
 		toolBar.add(buttonExportHTML);
 		// button export to text
 		JButton buttonExportText = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/txt.png"))));
 		buttonExportText.setToolTipText("Export to text (Alt+T)");
 		buttonExportText.setMnemonic('T');  // shortcut is alt+T
-		buttonExportText.addActionListener(event ->  new ExportTreeController(this, this.tree)
-				.exportToTxt(this.labelStatus, false));
+		this.trees.forEach(tree -> buttonExportText.addActionListener(event ->  new ExportTreeController(this, tree)
+				.exportToTxt(this.labelStatus, false)));
 		toolBar.add(buttonExportText);
+		// button update tree
+		JButton buttonUpdateTree = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/txt.png"))));
+		buttonUpdateTree.setToolTipText("Export to text (Alt+T)");
+		buttonUpdateTree.setMnemonic('T');  // shortcut is alt+T
+		this.trees.forEach(tree -> buttonUpdateTree.addActionListener(event ->  new UpdateTreeController().showUpdatedNodes(tree)));
+		toolBar.add(buttonUpdateTree);
 		// return the toolbar
 		return toolBar;
 	}
@@ -111,25 +116,25 @@ public class IntrospectorView extends JFrame {
 	private JPopupMenu createPopUpMenu() {
 		JPopupMenu popupMenu = new JPopupMenu();
 		// expand all the nodes
-		JMenuItem menuItem = new JMenuItem("Expand all the nodes");
-		menuItem.setMnemonic('E');
-		menuItem.getAccessibleContext().setAccessibleDescription("Expand all the nodes");
-		menuItem.addActionListener(event -> new ExpandTreeController().expandAllFromSelectedNode(this.tree));
-		popupMenu.add(menuItem);
+		final JMenuItem menuItemExpand = new JMenuItem("Expand all the nodes");
+		menuItemExpand.setMnemonic('E');
+		menuItemExpand.getAccessibleContext().setAccessibleDescription("Expand all the nodes");
+		this.trees.forEach(tree -> menuItemExpand.addActionListener(event -> new ExpandTreeController().expandAllFromSelectedNode(tree)));
+		popupMenu.add(menuItemExpand);
 		// export to Html
-		menuItem = new JMenuItem("Export to HTML");
-		menuItem.setMnemonic('H');
-		menuItem.getAccessibleContext().setAccessibleDescription("Export to HTML");
-		menuItem.addActionListener(event ->  new ExportTreeController(this, this.tree)
-				.exportToHtml(this.labelStatus, true));
-		popupMenu.add(menuItem);
+		final JMenuItem menuItemExportHTML = new JMenuItem("Export to HTML");
+		menuItemExpand.setMnemonic('H');
+		menuItemExpand.getAccessibleContext().setAccessibleDescription("Export to HTML");
+		this.trees.forEach(tree -> menuItemExportHTML.addActionListener(event ->  new ExportTreeController(this, tree)
+				.exportToHtml(this.labelStatus, true)));
+		popupMenu.add(menuItemExpand);
 		// export to txt
-		menuItem = new JMenuItem("Export to Text");
-		menuItem.setMnemonic('T');
-		menuItem.getAccessibleContext().setAccessibleDescription("Export to Text");
-		menuItem.addActionListener(event ->  new ExportTreeController(this, this.tree)
-				.exportToTxt(this.labelStatus, true));
-		popupMenu.add(menuItem);
+		final JMenuItem menuItemExportTxt = new JMenuItem("Export to Text");
+		menuItemExpand.setMnemonic('T');
+		menuItemExpand.getAccessibleContext().setAccessibleDescription("Export to Text");
+		this.trees.forEach(tree -> menuItemExportTxt.addActionListener(event ->  new ExportTreeController(this, tree)
+				.exportToTxt(this.labelStatus, true)));
+		popupMenu.add(menuItemExpand);
 		// return the menu
 		return popupMenu;
 	}
@@ -154,6 +159,10 @@ public class IntrospectorView extends JFrame {
 		return new PanelAndLabel(statusPanel, statusLabel);
 	}
 
+	/**
+	 * List of horizontal split panes in the view. Their height should be modified every time a new tree is added.
+	 */
+	private List<JSplitPane> horizontalSplitPanes = new ArrayList<>();
 
 	/**
 	 * @param title title of the window
@@ -174,48 +183,122 @@ public class IntrospectorView extends JFrame {
 		this.labelStatus = panelAndLabel.label;
 		this.popupMenu = this.createPopUpMenu();
 
+		JTree tree = new JTree(model);
+		this.trees.add(tree);
+		// TODO DELETE
+		//this.textAreas.add(new JTextArea());
+		//this.textAreas.get(0).setEditable(false);
+		//this.textAreas.get(0).setLineWrap(true);
 
-		this.tree = new JTree(model);
-		this.textArea = new JTextArea();
-		this.textArea.setEditable(false);
-		this.textArea.setLineWrap(true);
+		JSplitPane verticalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		verticalSplitPane.setDividerSize(2);
+		verticalSplitPane.setDividerLocation(width/2);
 
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		splitPane.setDividerSize(2);
-		splitPane.setDividerLocation(width/2);
-
-		splitPane.add(new JScrollPane(tree));  // the tree is the left-hand side of the window
+		verticalSplitPane.add(new JScrollPane(tree));  // the tree is the left-hand side of the window
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BorderLayout());
-		rightPanel.add("North", labelClass = new JLabel(""));
+		JLabel labelClass = new JLabel("");
+		rightPanel.add("North", labelClass);
+		JTextArea textArea = new JTextArea();
 		rightPanel.add("Center", new JScrollPane(textArea,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER  ));
 
-		splitPane.add(rightPanel);  // right-hand side of the window
+		verticalSplitPane.add(rightPanel);  // right-hand side of the window
 
 		Container content = this.getContentPane();
-		content.add(splitPane, "Center");
+		content.add(verticalSplitPane, "Center");
 
 		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/tree.png"));
 
 		this.setIconImage(icon);
 
 		// controllers
-		tree.addTreeSelectionListener(event -> new NodeSelectedController(this.tree, this.textArea, this.labelClass)
+		tree.addTreeSelectionListener(event -> new NodeSelectedController(tree, textArea, labelClass)
 				.selectedNodeChanged(event));
-		tree.addMouseListener(new TreeMouseClickController(this.tree, this.popupMenu));
+		tree.addMouseListener(new TreeMouseClickController(tree, this.popupMenu));
+		// controller called when the size of the window is changed
+		this.addComponentListener(new ResizeWindowController(this));
 
-		this.setVisible(show);
+
+		//this.setVisible(show); TODO
 	}
 
 
 	/**
+	 * Adds another tree to the window in a new horizontal split view.
+	 * The new tree will be displayed below the existing tree structure.
+	 * @param newTreeModel The TreeModel for the new tree to be added.
+	 */
+	public void addTree(TreeModel newTreeModel) {
+		// Create the new tree
+		JTree newTree = new JTree(newTreeModel);
+		this.trees.add(newTree);
+
+		// Create a new JSplitPane for the new tree below the previous ones
+		JSplitPane newVerticalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		newVerticalSplitPane.setDividerSize(2);
+		newVerticalSplitPane.setDividerLocation(this.getWidth() / 2);
+
+		// Add the left-hand side of the second window section
+		newVerticalSplitPane.add(new JScrollPane(newTree));
+
+		// Create the second right panel
+		JPanel secondRightPanel = new JPanel();
+		secondRightPanel.setLayout(new BorderLayout());
+		JLabel labelClass = new JLabel("");
+		secondRightPanel.add("North", labelClass);
+		JTextArea textArea = new JTextArea();
+		secondRightPanel.add("Center", new JScrollPane(textArea,
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER));
+
+		newVerticalSplitPane.add(secondRightPanel);  // right-hand side of the second window section
+
+		// Remove the previous "center" component from the content pane
+		JSplitPane previousCenterComponent = (JSplitPane) getContentPane().getComponent(2);
+		getContentPane().remove(2);
+
+		// Create the new horizontal split pane
+		JSplitPane newHorizontalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		this.horizontalSplitPanes.add(newHorizontalSplitPane);
+		newHorizontalSplitPane.setDividerSize(2);
+		this.updateVerticalSplitPanes();
+
+		// Add the previous view above the horizontal split pane
+		newHorizontalSplitPane.add(previousCenterComponent);
+		// Add the new view below the previous view
+		newHorizontalSplitPane.add(newVerticalSplitPane);
+		// Update the main center view of the window
+		this.getContentPane().add(newHorizontalSplitPane, "Center");
+
+		// Controllers for the new tree
+		newTree.addTreeSelectionListener(event -> new NodeSelectedController(newTree, textArea, labelClass)
+				.selectedNodeChanged(event));
+		newTree.addMouseListener(new TreeMouseClickController(newTree, this.popupMenu));
+
+		// Revalidate and repaint to update the layout
+		this.revalidate();
+		this.repaint();
+	}
+
+	/**
+	 * Updates the vertical split panes to be in position relative to the size of the window and the number of trees.
+	 */
+	public void updateVerticalSplitPanes() {
+		int numTrees = this.trees.size();
+		// Place all the horizontal split panes in the correct height
+		for(int i=0; i<numTrees-1; i++) {
+			this.horizontalSplitPanes.get(i).setDividerLocation((int)(this.getHeight()-90)/numTrees*(i+1));
+		}
+	}
+
+	/**
 	 * @return the JTree in the view
 	 */
-	public JTree getTree() {
-		return this.tree;
+	public JTree getTrees() {
+		return this.trees.get(0);
 	}
 
 

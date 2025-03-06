@@ -101,6 +101,8 @@ public abstract class AbstractNode implements Node {
 	 */
 	@Override
 	public int getChildrenCount() {
+		if (this.getChildren() == null)
+			return 0;
 		return this.getChildren().size();
 	}
 
