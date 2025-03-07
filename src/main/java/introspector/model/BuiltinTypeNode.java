@@ -51,4 +51,5 @@ public class BuiltinTypeNode extends AbstractNode implements Node {
 		return null;
 	}
 
+
 }

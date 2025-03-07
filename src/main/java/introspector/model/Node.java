@@ -79,7 +79,14 @@ public interface Node {
 
 
 
-
+	/** Compare two trees and return the list of modified nodes.
+	 * @param node The node to compare with the other tree
+	 * @param equalName Whether the node names must be the same or not (important for root nodes)
+	 * @param modifiedNodes The list of modified nodes
+	 * @param alreadyTraversed The list of nodes that have been visited in this traversal
+	 * @return The list of modified nodes
+	 */
+	List<Node> compareTrees(Node node, boolean equalName, List<Node> modifiedNodes, List<Node> alreadyTraversed);
 
 
 }

@@ -18,6 +18,8 @@ import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.TreePath;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,9 +28,9 @@ import java.util.Optional;
 public class ExportTreeController {
 
 	/**
-	 * The tree view
+	 * The tree views associated with the action
 	 */
-	private final JTree tree;
+	private final List<JTree> trees;
 
 	/**
 	 * The parent frame
@@ -37,11 +39,21 @@ public class ExportTreeController {
 
 	/**
 	 * @param frame the parent frame
+	 * @param trees the JTrees where the tree is displayed
+	 */
+	public ExportTreeController(JFrame frame, List<JTree> trees) {
+		this.frame = frame;
+		this.trees = new ArrayList<>(trees);
+	}
+
+	/**
+	 * @param frame the parent frame
 	 * @param tree the JTree where the tree is displayed
 	 */
 	public ExportTreeController(JFrame frame, JTree tree) {
 		this.frame = frame;
-		this.tree = tree;
+		this.trees = new ArrayList<>();
+		this.trees.add(tree);
 	}
 
 	/**
@@ -52,17 +64,22 @@ public class ExportTreeController {
 	 * @return whether the export action was successful.
 	 */
 	public boolean exportToTxt(String filename, boolean expandSelectedNode) {
-		TreePath path = this.tree.getSelectionPath();
-		Node selectedNode;
-		if (!expandSelectedNode || path == null) // either we don't want the selected or none node is selected
-			selectedNode = (Node) this.tree.getModel().getRoot(); // root node
-		else
-			selectedNode = (Node) path.getLastPathComponent(); // selected node
-		try {
-			WriteTreeTraversal walker = new WriteTreeTraversal();
-			walker.traverse(selectedNode, new TxtTreeSerializer(filename, true));
-		} catch (IOException e) {
-			return false; // it has not been exported (error writing file)
+		for(int i = 0; i < trees.size(); i++) {
+			JTree tree = trees.get(i);
+			TreePath path = tree.getSelectionPath();
+			Node selectedNode;
+			if (!expandSelectedNode || path == null) // either we don't want the selected or none node is selected
+				selectedNode = (Node) tree.getModel().getRoot(); // root node
+			else
+				selectedNode = (Node) path.getLastPathComponent(); // selected node
+			try {
+				WriteTreeTraversal walker = new WriteTreeTraversal();
+				filename = removeFileExtension(filename);
+				String finalFilename = trees.size()==1 ? filename + ".txt" : String.format("%s_%s.txt", filename, i+1);
+				walker.traverse(selectedNode, new TxtTreeSerializer(finalFilename, true));
+			} catch (IOException e) {
+				return false; // it has not been exported (error writing file)
+			}
 		}
 		return true; // successfully exported
 	}
@@ -101,17 +118,22 @@ public class ExportTreeController {
 	 * @return whether the export action was successful.
 	 */
 	public boolean exportToHtml(String filename, boolean expandSelectedNode) {
-		TreePath path = this.tree.getSelectionPath();
-		Node selectedNode;
-		if (!expandSelectedNode || path == null) // either we don't want the selected or none node is selected
-			selectedNode = (Node) this.tree.getModel().getRoot(); // root node
-		else
-			selectedNode = (Node) path.getLastPathComponent(); // selected node
-		try {
-			WriteTreeTraversal walker = new WriteTreeTraversal();
-			walker.traverse(selectedNode, new HtmlTreeSerializer(filename, true));
-		} catch (IOException e) {
-			return false; // it has not been exported (error writing file)
+		for(int i = 0; i < trees.size(); i++) {
+			JTree tree = trees.get(i);
+			TreePath path = tree.getSelectionPath();
+			Node selectedNode;
+			if (!expandSelectedNode || path == null) // either we don't want the selected or none node is selected
+				selectedNode = (Node) tree.getModel().getRoot(); // root node
+			else
+				selectedNode = (Node) path.getLastPathComponent(); // selected node
+			try {
+				WriteTreeTraversal walker = new WriteTreeTraversal();
+				filename = removeFileExtension(filename);
+				String finalFilename = trees.size()==1 ? filename + ".html" : String.format("%s_%s.html", filename, i+1);
+				walker.traverse(selectedNode, new HtmlTreeSerializer(finalFilename, true));
+			} catch (IOException e) {
+				return false; // it has not been exported (error writing file)
+			}
 		}
 		return true; // successfully exported
 	}
@@ -139,6 +161,18 @@ public class ExportTreeController {
 			}
 		}
 		return false; // no file was selected
+	}
+
+	/**
+	 * Removes the extension of a file name.
+	 * @param fileName the name of the file
+	 * @return the name of the file without the extension
+	 */
+	public static String removeFileExtension(String fileName) {
+		int lastDot = fileName.lastIndexOf('.');
+		if (lastDot == -1)
+			return fileName;
+		return fileName.substring(0, lastDot);
 	}
 
 }

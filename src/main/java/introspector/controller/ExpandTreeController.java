@@ -78,13 +78,18 @@ public class ExpandTreeController {
 
 	/**
 	 * Expands all the nodes that are descendants of the root node in a tree view.
-	 * @param tree the JTree to be expanded
+	 * @param trees the JTrees to be expanded
 	 * @return the nodes visited in the traversal
 	 */
-	public List<Node> expandAllFromRootNode(JTree tree) {
-		Node rootNode = (Node) tree.getModel().getRoot();
-		TreePath rootTreePath = new TreePath(new Object[]{tree.getModel().getRoot()});
-		return this.expandAllFromNode(tree, rootNode, rootTreePath);
+	public List<Node> expandAllFromRootNode(List<JTree> trees) {
+		List<Node> alreadyVisited = new ArrayList<>();
+		for(JTree tree: trees) {
+			Node rootNode = (Node) tree.getModel().getRoot();
+			TreePath rootTreePath = new TreePath(new Object[]{tree.getModel().getRoot()});
+			List<Node> expandedNodes = this.expandAllFromNode(tree, rootNode, rootTreePath);
+			alreadyVisited.addAll(expandedNodes);
+		}
+		return alreadyVisited;
 	}
 
 }

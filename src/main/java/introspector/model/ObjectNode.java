@@ -7,10 +7,11 @@
 
 package introspector.model;
 
+import introspector.model.traverse.TraverseHelper;
+
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * ObjectNode provides a Node implementation to represent any object whose type is neither built-in
@@ -126,6 +127,57 @@ public class ObjectNode extends AbstractNode  implements Node {
 				//e.printStackTrace(System.err);
 			}
 		return this.getChildrenCache = nodes;
+	}
+
+
+	/**
+	 * @see Node#compareTrees(Node, boolean, List, List)
+	 */
+	public List<Node> compareTrees(Node node2, boolean equalName, List<Node> modifiedNodes, List<Node> alreadyTraversed) {
+		if (!TraverseHelper.shouldBeTraversed(this, alreadyTraversed))
+			return modifiedNodes; // cycle detected
+		if (node2 instanceof ObjectNode objectNode2) {
+			// they must have the same types
+			if (!this.getType().equals(objectNode2.getType())) {
+				modifiedNodes.add(this);
+				modifiedNodes.add(objectNode2);
+				return modifiedNodes;
+			}
+			if (this.getValue() == null && objectNode2.getValue() == null)
+				return modifiedNodes;
+			if (this.getValue() == null || objectNode2.getValue() == null) {
+				// one of them is null but not the other (first condition above)
+				modifiedNodes.add(this);
+				modifiedNodes.add(objectNode2);
+				return modifiedNodes;
+			}
+			// if they are not the root nodes, they must have the same names
+			if (equalName && !this.getName().equals(objectNode2.getName())) {
+				modifiedNodes.add(this);
+				modifiedNodes.add(objectNode2);
+				return modifiedNodes;
+			}
+			Map<String, Node> children1 = this.getChildren().stream().collect(Collectors.toMap(node -> node.getName(), node -> node));
+			Map<String, Node> children2 = objectNode2.getChildren().stream().collect(Collectors.toMap(node -> node.getName(), node -> node));
+			// children in children1 but not in children2
+			Set<String> children1NotInChildren2 = new HashSet<>(children1.keySet());
+			children1NotInChildren2.removeAll(children2.keySet());
+			for (String childName : children1NotInChildren2)
+				modifiedNodes.add(children1.get(childName));
+			// children in children2 but not in children1
+			Set<String> children2NotInChildren1 = new HashSet<>(children2.keySet());
+			children2NotInChildren1.removeAll(children1.keySet());
+			for (String childName : children2NotInChildren1)
+				modifiedNodes.add(children2.get(childName));
+			// children in both nodes (recursively compare them)
+			for (String childName : children1.keySet())
+				children1.get(childName).compareTrees(children2.get(childName), true, modifiedNodes, alreadyTraversed);
+			return modifiedNodes;
+		}
+		// node2 is not an ObjectNode => they are different
+		modifiedNodes.add(this);
+		modifiedNodes.add(node2);
+		return modifiedNodes;
 	}
 
 }

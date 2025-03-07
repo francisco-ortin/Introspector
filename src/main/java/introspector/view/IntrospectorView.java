@@ -23,16 +23,6 @@ import java.util.List;
 public class IntrospectorView extends JFrame {
 
 	/**
-	 * Text area that describes the current node, calling its toString() method
-	 */
-	// TODO private final List<JTextArea> textAreas = new ArrayList<>();
-
-	/**
-	 * Above the textArea, this label shows the runtime type of the object represented by the current node.
-	 */
-	//TODO private final List<JLabel> labelClasses = new ArrayList<>();
-
-	/**
 	 * The tree view
 	 */
 	private final List<JTree> trees =new ArrayList<>();
@@ -82,59 +72,75 @@ public class IntrospectorView extends JFrame {
 		JButton buttonExpandAll = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/expand.png"))));
 		buttonExpandAll.setToolTipText("Expand all the nodes (Alt+E)");
 		buttonExpandAll.setMnemonic('E');  // shortcut is alt+E
-		this.trees.forEach(tree -> buttonExpandAll.addActionListener(event -> new ExpandTreeController().expandAllFromRootNode(tree)));  // action
+		this.trees.forEach(tree -> buttonExpandAll.addActionListener(event -> new ExpandTreeController().expandAllFromRootNode(this.trees)));  // action
 		toolBar.add(buttonExpandAll);
 		toolBar.addSeparator();
 		// button export to html
 		JButton  buttonExportHTML = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/html.png"))));
 		buttonExportHTML.setToolTipText("Export to HTML  (Alt+H)");
 		buttonExportHTML.setMnemonic('H');  // shortcut is alt+H
-		this.trees.forEach(tree -> buttonExportHTML.addActionListener(event ->  new ExportTreeController(this, tree)
-				.exportToHtml(this.labelStatus, false)));
+		buttonExportHTML.addActionListener(event ->  new ExportTreeController(this, this.getTrees())
+				.exportToHtml(this.labelStatus, false));
 		toolBar.add(buttonExportHTML);
 		// button export to text
 		JButton buttonExportText = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/txt.png"))));
 		buttonExportText.setToolTipText("Export to text (Alt+T)");
 		buttonExportText.setMnemonic('T');  // shortcut is alt+T
-		this.trees.forEach(tree -> buttonExportText.addActionListener(event ->  new ExportTreeController(this, tree)
-				.exportToTxt(this.labelStatus, false)));
+		buttonExportText.addActionListener(event ->  new ExportTreeController(this, this.trees)
+				.exportToTxt(this.labelStatus, false));
 		toolBar.add(buttonExportText);
+		toolBar.addSeparator();
 		// button update tree
 		JButton buttonUpdateTree = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/txt.png"))));
 		buttonUpdateTree.setToolTipText("Export to text (Alt+T)");
 		buttonUpdateTree.setMnemonic('T');  // shortcut is alt+T
 		this.trees.forEach(tree -> buttonUpdateTree.addActionListener(event ->  new UpdateTreeController().showUpdatedNodes(tree)));
 		toolBar.add(buttonUpdateTree);
+		toolBar.addSeparator();
+		// button update tree
+		JButton buttonCompareTrees = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/txt.png"))));
+		buttonCompareTrees.setToolTipText("Export to text (Alt+T)");
+		buttonCompareTrees.setMnemonic('T');  // shortcut is alt+T
+		buttonCompareTrees.addActionListener(event ->  new CompareTreesController().compareTrees(trees));
+		toolBar.add(buttonCompareTrees);
+		toolBar.addSeparator();
 		// return the toolbar
 		return toolBar;
 	}
 
 	/**
 	 * Creates the popup menu
+	 * @param tree the tree where the popup menu will be shown
 	 * @return The popup menu created
 	 */
-	private JPopupMenu createPopUpMenu() {
+	private JPopupMenu createPopUpMenu(JTree tree) {
 		JPopupMenu popupMenu = new JPopupMenu();
 		// expand all the nodes
 		final JMenuItem menuItemExpand = new JMenuItem("Expand all the nodes");
 		menuItemExpand.setMnemonic('E');
 		menuItemExpand.getAccessibleContext().setAccessibleDescription("Expand all the nodes");
-		this.trees.forEach(tree -> menuItemExpand.addActionListener(event -> new ExpandTreeController().expandAllFromSelectedNode(tree)));
+		menuItemExpand.addActionListener(event -> new ExpandTreeController().expandAllFromSelectedNode(tree));
 		popupMenu.add(menuItemExpand);
 		// export to Html
 		final JMenuItem menuItemExportHTML = new JMenuItem("Export to HTML");
 		menuItemExpand.setMnemonic('H');
 		menuItemExpand.getAccessibleContext().setAccessibleDescription("Export to HTML");
-		this.trees.forEach(tree -> menuItemExportHTML.addActionListener(event ->  new ExportTreeController(this, tree)
-				.exportToHtml(this.labelStatus, true)));
-		popupMenu.add(menuItemExpand);
+		menuItemExportHTML.addActionListener(event ->  new ExportTreeController(this, tree)
+				.exportToHtml(this.labelStatus, true));
+		popupMenu.add(menuItemExportHTML);
 		// export to txt
-		final JMenuItem menuItemExportTxt = new JMenuItem("Export to Text");
+		final JMenuItem menuItemExportTxt = new JMenuItem("Export to text");
 		menuItemExpand.setMnemonic('T');
 		menuItemExpand.getAccessibleContext().setAccessibleDescription("Export to Text");
-		this.trees.forEach(tree -> menuItemExportTxt.addActionListener(event ->  new ExportTreeController(this, tree)
-				.exportToTxt(this.labelStatus, true)));
-		popupMenu.add(menuItemExpand);
+		menuItemExportTxt.addActionListener(event ->  new ExportTreeController(this, tree)
+				.exportToTxt(this.labelStatus, true));
+		popupMenu.add(menuItemExportTxt);
+		// export to txt
+		final JMenuItem menuItemUnselect = new JMenuItem("Unselect the nodes of this tree");
+		menuItemUnselect.setMnemonic('U');
+		menuItemUnselect.getAccessibleContext().setAccessibleDescription("Unselect the nodes of this tree");
+		menuItemUnselect.addActionListener(event ->  new UnselectNodeController().unselectNode(tree));
+		popupMenu.add(menuItemUnselect);
 		// return the menu
 		return popupMenu;
 	}
@@ -176,15 +182,16 @@ public class IntrospectorView extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(width, height);
 
+		JTree tree = new JTree(model);
+		this.trees.add(tree);
+
 		this.add(this.createToolBar(), BorderLayout.NORTH);
 
 		PanelAndLabel panelAndLabel = this.createStatusBar();
 		this.add(panelAndLabel.panel, BorderLayout.SOUTH);
 		this.labelStatus = panelAndLabel.label;
-		this.popupMenu = this.createPopUpMenu();
+		this.popupMenu = this.createPopUpMenu(tree);
 
-		JTree tree = new JTree(model);
-		this.trees.add(tree);
 		// TODO DELETE
 		//this.textAreas.add(new JTextArea());
 		//this.textAreas.get(0).setEditable(false);
@@ -222,7 +229,7 @@ public class IntrospectorView extends JFrame {
 		this.addComponentListener(new ResizeWindowController(this));
 
 
-		//this.setVisible(show); TODO
+		this.setVisible(show);
 	}
 
 
@@ -235,6 +242,7 @@ public class IntrospectorView extends JFrame {
 		// Create the new tree
 		JTree newTree = new JTree(newTreeModel);
 		this.trees.add(newTree);
+		this.popupMenu = this.createPopUpMenu(newTree);
 
 		// Create a new JSplitPane for the new tree below the previous ones
 		JSplitPane newVerticalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -297,8 +305,8 @@ public class IntrospectorView extends JFrame {
 	/**
 	 * @return the JTree in the view
 	 */
-	public JTree getTrees() {
-		return this.trees.get(0);
+	public List<JTree> getTrees() {
+		return this.trees;
 	}
 
 

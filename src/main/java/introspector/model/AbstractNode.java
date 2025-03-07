@@ -7,6 +7,8 @@
 
 package introspector.model;
 
+import introspector.model.traverse.TraverseHelper;
+
 import java.util.*;
 
 /**
@@ -172,4 +174,30 @@ public abstract class AbstractNode implements Node {
 	public String getClassName() {
 		return this.getType().getName();
 	}
+
+	/**
+	 * @see Node#compareTrees(Node, boolean, List, List)
+	 */
+	public List<Node> compareTrees(Node node2, boolean equalName, List<Node> modifiedNodes, List<Node> alreadyTraversed) {
+		// This is the implementation for leaf nodes
+		if (!TraverseHelper.shouldBeTraversed(this, alreadyTraversed))
+			return modifiedNodes; // cycle detected
+		if (this.getValue() == null && node2.getValue() == null)
+			return modifiedNodes;
+		if (this.getValue() == null || node2.getValue() == null) {
+			// one of them is null but not the other (first condition above)
+			modifiedNodes.add(this); modifiedNodes.add(node2);
+		}
+		else if (!this.getValue().equals(node2.getValue())) {
+			modifiedNodes.add(this); modifiedNodes.add(node2);
+		}
+		else if (!this.getType().equals(node2.getType())) {
+			modifiedNodes.add(this); modifiedNodes.add(node2);
+		}
+		else if(equalName && !this.getName().equals(node2.getName())) {
+			modifiedNodes.add(this); modifiedNodes.add(node2);
+		}
+		return modifiedNodes;
+	}
+
 }

@@ -15,7 +15,7 @@ import introspector.view.IntrospectorView;
 import javax.swing.tree.TreeModel;
 
 /**
- * Example use of introspector when two attributes exist with the same name (one is inherited).
+ * Example use of Introspector when two attributes exist with the same name (one is inherited).
  */
 public class InheritedAttributesExample {
 

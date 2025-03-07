@@ -77,7 +77,8 @@ class ExpandTreeControllerTest {
     void directCycle() {
         IntrospectorModel model = new IntrospectorModel("Root", new DirectCycle());
         IntrospectorView view = new IntrospectorView("View", model, false);
-        List<Node> visitedNodes = new ExpandTreeController().expandAllFromNode(view.getTrees(), model.getRoot(),
+
+        List<Node> visitedNodes = new ExpandTreeController().expandAllFromNode(view.getTrees().get(0), model.getRoot(),
                 new TreePath(new Object[]{model.getRoot()}));
         assertEquals(4, visitedNodes.size()); // Root + filed + strings + the repeated strings
         assertTrue(visitedNodes.stream().anyMatch(node -> node.getName().equals("field")));
@@ -91,7 +92,7 @@ class ExpandTreeControllerTest {
     void testIndirectCycle() {
         IntrospectorModel model = new IntrospectorModel("Root", new Root());
         IntrospectorView view = new IntrospectorView("View", model, false);
-        List<Node> visitedNodes = new ExpandTreeController().expandAllFromNode(view.getTrees(), model.getRoot(),
+        List<Node> visitedNodes = new ExpandTreeController().expandAllFromNode(view.getTrees().get(0), model.getRoot(),
                 new TreePath(new Object[]{model.getRoot()}));
         assertEquals(4, visitedNodes.size()); // Root + a + b + c
         assertTrue(visitedNodes.stream().anyMatch(node -> node.getName().equals("a")));
@@ -106,7 +107,7 @@ class ExpandTreeControllerTest {
     void testNoCycle() {
         IntrospectorModel model = new IntrospectorModel("Root", new NoCycle());
         IntrospectorView view = new IntrospectorView("View", model, false);
-        List<Node> visitedNodes = new ExpandTreeController().expandAllFromNode(view.getTrees(), model.getRoot(),
+        List<Node> visitedNodes = new ExpandTreeController().expandAllFromNode(view.getTrees().get(0), model.getRoot(),
                 new TreePath(new Object[]{model.getRoot()}));
         assertEquals(7, visitedNodes.size()); // Root + a + b + c + a + b + c
         assertTrue(visitedNodes.stream().anyMatch(node -> node.getName().equals("a")));

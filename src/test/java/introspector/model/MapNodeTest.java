@@ -82,10 +82,10 @@ class MapNodeTest {
         List<Node> list = this.strToInt.getChildren();
         assertEquals("strToInt[one]", list.get(0).getName());
         assertEquals(1, list.get(0).getValue());
-        assertEquals("strToInt[two]", list.get(1).getName());
-        assertEquals(2, list.get(1).getValue());
-        assertEquals("strToInt[three]", list.get(2).getName());
-        assertEquals(3, list.get(2).getValue());
+        assertEquals("strToInt[two]", list.get(2).getName());
+        assertEquals(2, list.get(2).getValue());
+        assertEquals("strToInt[three]", list.get(1).getName());
+        assertEquals(3, list.get(1).getValue());
         // myClassToMyClass
         list = this.myClassToMyClass.getChildren();
         assertEquals(String.format("myClassToMyClass[%s]", this.from), list.get(0).getName());

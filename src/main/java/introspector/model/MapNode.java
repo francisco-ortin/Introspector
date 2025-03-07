@@ -7,9 +7,12 @@
 
 package introspector.model;
 
+import introspector.model.traverse.TraverseHelper;
+
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * MapNode provides a Node implementation to represent any value whose type is a java.util.Map.
@@ -50,7 +53,18 @@ public class MapNode extends AbstractNode  implements Node {
 	@Override
 	public List<Node> getChildren() {
 		List<Node> nodes = new ArrayList<>();
-		for (Map.Entry<?, ?> entry : ((Map<?, ?>) getValue()).entrySet())
+		// maps are not ordered, so we must define an order to show the map entries and improve its comparison
+		// however, we cannot use the natural order of the keys if one is null
+		Map<?, ?> sortedMap;
+		// does any key hold a null value?
+		if (TraverseHelper.containsNullKey((Map<?, ?>) getValue()))
+			sortedMap = (Map<?, ?>)getValue();  // we cannot sort if it has null in the keys
+		else try {
+			sortedMap = new TreeMap<>((Map<?, ?>) getValue()); // otherwise, we sort by the natural order of the keys
+		} catch (ClassCastException e) {
+			sortedMap = (Map<?, ?>) getValue();  // we cannot sort if the keys are not comparable (e.g., one is Integer and another is String)
+		}
+		for (Map.Entry<?, ?> entry : sortedMap.entrySet()) // we traverse with in the order of the natural order of the keys
 			if (entry.getKey() == null) {
 				System.err.printf("Introspector: the map \"%s\" has a null key.\n", getName());
 				if (entry.getValue() != null)
@@ -70,5 +84,44 @@ public class MapNode extends AbstractNode  implements Node {
 				));
 		return nodes;
 	}
+
+	/**
+	 * @see Node#compareTrees(Node, boolean, List, List)
+	 */
+	public List<Node> compareTrees(Node node2, boolean equalName, List<Node> modifiedNodes, List<Node> alreadyTraversed) {
+		if (!TraverseHelper.shouldBeTraversed(this, alreadyTraversed))
+			return modifiedNodes; // cycle detected
+		if (node2 instanceof MapNode mapNode2) {
+			// they must have the same types
+			if (!this.getType().equals(mapNode2.getType())) {
+				modifiedNodes.add(this);
+				modifiedNodes.add(mapNode2);
+				return modifiedNodes;
+			}
+			// if they are not the root nodes, they must have the same names
+			if (equalName && !this.getName().equals(mapNode2.getName())) {
+				modifiedNodes.add(this);
+				modifiedNodes.add(mapNode2);
+				return modifiedNodes;
+			}
+			List<Node> children1 = this.getChildren();
+			List<Node> children2 = mapNode2.getChildren();
+			// they must have the same number of children
+			if (children1.size() != children2.size()) {
+				modifiedNodes.add(this);
+				modifiedNodes.add(mapNode2);
+				return modifiedNodes;
+			}
+			// they must have the same children
+			for (int i = 0; i < children1.size(); i++)
+				children1.get(i).compareTrees(children2.get(i), equalName, modifiedNodes, alreadyTraversed);
+			return modifiedNodes;
+		}
+		// node2 is not a Map => they are different
+		modifiedNodes.add(this);
+		modifiedNodes.add(node2);
+		return modifiedNodes;
+	}
+
 
 }

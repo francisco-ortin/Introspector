@@ -51,6 +51,8 @@ public class NodeFactory {
 	 * @return The subclass of Node appropriate to represent the name object
 	 */
 	public static Node createNode(String name, Object value) {
+		if (value == null)
+			return createNode(name, null, NullType.class);
 		return createNode(name, value, value.getClass());
 	}
 

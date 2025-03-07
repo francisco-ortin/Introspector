@@ -7,6 +7,8 @@
 
 package introspector.model;
 
+import introspector.model.traverse.TraverseHelper;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -59,6 +61,44 @@ public class CollectionNode extends AbstractNode implements Node  {
 				nodes.add(NodeFactory.createNode(getName() + "[" + index++ + "]", field, field.getClass()));
 		}
 		return nodes;
+	}
+
+	/**
+	 * @see Node#compareTrees(Node, boolean, List, List)
+	 */
+	public List<Node> compareTrees(Node node2, boolean equalName, List<Node> modifiedNodes, List<Node> alreadyTraversed) {
+		if (!TraverseHelper.shouldBeTraversed(this, alreadyTraversed))
+			return modifiedNodes; // cycle detected
+		if (node2 instanceof CollectionNode mapNode2) {
+			// they must have the same types
+			if (!this.getType().equals(mapNode2.getType())) {
+				modifiedNodes.add(this);
+				modifiedNodes.add(mapNode2);
+				return modifiedNodes;
+			}
+			// if they are not the root nodes, they must have the same names
+			if (equalName && !this.getName().equals(mapNode2.getName())) {
+				modifiedNodes.add(this);
+				modifiedNodes.add(mapNode2);
+				return modifiedNodes;
+			}
+			List<Node> children1 = this.getChildren();
+			List<Node> children2 = mapNode2.getChildren();
+			// they must have the same number of children
+			if (children1.size() != children2.size()) {
+				modifiedNodes.add(this);
+				modifiedNodes.add(mapNode2);
+				return modifiedNodes;
+			}
+			// they must have the same children
+			for (int i = 0; i < children1.size(); i++)
+				children1.get(i).compareTrees(children2.get(i), equalName, modifiedNodes, alreadyTraversed);
+			return modifiedNodes;
+		}
+		// node2 is not a Collection => they are different
+		modifiedNodes.add(this);
+		modifiedNodes.add(node2);
+		return modifiedNodes;
 	}
 
 }

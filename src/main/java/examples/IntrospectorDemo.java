@@ -29,15 +29,6 @@ public class IntrospectorDemo {
 		// Introspector can also be used programmatically to dump object structures as html and txt files
 		Introspector.writeTreeAsTxt(myObject, "Root", "out/output.txt");
 		Introspector.writeTreeAsHtml(myObject, "Root", "out/output.html", true);
-
-		view.addTree(model);
-		view.addTree(model);
-		view.addTree(model);
-		//view.addTree(model);
-		view.setVisible(true);
-		// TODO hacer un constructor con setVisitble true por defecto
-		// TODO hacer un constructor que reciba un Object en lugar de un Model
-		// TODO hacer un ejemplo con dos árbiles
 	}
 
 }

@@ -9,7 +9,6 @@ package introspector.model.traverse;
 
 
 import introspector.model.Node;
-import introspector.model.NodeFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,8 +29,8 @@ public class WriteTreeTraversal {
 	 * @throws IOException a textual file is written
 	 */
 	private void traverse(Node node, TreeSerializer treeSerializer, int depth, List<Node> alreadyTraversed) throws IOException {
-		boolean hasBeenVisited = this.hasBeenVisited(node, alreadyTraversed);
-		if (!hasBeenVisited && this.couldBeVisitedTwice(node))
+		boolean hasBeenVisited = TraverseHelper.hasBeenVisited(node, alreadyTraversed);
+		if (!hasBeenVisited && TraverseHelper.couldBeVisitedTwice(node))
 			alreadyTraversed.add(node);
 		treeSerializer.beforeTraversing(node, depth, hasBeenVisited);
 		treeSerializer.traversing(node, depth, hasBeenVisited);
@@ -40,29 +39,6 @@ public class WriteTreeTraversal {
 				traverse(node.getChild(i), treeSerializer, depth + 1, alreadyTraversed);
 		}
 		treeSerializer.afterTraversing(node, depth, hasBeenVisited);
-	}
-
-	/**
-	 * Returns whether a node is a cyclic reference. That is, it has been already traversed and hence
-	 * the tree is actually a graph.
-	 * @param node the node traversed
-	 * @param alreadyTraversed a list of previously traversed nodes
-	 * @return whether the node is a cyclic reference
-	 */
-	private boolean hasBeenVisited(Node node, List<Node> alreadyTraversed) {
-		return this.couldBeVisitedTwice(node) &&
-				alreadyTraversed.stream().anyMatch(eachNode -> eachNode.getValue() == node.getValue());
-	}
-
-	/**
-	 * Returns whether a node could be visited twice or more
-	 * @param node the node traversed
-	 * @return whether the node could be visited twice or more
-	 */
-	private boolean couldBeVisitedTwice(Node node) {
-		return node.getValue() != null &&  // null is not considered as a repeated object
-				!NodeFactory.isBuiltinType(node.getType()) && // builtin objects could be repeated
-				!node.isLeaf(); // leaf nodes can only be visited once
 	}
 
 	/**
