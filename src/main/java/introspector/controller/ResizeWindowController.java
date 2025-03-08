@@ -34,7 +34,6 @@ public class ResizeWindowController extends ComponentAdapter {
     @Override
     public void componentResized(ComponentEvent e) {
         // This method is triggered when the window is resized
-        JFrame sourceFrame = (JFrame) e.getSource();
         this.introspectorView.updateVerticalSplitPanes();
     }
 

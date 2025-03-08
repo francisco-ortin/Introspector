@@ -7,15 +7,18 @@
 
 package introspector;
 
+import introspector.model.Node;
 import introspector.model.NodeFactory;
 import introspector.model.traverse.HtmlTreeSerializer;
+import introspector.model.traverse.TreeComparator;
 import introspector.model.traverse.TxtTreeSerializer;
 import introspector.model.traverse.WriteTreeTraversal;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
- * Facade to use Introspector as an API to store Java objects as txt or html trees.
+ * Facade to use Introspector as an API to store Java objects as txt or html trees, and compare trees.
  */
 public class Introspector {
 
@@ -82,6 +85,20 @@ public class Introspector {
 	public static boolean writeTreeAsHtml(Object treeRoot, String rootName, String outputFileName) {
 		return Introspector.writeTreeAsHtml(treeRoot, rootName, outputFileName, true);
 	}
+
+
+	/**
+	 * Compares two trees
+	 * @param treeRoot1 the root node of the first tree
+	 * @param treeRoot2 the root node of the second tree
+	 * @return whether the trees are equal or not
+	 */
+	public static boolean compareTrees(Object treeRoot1, Object treeRoot2) {
+		TreeComparator treeComparator = new TreeComparator();
+		List<Node> modifiedNodes = treeComparator.compareTrees(treeRoot1, treeRoot2);
+		return modifiedNodes.isEmpty();
+	}
+
 
 }
 

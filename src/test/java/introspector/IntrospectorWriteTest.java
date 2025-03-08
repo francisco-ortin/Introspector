@@ -17,9 +17,9 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests the Introspector Facade as an API
+ * Tests the Introspector Facade as an API to write trees as text or HTML files.
  */
-public class IntrospectorTest {
+public class IntrospectorWriteTest {
 
     private static class DummyA {
         int intField = 33;

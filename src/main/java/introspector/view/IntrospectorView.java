@@ -8,8 +8,10 @@
 package introspector.view;
 
 import introspector.controller.*;
+import introspector.model.IntrospectorModel;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Objects;
 import javax.swing.*;
@@ -44,24 +46,6 @@ public class IntrospectorView extends JFrame {
 
 
 	/**
-	 * A tree window is created and displayed
-	 * @param title the title of the window
-	 * @param model the model to be shown as a tree
-	 */
-	public IntrospectorView(String title, TreeModel model) {
-		this(title, model, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, true);
-	}
-	/**
-	 * A tree window is created
-	 * @param title the title of the window
-	 * @param model the model to be shown as a tree
-	 * @param show whether the window must be shown
-	 */
-	public IntrospectorView(String title, TreeModel model, boolean show) {
-		this(title, model, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, show);
-	}
-
-	/**
 	 * Creates the toolbar
 	 * @return The toolbar created
 	 */
@@ -90,18 +74,11 @@ public class IntrospectorView extends JFrame {
 				.exportToTxt(this.labelStatus, false));
 		toolBar.add(buttonExportText);
 		toolBar.addSeparator();
-		// button update tree
-		JButton buttonUpdateTree = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/txt.png"))));
-		buttonUpdateTree.setToolTipText("Export to text (Alt+T)");
-		buttonUpdateTree.setMnemonic('T');  // shortcut is alt+T
-		this.trees.forEach(tree -> buttonUpdateTree.addActionListener(event ->  new UpdateTreeController().showUpdatedNodes(tree)));
-		toolBar.add(buttonUpdateTree);
-		toolBar.addSeparator();
-		// button update tree
-		JButton buttonCompareTrees = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/txt.png"))));
-		buttonCompareTrees.setToolTipText("Export to text (Alt+T)");
-		buttonCompareTrees.setMnemonic('T');  // shortcut is alt+T
-		buttonCompareTrees.addActionListener(event ->  new CompareTreesController().compareTrees(trees));
+		// button compare trees
+		JButton buttonCompareTrees = new JButton(new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/compare.png"))));
+		buttonCompareTrees.setToolTipText("Compare trees (Alt+C)");
+		buttonCompareTrees.setMnemonic('C');  // shortcut is alt+C
+		buttonCompareTrees.addActionListener(event ->  new CompareTreesController(labelStatus).compareTrees(trees));
 		toolBar.add(buttonCompareTrees);
 		toolBar.addSeparator();
 		// return the toolbar
@@ -117,7 +94,7 @@ public class IntrospectorView extends JFrame {
 		JPopupMenu popupMenu = new JPopupMenu();
 		// expand all the nodes
 		final JMenuItem menuItemExpand = new JMenuItem("Expand all the nodes");
-		menuItemExpand.setMnemonic('E');
+		menuItemExpand.setMnemonic('T');
 		menuItemExpand.getAccessibleContext().setAccessibleDescription("Expand all the nodes");
 		menuItemExpand.addActionListener(event -> new ExpandTreeController().expandAllFromSelectedNode(tree));
 		popupMenu.add(menuItemExpand);
@@ -141,6 +118,12 @@ public class IntrospectorView extends JFrame {
 		menuItemUnselect.getAccessibleContext().setAccessibleDescription("Unselect the nodes of this tree");
 		menuItemUnselect.addActionListener(event ->  new UnselectNodeController().unselectNode(tree));
 		popupMenu.add(menuItemUnselect);
+		// compare trees
+		final JMenuItem menuItemCompareTrees = new JMenuItem("Compare trees");
+		menuItemCompareTrees.setMnemonic('C');
+		menuItemCompareTrees.getAccessibleContext().setAccessibleDescription("Compare trees");
+		menuItemCompareTrees.addActionListener(event ->  new CompareTreesController(this.labelStatus).compareTrees(trees));
+		popupMenu.add(menuItemCompareTrees);
 		// return the menu
 		return popupMenu;
 	}
@@ -171,6 +154,7 @@ public class IntrospectorView extends JFrame {
 	private List<JSplitPane> horizontalSplitPanes = new ArrayList<>();
 
 	/**
+	 * Main constructor of the view
 	 * @param title title of the window
 	 * @param model model to be displayed as a tree
 	 * @param width window width
@@ -191,11 +175,6 @@ public class IntrospectorView extends JFrame {
 		this.add(panelAndLabel.panel, BorderLayout.SOUTH);
 		this.labelStatus = panelAndLabel.label;
 		this.popupMenu = this.createPopUpMenu(tree);
-
-		// TODO DELETE
-		//this.textAreas.add(new JTextArea());
-		//this.textAreas.get(0).setEditable(false);
-		//this.textAreas.get(0).setLineWrap(true);
 
 		JSplitPane verticalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		verticalSplitPane.setDividerSize(2);
@@ -227,8 +206,8 @@ public class IntrospectorView extends JFrame {
 		tree.addMouseListener(new TreeMouseClickController(tree, this.popupMenu));
 		// controller called when the size of the window is changed
 		this.addComponentListener(new ResizeWindowController(this));
-
-
+		// when the window is maximized
+		this.addWindowStateListener(event -> new ResizeWindowController(this).componentResized(event));
 		this.setVisible(show);
 	}
 
@@ -292,14 +271,27 @@ public class IntrospectorView extends JFrame {
 	}
 
 	/**
+	 * Adds another tree to the window in a new horizontal split view.
+	 * The new tree will be displayed below the existing tree structure.
+	 * @param treeName The name of the new tree to be added.
+	 * @param newTreeModel The TreeModel for the new tree to be added.
+	 */
+	public void addTree(String treeName, Object newTreeModel) {
+		this.addTree(new IntrospectorModel(treeName, newTreeModel));
+	}
+
+	/**
 	 * Updates the vertical split panes to be in position relative to the size of the window and the number of trees.
 	 */
 	public void updateVerticalSplitPanes() {
 		int numTrees = this.trees.size();
 		// Place all the horizontal split panes in the correct height
 		for(int i=0; i<numTrees-1; i++) {
-			this.horizontalSplitPanes.get(i).setDividerLocation((int)(this.getHeight()-90)/numTrees*(i+1));
+			int horizontalSplitPanelHeight = (int)(this.getHeight()-90.0)/numTrees*(i+1);
+			this.horizontalSplitPanes.get(i).setDividerLocation(horizontalSplitPanelHeight);
 		}
+		revalidate();
+		repaint();
 	}
 
 	/**
@@ -310,4 +302,52 @@ public class IntrospectorView extends JFrame {
 	}
 
 
+	/**
+	 * A tree window is created and displayed: default size and visible
+	 * @param title the title of the window
+	 * @param model the model to be shown as a tree
+	 */
+	public IntrospectorView(String title, TreeModel model) {
+		this(title, model, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, true);
+	}
+	/**
+	 * A tree window is created and displayed: default size and visible
+	 * @param title the title of the window
+	 * @param model the model to be shown as a tree
+	 */
+	public IntrospectorView(String title, String treeName, Object model) {
+		this(title, new IntrospectorModel(treeName, model), DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, true);
+	}
+	/**
+	 * A tree window is created: default size
+	 * @param title the title of the window
+	 * @param model the model to be shown as a tree
+	 * @param show whether the window must be shown
+	 */
+	public IntrospectorView(String title, TreeModel model, boolean show) {
+		this(title, model, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, show);
+	}
+	/**
+	 * A tree window is created: default size
+	 * @param title the title of the window
+	 * @param model the model to be shown as a tree
+	 * @param show whether the window must be shown
+	 */
+	public IntrospectorView(String title, String treeName, Object model, boolean show) {
+		this(title, new IntrospectorModel(treeName, model), DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, show);
+	}
+
+
+	/**
+	 * A tree window is created
+	 * @param title	the title of the window
+	 * @param treeName the name of the tree
+	 * @param model the model to be shown as a tree
+	 * @param width the width of the window
+	 * @param height the height of the window
+	 * @param show whether the window must be shown
+	 */
+ 	public IntrospectorView(String title, String treeName, Object model, int width, int height, boolean show) {
+		this(title, new IntrospectorModel(treeName, model), width, height, show);
+	}
 }

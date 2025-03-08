@@ -9,6 +9,7 @@ package introspector.model.traverse;
 
 
 import introspector.model.Node;
+import introspector.model.NodeFactory;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -35,6 +36,24 @@ public class TreeComparator {
 	}
 
 	/**
+	 * Compares two trees and returns true if they are equal, false otherwise
+	 * @param tree1 the root of the first tree
+	 * @param tree2 the root of the second tree
+	 * @return true if the trees are equal, false otherwise.
+	 */
+	public List<Node> compareTrees(Object tree1, Object tree2) {
+		if (tree1 == null && tree2 == null)
+			return new ArrayList<>();  // both null => equal trees
+		if (tree1 == null || tree2 == null) { // one null and the other not null => different trees
+			List<Node> modifiedNodes = new ArrayList<>();
+			modifiedNodes.add(createNodeIfNeeded(tree1));
+			modifiedNodes.add(createNodeIfNeeded(tree2));
+			return modifiedNodes;
+		}
+		return compareTrees(new TreePath(tree1), new TreePath(tree2));
+	}
+
+	/**
 	 * Compares two trees and returns the list of different nodes
 	 * @param object1 the root of the first tree
 	 * @param object2 the root of the second tree
@@ -52,12 +71,22 @@ public class TreeComparator {
 			modifiedNodes.add((Node) object1);
 			return modifiedNodes;
 		}
-		if (object1 instanceof Node node1 && object2 instanceof Node node2) {
-			node1.compareTrees(node2, equalName, modifiedNodes, alreadyTraversed);
-		}
-		return modifiedNodes;
+		// they are not null, but they might be not Node objects; we make sure they are by creating them when needed
+		Node node1 = createNodeIfNeeded(object1);
+		Node node2 = createNodeIfNeeded(object2);
+		return node1.compareTrees(node2, equalName, modifiedNodes, alreadyTraversed);
 	}
 
 
+	/**
+	 * Makes sure the object is a node by creating a node wrapping the object if needed
+	 */
+	private static Node createNodeIfNeeded(Object object) {
+		if (object == null)
+			return null;
+		if (object instanceof Node)
+			return (Node) object;
+		return NodeFactory.createNode("Tree", object);
+	}
 
 }

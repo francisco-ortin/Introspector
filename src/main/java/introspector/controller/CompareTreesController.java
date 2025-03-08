@@ -2,6 +2,8 @@ package introspector.controller;
 
 import introspector.model.Node;
 import introspector.model.traverse.TreeComparator;
+import introspector.view.IntrospectorView;
+import introspector.view.ViewHelper;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -14,6 +16,14 @@ import java.util.List;
  */
 public class CompareTreesController {
 
+	/**
+	 * The label where the status message is written
+	 */
+	private final JLabel statusLabel;
+
+	public CompareTreesController(JLabel statusLabel) {
+		this.statusLabel = statusLabel;
+	}
 
 	/**
 	 * Expands all the nodes that are descendants of the root node in a tree view.
@@ -29,20 +39,25 @@ public class CompareTreesController {
 		Pair<JTree, TreePath>[] selectedNodes = this.getSelectedNodes(trees);
 		TreeComparator treeComparator = new TreeComparator();
 		List<Node> modifiedNodes = treeComparator.compareTrees(selectedNodes[0].getSecond(), selectedNodes[1].getSecond());
-		// Set the custom renderer once for the entire tree
+		// Show as colored nodes those that are different
 		showSelectedNodes(trees, modifiedNodes);
+		// Show a message in the status bar
+		ViewHelper.showMessageInStatus(this.statusLabel,
+				String.format("Trees compared. Different nodes are shown in red."));
+
 	}
 
 	private static void showSelectedNodes(List<JTree> trees, List<Node> modifiedNodes) {
 		for(JTree tree: trees) {
+			// Set the custom renderer once for the entire tree
 			tree.setCellRenderer(new DefaultTreeCellRenderer() {
 				@Override
 				public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 					// Get the default component for the tree node
 					Component component = super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
-					// If this row is in the set of nodes to be colored blue, set the font color to blue
+					// If this row is in the set of nodes to be colored, set the font color to blue
 					if (modifiedNodes.contains(value))
-						component.setForeground(Color.BLUE);
+						component.setForeground(Color.RED);
 					else
 						component.setForeground(Color.BLACK);
 					return component;
