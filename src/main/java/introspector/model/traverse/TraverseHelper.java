@@ -10,8 +10,8 @@ package introspector.model.traverse;
 import introspector.model.Node;
 import introspector.model.NodeFactory;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * MapNode provides a Node implementation to represent any value whose type is a java.util.Map.
@@ -43,25 +43,49 @@ public class TraverseHelper {
 	}
 
 	/**
+	 * Returns whether two nodes could be visited twice or more
+	 * @param nodePair the node traversed
+	 * @return whether the node could be visited twice or more
+	 */
+	static boolean couldBeVisitedTwice(SymmetricPair<Node, Node> nodePair) {
+		return couldBeVisitedTwice(nodePair.getFirst()) && couldBeVisitedTwice(nodePair.getSecond());
+	}
+
+	/**
 	 * Returns whether a node is a cyclic reference. That is, it has been already traversed and hence
 	 * the tree is actually a graph.
 	 * @param node the node traversed
-	 * @param alreadyTraversed a list of previously traversed nodes
+	 * @param alreadyTraversed a set of previously traversed nodes
 	 * @return whether the node is a cyclic reference
 	 */
-	static boolean hasBeenVisited(Node node, List<Node> alreadyTraversed) {
+	static boolean hasBeenVisited(Node node, Set<Node> alreadyTraversed) {
 		return couldBeVisitedTwice(node) &&
 				alreadyTraversed.stream().anyMatch(eachNode -> eachNode.getValue() == node.getValue());
+	}
+
+	/**
+	 * Returns whether a pair of nodes have a cyclic reference. That is, it has been already traversed and hence
+	 * the tree is actually a graph.
+	 * @param nodePair the node traversed
+	 * @param alreadyTraversed a set of previously traversed nodes
+	 * @return whether the node is a cyclic reference
+	 */
+	static boolean hasBeenVisited(SymmetricPair<Node, Node> nodePair, Set<SymmetricPair<Node, Node>> alreadyTraversed) {
+		// they could be visited twice and they have been visited and...
+		return couldBeVisitedTwice(nodePair.getFirst()) && couldBeVisitedTwice(nodePair.getSecond()) &&
+				// ... they have been visited as a pair
+				alreadyTraversed.stream().anyMatch(pair -> (pair.getFirst().getValue() == nodePair.getFirst().getValue() && pair.getSecond().getValue() == nodePair.getSecond().getValue()) ||
+						(pair.getFirst().getValue() == nodePair.getSecond().getValue() && pair.getSecond().getValue() == nodePair.getFirst().getValue()));
 	}
 
 
 	/**
 	 * Returns whether a node should be traversed. That is, it has not been traversed yet.
 	 * @param node the node traversed
-	 * @param alreadyTraversed a list of previously traversed nodes
+	 * @param alreadyTraversed a set of previously traversed nodes
 	 * @return whether the node should be traversed
 	 */
-	static public boolean shouldBeTraversed(Node node, List<Node> alreadyTraversed) {
+	static public boolean shouldBeTraversed(Node node, Set<Node> alreadyTraversed) {
 		boolean hasBeenVisited = hasBeenVisited(node, alreadyTraversed);
 		if (!hasBeenVisited && TraverseHelper.couldBeVisitedTwice(node)) {
 			alreadyTraversed.add(node);
@@ -72,4 +96,24 @@ public class TraverseHelper {
 		else // if it could be traversed once (no loop) then it should be traversed
 			return true;
 	}
+
+	/**
+	 * Returns whether two nodes in a comparison (two trees) should be traversed. That is, it has not been traversed yet as a pair
+	 * @param nodePair the pair of nodes traversed
+	 * @param alreadyTraversed a set of previously traversed nodes
+	 * @return whether the node should be traversed
+	 */
+	static public boolean shouldBeTraversed(SymmetricPair<Node, Node> nodePair, Set<SymmetricPair<Node, Node>> alreadyTraversed) {
+		boolean hasBeenVisited = hasBeenVisited(nodePair, alreadyTraversed);
+		if (!hasBeenVisited && TraverseHelper.couldBeVisitedTwice(nodePair)) {
+			alreadyTraversed.add(nodePair);
+		}
+		if (TraverseHelper.couldBeVisitedTwice(nodePair))
+			// if it could be traversed twice (cyclic reference) then it should not be traversed when it has been visited
+			return !hasBeenVisited;
+		else // if it could be traversed once (no loop) then it should be traversed
+			return true;
+	}
+
+
 }

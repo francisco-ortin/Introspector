@@ -7,6 +7,7 @@
 
 package introspector.model;
 
+import introspector.model.traverse.SymmetricPair;
 import introspector.model.traverse.TraverseHelper;
 
 import java.lang.reflect.Array;
@@ -64,10 +65,11 @@ public class ArrayNode extends AbstractNode implements Node  {
 
 
 	/**
-	 * @see Node#compareTrees(Node, boolean, List, List)
+	 * @see Node#compareTrees(Node, boolean, Set, Set)
 	 */
-	public List<Node> compareTrees(Node node2, boolean equalName, List<Node> modifiedNodes, List<Node> alreadyTraversed) {
-		if (!TraverseHelper.shouldBeTraversed(this, alreadyTraversed))
+	@Override
+	public Set<Node> compareTrees(Node node2, boolean equalName, Set<Node> modifiedNodes, Set<SymmetricPair<Node, Node>> alreadyTraversed) {
+		if (!TraverseHelper.shouldBeTraversed(new SymmetricPair<>(this, node2), alreadyTraversed))
 			return modifiedNodes; // cycle detected
 		if (node2 instanceof ArrayNode arrayNode2) {
 			// they must have the same types

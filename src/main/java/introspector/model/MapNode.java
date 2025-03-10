@@ -7,12 +7,10 @@
 
 package introspector.model;
 
+import introspector.model.traverse.SymmetricPair;
 import introspector.model.traverse.TraverseHelper;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * MapNode provides a Node implementation to represent any value whose type is a java.util.Map.
@@ -86,10 +84,11 @@ public class MapNode extends AbstractNode  implements Node {
 	}
 
 	/**
-	 * @see Node#compareTrees(Node, boolean, List, List)
+	 * @see Node#compareTrees(Node, boolean, Set, Set)
 	 */
-	public List<Node> compareTrees(Node node2, boolean equalName, List<Node> modifiedNodes, List<Node> alreadyTraversed) {
-		if (!TraverseHelper.shouldBeTraversed(this, alreadyTraversed))
+	@Override
+	public Set<Node> compareTrees(Node node2, boolean equalName, Set<Node> modifiedNodes, Set<SymmetricPair<Node, Node>> alreadyTraversed) {
+		if (!TraverseHelper.shouldBeTraversed(new SymmetricPair<>(this, node2), alreadyTraversed))
 			return modifiedNodes; // cycle detected
 		if (node2 instanceof MapNode mapNode2) {
 			// they must have the same types

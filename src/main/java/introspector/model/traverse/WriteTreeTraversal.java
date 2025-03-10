@@ -12,7 +12,9 @@ import introspector.model.Node;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Writes trees with different formats.
@@ -28,7 +30,7 @@ public class WriteTreeTraversal {
 	 * @param alreadyTraversed the list of nodes that have been visited in this traversal
 	 * @throws IOException a textual file is written
 	 */
-	private void traverse(Node node, TreeSerializer treeSerializer, int depth, List<Node> alreadyTraversed) throws IOException {
+	private void traverse(Node node, TreeSerializer treeSerializer, int depth, Set<Node> alreadyTraversed) throws IOException {
 		boolean hasBeenVisited = TraverseHelper.hasBeenVisited(node, alreadyTraversed);
 		if (!hasBeenVisited && TraverseHelper.couldBeVisitedTwice(node))
 			alreadyTraversed.add(node);
@@ -49,7 +51,7 @@ public class WriteTreeTraversal {
 	 */
 	public void traverse(Node node, TreeSerializer treeSerializer) throws IOException {
 		treeSerializer.beginTraverse();
-		this.traverse(node, treeSerializer, 0, new ArrayList<>());
+		this.traverse(node, treeSerializer, 0, new HashSet<>());
 		treeSerializer.endTraverse();
 	}
 

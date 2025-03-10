@@ -201,11 +201,11 @@ class TreeComparatorTest {
         return new TreePath(NodeFactory.createNode(name, value));
     }
 
-    private void assertEmpty(List<?> list) {
+    private void assertEmpty(Set<?> list) {
         assertTrue(list.isEmpty());
     }
 
-    private void assertLength(List<?> list, int length) {
+    private void assertLength(Set<?> list, int length) {
         assertEquals(length, list.size());
     }
 

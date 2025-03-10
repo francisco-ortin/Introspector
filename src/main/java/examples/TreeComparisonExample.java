@@ -34,8 +34,6 @@ public class TreeComparisonExample {
 
 		view.addTree(new IntrospectorModel("Tree 2", root2));
 		view.setVisible(true);
-
-		// TODO implementar una comparación de árboles programática
 	}
 
 

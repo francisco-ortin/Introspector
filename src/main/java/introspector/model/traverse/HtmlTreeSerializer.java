@@ -14,7 +14,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Stores a tree as a html file
@@ -32,6 +34,12 @@ public class HtmlTreeSerializer implements TreeSerializer {
     private final boolean allInfo;
 
     /**
+     * Used when two trees have been compared. The nodes in this set indicates that nodes that have been modified.
+     * These nodes must be written in red to indicate that they have are different from the other tree.
+     */
+    private final Set<Node> modifiedNodes = new HashSet<>();
+
+    /**
      * @param fileName the name of the output txt file
      * @param allInfo if all the info in the nodes must be displayed (i.e., toString() method of objects wrapped by nodes)
      * @throws IOException a textual file is opened
@@ -39,6 +47,18 @@ public class HtmlTreeSerializer implements TreeSerializer {
     public HtmlTreeSerializer(String fileName, boolean allInfo) throws IOException {
         this.outputTxtFile = new FileWriter(fileName);
         this.allInfo = allInfo;
+    }
+
+    /**
+     * @param fileName the name of the output txt file
+     * @param allInfo if all the info in the nodes must be displayed (i.e., toString() method of objects wrapped by nodes)
+     * @param modifiedNodes the nodes that have been modified in the comparison of two trees
+     * @throws IOException a textual file is opened
+     */
+    public HtmlTreeSerializer(String fileName, boolean allInfo, Set<Node> modifiedNodes) throws IOException {
+        this.outputTxtFile = new FileWriter(fileName);
+        this.allInfo = allInfo;
+        this.modifiedNodes.addAll(modifiedNodes);
     }
 
     /**
@@ -163,11 +183,18 @@ public class HtmlTreeSerializer implements TreeSerializer {
      */
     @Override
     public void traversing(Node node, int depth, boolean hasBeenVisited) throws IOException {
+        boolean modified = this.modifiedNodes.contains(node);
         if (node.isLeaf()) {
-            write(String.format("%s<li>%s</li>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));
+            if (modified)
+                write(String.format("%s<li class=\"modified\">%s</li>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));
+            else
+                write(String.format("%s<li>%s</li>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));
         }
         else {
-            write(String.format("%s<li>\n", this.prefix(depth)));
+            if (modified)
+                write(String.format("%s<li class=\"modified\">\n", this.prefix(depth)));
+            else
+                write(String.format("%s<li>\n", this.prefix(depth)));
             write(String.format("%s<details>\n", this.prefix(depth)));
             write(String.format("%s<summary>%s</summary>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));
             write(String.format("%s<ul>\n", this.prefix(depth)));

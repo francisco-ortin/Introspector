@@ -31,8 +31,8 @@ public class TreeComparator {
 	 * @return true if the trees are equal, false otherwise. The three lists are updated with the differences:
 	 * newNodes, deletedNodes and modifiedNodes.
 	 */
-	public List<Node> compareTrees(TreePath path1, TreePath path2) {
-		return compareNode(path1.getLastPathComponent(), path2.getLastPathComponent(), false, new ArrayList<>(), new ArrayList<>());
+	public Set<Node> compareTrees(TreePath path1, TreePath path2) {
+		return compareNode(path1.getLastPathComponent(), path2.getLastPathComponent(), false, new HashSet<>(), new HashSet<>());
 	}
 
 	/**
@@ -41,11 +41,11 @@ public class TreeComparator {
 	 * @param tree2 the root of the second tree
 	 * @return true if the trees are equal, false otherwise.
 	 */
-	public List<Node> compareTrees(Object tree1, Object tree2) {
+	public Set<Node> compareTrees(Object tree1, Object tree2) {
 		if (tree1 == null && tree2 == null)
-			return new ArrayList<>();  // both null => equal trees
+			return new HashSet<>();  // both null => equal trees
 		if (tree1 == null || tree2 == null) { // one null and the other not null => different trees
-			List<Node> modifiedNodes = new ArrayList<>();
+			Set<Node> modifiedNodes = new HashSet<>();
 			modifiedNodes.add(createNodeIfNeeded(tree1));
 			modifiedNodes.add(createNodeIfNeeded(tree2));
 			return modifiedNodes;
@@ -62,7 +62,7 @@ public class TreeComparator {
 	 * @param alreadyTraversed the list of nodes that have been visited in this traversal
 	 * @return the list of modified nodes
 	 */
-	private List<Node> compareNode(Object object1, Object object2, boolean equalName, List<Node> modifiedNodes, List<Node> alreadyTraversed) {
+	private Set<Node> compareNode(Object object1, Object object2, boolean equalName, Set<Node> modifiedNodes, Set<SymmetricPair<Node, Node>> alreadyTraversed) {
 		if (object1 == null && object2 != null) {
 			modifiedNodes.add((Node) object2);
 			return modifiedNodes;

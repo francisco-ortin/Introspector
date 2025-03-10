@@ -13,6 +13,8 @@ import introspector.model.Node;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Stores a tree as a txt file
@@ -30,6 +32,12 @@ public class TxtTreeSerializer implements TreeSerializer {
     private final boolean allInfo;
 
     /**
+     * Used when two trees have been compared. The nodes in this set indicates that nodes that have been modified.
+     * These nodes must be written between ** and ** to indicate that they have are different from the other tree.
+     */
+    private final Set<Node> modifiedNodes = new HashSet<>();
+
+    /**
      * @param fileName the name of the output txt file
      * @param allInfo if all the info in the nodes must be displayed (i.e., toString() method of objects wrapped by nodes)
      * @throws IOException a textual file is opened
@@ -37,6 +45,18 @@ public class TxtTreeSerializer implements TreeSerializer {
     public TxtTreeSerializer(String fileName, boolean allInfo) throws IOException {
         this.outputTxtFile = new FileWriter(fileName);
         this.allInfo = allInfo;
+    }
+
+    /**
+     * @param fileName the name of the output txt file
+     * @param allInfo if all the info in the nodes must be displayed (i.e., toString() method of objects wrapped by nodes)
+     * @param modifiedNodes the nodes that have been modified in the comparison of two trees
+     * @throws IOException a textual file is opened
+     */
+    public TxtTreeSerializer(String fileName, boolean allInfo, Set<Node> modifiedNodes) throws IOException {
+        this.outputTxtFile = new FileWriter(fileName);
+        this.allInfo = allInfo;
+        this.modifiedNodes.addAll(modifiedNodes);
     }
 
     /**
@@ -123,7 +143,12 @@ public class TxtTreeSerializer implements TreeSerializer {
     @Override
     public void traversing(Node node, int depth, boolean hasBeenVisited) throws IOException {
         if (this.allInfo) {
-            StringBuilder sb = new StringBuilder(node.getName());
+            StringBuilder sb = new StringBuilder();
+            if (this.modifiedNodes.contains(node))
+                sb.append("**");
+            sb.append(node.getName());
+            if (this.modifiedNodes.contains(node))
+                sb.append("**");
             Class<?> type = node.getType();
             sb.append(" (").append(type.getSimpleName()).append(")");
             if (hasBeenVisited)
@@ -136,8 +161,15 @@ public class TxtTreeSerializer implements TreeSerializer {
             sb.append(".");
             write(sb.toString());
         }
-        else
-            write(node.toString() + ".");
+        else {
+            if (this.modifiedNodes.contains(node))
+                write("** ");
+            write(node.toString());
+            if (this.modifiedNodes.contains(node))
+                write(" **");
+            else
+                write(".");
+        }
         write("\n");
     }
 

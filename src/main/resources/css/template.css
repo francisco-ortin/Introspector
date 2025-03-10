@@ -42,6 +42,10 @@
       border-width : 0 0 2px 2px;
     }
 
+    .tree ul li.modified {
+      color: red;
+    }
+
     .tree summary{
       display : block;
       cursor  : pointer;

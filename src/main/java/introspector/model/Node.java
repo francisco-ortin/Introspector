@@ -7,10 +7,13 @@
 
 package introspector.model;
 
+import introspector.model.traverse.SymmetricPair;
+
 import javax.lang.model.type.NullType;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The interface Node represents the nodes in the tree that models the structure of the program at runtime.
@@ -80,13 +83,13 @@ public interface Node {
 
 
 	/** Compare two trees and return the list of modified nodes.
-	 * @param node The node to compare with the other tree
+	 * @param node2 The node to compare with the other tree
 	 * @param equalName Whether the node names must be the same or not (important for root nodes)
 	 * @param modifiedNodes The list of modified nodes
 	 * @param alreadyTraversed The list of nodes that have been visited in this traversal
 	 * @return The list of modified nodes
 	 */
-	List<Node> compareTrees(Node node, boolean equalName, List<Node> modifiedNodes, List<Node> alreadyTraversed);
+	Set<Node> compareTrees(Node node2, boolean equalName, Set<Node> modifiedNodes, Set<SymmetricPair<Node, Node>> alreadyTraversed);
 
 
 }

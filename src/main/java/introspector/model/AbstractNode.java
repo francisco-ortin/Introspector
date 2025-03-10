@@ -7,6 +7,7 @@
 
 package introspector.model;
 
+import introspector.model.traverse.SymmetricPair;
 import introspector.model.traverse.TraverseHelper;
 
 import java.util.*;
@@ -176,11 +177,12 @@ public abstract class AbstractNode implements Node {
 	}
 
 	/**
-	 * @see Node#compareTrees(Node, boolean, List, List)
+	 * @see Node#compareTrees(Node, boolean, Set, Set)
 	 */
-	public List<Node> compareTrees(Node node2, boolean equalName, List<Node> modifiedNodes, List<Node> alreadyTraversed) {
+	@Override
+	public Set<Node> compareTrees(Node node2, boolean equalName, Set<Node> modifiedNodes, Set<SymmetricPair<Node, Node>> alreadyTraversed) {
 		// This is the implementation for leaf nodes
-		if (!TraverseHelper.shouldBeTraversed(this, alreadyTraversed))
+		if (!TraverseHelper.shouldBeTraversed(new SymmetricPair<>(this, node2), alreadyTraversed))
 			return modifiedNodes; // cycle detected
 		if (this.getValue() == null && node2.getValue() == null)
 			return modifiedNodes;

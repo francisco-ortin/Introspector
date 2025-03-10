@@ -10,6 +10,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This controller implements the comparison of two trees selected by the user.
@@ -38,7 +39,7 @@ public class CompareTreesController {
 		// get the two selected nodes
 		Pair<JTree, TreePath>[] selectedNodes = this.getSelectedNodes(trees);
 		TreeComparator treeComparator = new TreeComparator();
-		List<Node> modifiedNodes = treeComparator.compareTrees(selectedNodes[0].getSecond(), selectedNodes[1].getSecond());
+		Set<Node> modifiedNodes = treeComparator.compareTrees(selectedNodes[0].getSecond(), selectedNodes[1].getSecond());
 		// Show as colored nodes those that are different
 		showSelectedNodes(trees, modifiedNodes);
 		// Show a message in the status bar
@@ -47,7 +48,7 @@ public class CompareTreesController {
 
 	}
 
-	private static void showSelectedNodes(List<JTree> trees, List<Node> modifiedNodes) {
+	private static void showSelectedNodes(List<JTree> trees, Set<Node> modifiedNodes) {
 		for(JTree tree: trees) {
 			// Set the custom renderer once for the entire tree
 			tree.setCellRenderer(new DefaultTreeCellRenderer() {
