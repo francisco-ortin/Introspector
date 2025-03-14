@@ -28,6 +28,20 @@ public class IntrospectorModel implements TreeModel {
 	 * @param root The object that will be used as the root node of the tree.
 	 */
 	public IntrospectorModel(String name, Object root) {
+		this(name, root, false);
+	}
+
+	/**
+	 * Constructs a tres given its name, the root object and whether the tree should be cloned deeply.
+	 * @param name The name used to visualize the tree.
+	 * @param root The object that will be used as the root node of the tree.
+	 * @param deepClone Whether the tree should be cloned deeply. This is important when the tree is going to be
+	 *                     compared with a later version of the tree. In such a case, it must be cloned deeply to
+	 *                     show the differences between the two trees.
+	 */
+	public IntrospectorModel(String name, Object root, boolean deepClone) {
+		if (deepClone)
+			root = DeepCloner.deepClone(root);
 		this.root = NodeFactory.createNode(name, root, root.getClass());
 	}
 

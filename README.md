@@ -105,17 +105,18 @@ into an HTML or txt file. To store the object structure pointed by the
 ## Compilation
 
 You can use maven to compile, test and package Introspector. Alternatively,
-you can 1) copy the contents of src/main/resources folder into src/main/java and 
-2) go to the src/main/java directory and compile Introspector by:
+you can 
+1. Copy the contents of `src/main/resources` folder into `src/main/java` and 
+2. Go to the `src/main/java` directory and compile Introspector by:
 
-``` Java
+``` Bash
     javac introspector/*.java
     javac examples/*.java
 ``` 
 
 Then, you can run any example, just like:
 
-``` Java
+``` Bash
     java examples.IntrospectorDemo
 ``` 
 

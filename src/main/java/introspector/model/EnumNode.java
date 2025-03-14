@@ -18,6 +18,7 @@ public class EnumNode extends AbstractNode  implements Node {
 		super(name, value, type);
 	}
 
+
 	/**
 	 * @see Node#isLeaf()
 	 */

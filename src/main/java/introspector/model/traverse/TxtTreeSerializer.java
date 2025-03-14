@@ -142,12 +142,13 @@ public class TxtTreeSerializer implements TreeSerializer {
      */
     @Override
     public void traversing(Node node, int depth, boolean hasBeenVisited) throws IOException {
+        boolean modifiedNode = this.modifiedNodes.stream().anyMatch(eachNode -> eachNode.getValue() == node.getValue());
         if (this.allInfo) {
             StringBuilder sb = new StringBuilder();
-            if (this.modifiedNodes.contains(node))
+            if (modifiedNode)
                 sb.append("**");
             sb.append(node.getName());
-            if (this.modifiedNodes.contains(node))
+            if (modifiedNode)
                 sb.append("**");
             Class<?> type = node.getType();
             sb.append(" (").append(type.getSimpleName()).append(")");
@@ -162,10 +163,10 @@ public class TxtTreeSerializer implements TreeSerializer {
             write(sb.toString());
         }
         else {
-            if (this.modifiedNodes.contains(node))
+            if (modifiedNode)
                 write("** ");
             write(node.toString());
-            if (this.modifiedNodes.contains(node))
+            if (modifiedNode)
                 write(" **");
             else
                 write(".");

@@ -33,6 +33,7 @@ public class BuiltinTypeNode extends AbstractNode implements Node {
 		super(name, value, type);
 	}
 
+
 	/**
 	 * A builtin node is leaf.
 	 *

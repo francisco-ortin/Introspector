@@ -52,12 +52,13 @@ public class CollectionNode extends AbstractNode implements Node  {
 	@Override
 	public List<Node> getChildren() {
 		List<Node> nodes = new ArrayList<>();
+		if (this.getValue() == null)
+			return nodes;
 		Collection<?> fields = (Collection<?>) this.getValue();
 		int index = 0;
 		for (Object field : fields) {
 			if (field == null) {
-				System.err.printf("Introspector: the collection \"%s\" has a null reference in its item number %d.\n",
-						getName(), index);
+				//System.err.printf("Introspector: the collection \"%s\" has a null reference in its item number %d.\n", getName(), index);
 				nodes.add(NodeFactory.createNode(getName() + "[" + index++ + "]", null, null));
 			} else
 				nodes.add(NodeFactory.createNode(getName() + "[" + index++ + "]", field, field.getClass()));

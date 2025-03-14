@@ -10,6 +10,7 @@ package introspector.model;
 import introspector.model.traverse.SymmetricPair;
 
 import javax.lang.model.type.NullType;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Set;
  * The interface Node represents the nodes in the tree that models the structure of the program at runtime.
  * See the derived classes to find the appropriate one to instantiate.
  */
-public interface Node {
+public interface Node extends Serializable {
 
 	/**
 	 * Returns the name of the node

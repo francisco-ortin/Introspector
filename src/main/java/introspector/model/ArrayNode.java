@@ -51,11 +51,13 @@ public class ArrayNode extends AbstractNode implements Node  {
 	@Override
 	public List<Node> getChildren() {
 		List<Node> children = new ArrayList<>();
+		if (this.getValue() == null)
+			return children;
 		int length = Array.getLength(getValue());
 		for (int i = 0; i < length; i++) {
 			Object element = Array.get(getValue(), i);
 			if (element == null) {
-				System.err.printf("Introspector: the array \"%s\" has a null reference in its item number %d.\n", getName(), i);
+				//System.err.printf("Introspector: the array \"%s\" has a null reference in its item number %d.\n", getName(), i);
 				children.add(NodeFactory.createNode(getName() + "[" + i + "]", null, null));
 			} else
 				children.add(NodeFactory.createNode(getName() + "[" + i + "]", element, element.getClass()));

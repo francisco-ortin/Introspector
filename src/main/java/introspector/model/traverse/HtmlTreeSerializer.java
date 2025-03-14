@@ -183,7 +183,7 @@ public class HtmlTreeSerializer implements TreeSerializer {
      */
     @Override
     public void traversing(Node node, int depth, boolean hasBeenVisited) throws IOException {
-        boolean modified = this.modifiedNodes.contains(node);
+        boolean modified = this.modifiedNodes.stream().anyMatch(eachNode -> eachNode.getValue() == node.getValue());
         if (node.isLeaf()) {
             if (modified)
                 write(String.format("%s<li class=\"modified\">%s</li>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));

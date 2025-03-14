@@ -43,8 +43,11 @@ public class CompareTreesController {
 		// Show as colored nodes those that are different
 		showSelectedNodes(trees, modifiedNodes);
 		// Show a message in the status bar
-		ViewHelper.showMessageInStatus(this.statusLabel,
-				String.format("Trees compared. Different nodes are shown in red."));
+		if (modifiedNodes.isEmpty())
+			ViewHelper.showMessageInStatus(this.statusLabel, "Trees are equal.");
+		else
+			ViewHelper.showMessageInStatus(this.statusLabel,
+				String.format("Trees are not equal. Different nodes are shown in red."));
 
 	}
 
@@ -57,7 +60,7 @@ public class CompareTreesController {
 					// Get the default component for the tree node
 					Component component = super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 					// If this row is in the set of nodes to be colored, set the font color to blue
-					if (modifiedNodes.contains(value))
+					if (modifiedNodes.stream().map(node -> node.toString()).anyMatch(str -> str.equals(value.toString())))
 						component.setForeground(Color.RED);
 					else
 						component.setForeground(Color.BLACK);

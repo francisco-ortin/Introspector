@@ -144,8 +144,8 @@ public abstract class AbstractNode implements Node {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof AbstractNode node)
-			return this.value == node.value;
+		if (obj instanceof Node node)
+			return this.value == node.getValue();
 		else
 			return false;  // not the same type, different objects
 	}
@@ -155,7 +155,7 @@ public abstract class AbstractNode implements Node {
 	 */
 	@Override
 	public int hashCode() {
-		return this.name.hashCode();
+		return  this.name.hashCode();
 	}
 
 	/**

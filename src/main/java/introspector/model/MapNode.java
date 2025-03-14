@@ -31,6 +31,7 @@ public class MapNode extends AbstractNode  implements Node {
 		super(name, value, type);
 	}
 
+
 	/**
 	 * A map node is not leaf.
 	 *
@@ -51,6 +52,8 @@ public class MapNode extends AbstractNode  implements Node {
 	@Override
 	public List<Node> getChildren() {
 		List<Node> nodes = new ArrayList<>();
+		if (this.getValue() == null)
+			return nodes;
 		// maps are not ordered, so we must define an order to show the map entries and improve its comparison
 		// however, we cannot use the natural order of the keys if one is null
 		Map<?, ?> sortedMap;
@@ -64,15 +67,14 @@ public class MapNode extends AbstractNode  implements Node {
 		}
 		for (Map.Entry<?, ?> entry : sortedMap.entrySet()) // we traverse with in the order of the natural order of the keys
 			if (entry.getKey() == null) {
-				System.err.printf("Introspector: the map \"%s\" has a null key.\n", getName());
+				//System.err.printf("Introspector: the map \"%s\" has a null key.\n", getName());
 				if (entry.getValue() != null)
 					nodes.add(NodeFactory.createNode(
 							getName() + "[" + null + "]", entry.getValue(), entry.getValue().getClass()));
 				else
 					nodes.add(NodeFactory.createNode(getName() + "[" + null + "]", null, null));
 			} else if (entry.getValue() == null) {
-				System.err.printf("Introspector: the map \"%s\" has a null value for the key \"%s\".\n",
-						getName(), entry.getKey());
+				//System.err.printf("Introspector: the map \"%s\" has a null value for the key \"%s\".\n", getName(), entry.getKey());
 				nodes.add(NodeFactory.createNode(
 						getName() + "[" + entry.getKey().toString() + "]", null, null));
 			} else

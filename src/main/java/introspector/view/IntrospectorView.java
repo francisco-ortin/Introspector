@@ -163,6 +163,7 @@ public class IntrospectorView extends JFrame {
 	 */
 	public IntrospectorView(String title, TreeModel model, int width, int height, boolean show) {
 		super(title);
+		//this.setUIFont(new Font("ScanSerif", Font.PLAIN, 16)); // make the font bigger
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(width, height);
 
@@ -301,6 +302,23 @@ public class IntrospectorView extends JFrame {
 		return this.trees;
 	}
 
+
+	/**
+	 * Sets the font of the UI
+	 * @param font the font to be set
+	 */
+	private void setUIFont(Font font) {
+		UIManager.put("Label.font", font);
+		UIManager.put("Button.font", font);
+		UIManager.put("Menu.font", font);
+		UIManager.put("MenuItem.font", font);
+		UIManager.put("TextField.font", font);
+		UIManager.put("TextArea.font", font);
+		UIManager.put("ComboBox.font", font);
+		UIManager.put("List.font", font);
+		UIManager.put("InternalFrame.titleFont", font);
+		UIManager.put("ToolTip.font", font);
+	}
 
 	/**
 	 * A tree window is created and displayed: default size and visible

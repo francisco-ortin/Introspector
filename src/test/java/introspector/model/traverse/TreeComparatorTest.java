@@ -119,7 +119,7 @@ class TreeComparatorTest {
     @Test
     void testCompareCollectionWrong() {
         assertLength(treeComparator.compareTrees(createNode("root 1", new ArrayList<>(Arrays.asList(1, 2, 3))),
-                createNode("root 2", new ArrayList<>(Arrays.asList(1, 3, 2)))), 4);
+                createNode("root 2", new ArrayList<>(Arrays.asList(1, -1, 3)))), 2);
         assertLength(treeComparator.compareTrees(createNode("root 1", new ArrayList<>(Arrays.asList(1, 2, 3))),
                 createNode("root 2", new ArrayList<>(Arrays.asList(1, 2)))), 2);
         assertLength(treeComparator.compareTrees(createNode("root 1", new ArrayList<>(Arrays.asList(1, 2, 3))),

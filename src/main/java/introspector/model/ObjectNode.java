@@ -34,6 +34,7 @@ public class ObjectNode extends AbstractNode  implements Node {
 		super(name, value, type);
 	}
 
+
 	/**
 	 * Indicates if the isLeaf method has been previously called, and hence cached.
 	 */
