@@ -24,8 +24,7 @@ public class IntrospectorDemo {
 	public static void main(String... args) {
 		// we use introspector as ana application to visualize an object structure as a tree
 		RootClass myObject = new RootClass();
-		IntrospectorModel model = new IntrospectorModel("Tree", myObject);
-		IntrospectorView view = new IntrospectorView("Introspector", model);
+		new IntrospectorView("Introspector", "Tree", myObject);
 		// Introspector can also be used programmatically to dump object structures as html and txt files
 		Introspector.writeTreeAsTxt(myObject, "Root", "out/output.txt");
 		Introspector.writeTreeAsHtml(myObject, "Root", "out/output.html", true);

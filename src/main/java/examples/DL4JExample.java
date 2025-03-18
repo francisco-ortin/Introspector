@@ -103,7 +103,7 @@ public class DL4JExample {
 		MultiLayerNetwork model = new MultiLayerNetwork(conf);
 		model.init();
 
-		new IntrospectorView("DJ4J Introspection", "Deep Neural Network", model, true);
+		new IntrospectorView("DJ4J Introspection", "Deep Neural Network", model);
 
 		// Add a listener to print the loss during training
 		model.setListeners(new ScoreIterationListener(10));
