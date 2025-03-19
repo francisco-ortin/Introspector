@@ -4,6 +4,8 @@ import java.util.AbstractMap;
 
 /**
  * A basic tuple of two symmetric elements. The order of the elements is not important.
+ * @param <T1> the type of the first element
+ * @param <T2> the type of the second element
  */
 public class SymmetricPair<T1, T2> extends AbstractMap.SimpleEntry<T1, T2> {
 	public SymmetricPair(T1 key, T2 value) {

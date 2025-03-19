@@ -16,11 +16,15 @@ import java.io.PrintWriter;
  */
 public class ConsoleTreeSerializer extends TxtTreeSerializer {
 
+    /**
+     * Constructor of the class
+     */
     ConsoleTreeSerializer()  {
         super(new PrintWriter(System.out));
     }
 
     /**
+     * Constructor of the class
      * @param allInfo if all the info in the nodes must be displayed (i.e., toString() method of objects wrapped by nodes)
      */
     public ConsoleTreeSerializer(boolean allInfo)  {

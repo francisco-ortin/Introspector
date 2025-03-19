@@ -7,6 +7,7 @@
 
 package introspector;
 
+import introspector.Introspector;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

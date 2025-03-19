@@ -10,7 +10,6 @@ package introspector.view;
 
 import introspector.model.IntrospectorModel;
 import introspector.model.Node;
-import introspector.model.NodeFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -5,17 +5,11 @@ package examples; /**
  * @author Francisco Ortin
  */
 
-import introspector.model.DeepCloner;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 /**
- * Example and simple use of Introspector.
- * This example shows how to compare the same tree in two different states.
+ * Example use of Introspector showing how to compare the same tree in two different points of execution.
  */
 public class DeepCloneTreeComparisonExample {
 

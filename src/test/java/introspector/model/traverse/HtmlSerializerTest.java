@@ -8,6 +8,8 @@ package introspector.model.traverse;
 
 import introspector.model.Node;
 import introspector.model.NodeFactory;
+import introspector.model.traverse.HtmlTreeSerializer;
+import introspector.model.traverse.TreeSerializer;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

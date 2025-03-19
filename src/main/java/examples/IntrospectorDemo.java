@@ -6,14 +6,12 @@ package examples; /**
  */
 
 import introspector.Introspector;
-import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
 import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Example and simple use of Introspector.
- * It includes enums, records, objects, lists, and built-in types.
+ * Example use of Introspector including enums, records, objects, lists, and built-in types.
  */
 public class IntrospectorDemo {
 
@@ -36,6 +34,9 @@ public class IntrospectorDemo {
  * Example enumeration
  */
 enum Color {
+	/**
+	 * Different colors: red, blue, green
+	 */
 	red, blue, green
 }
 
@@ -68,8 +69,15 @@ class RootClass {
  * Example child class representing an intermediate node.
  */
 class Node {
+	/**
+	 * Name of the node
+	 */
 	private final String name;
-	
+
+	/**
+	 * Constructor
+	 * @param name name of the node
+	 */
 	Node(String name) {
 		this.name = name;
 	}

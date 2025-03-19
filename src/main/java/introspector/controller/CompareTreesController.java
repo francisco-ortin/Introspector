@@ -2,7 +2,6 @@ package introspector.controller;
 
 import introspector.model.Node;
 import introspector.model.traverse.TreeComparator;
-import introspector.view.IntrospectorView;
 import introspector.view.ViewHelper;
 
 import javax.swing.*;
@@ -22,6 +21,10 @@ public class CompareTreesController {
 	 */
 	private final JLabel statusLabel;
 
+	/**
+	 * Constructor
+	 * @param statusLabel the label where the status message is written
+	 */
 	public CompareTreesController(JLabel statusLabel) {
 		this.statusLabel = statusLabel;
 	}
@@ -37,7 +40,7 @@ public class CompareTreesController {
 			return;
 		}
 		// get the two selected nodes
-		Pair<JTree, TreePath>[] selectedNodes = this.getSelectedNodes(trees);
+		Pair[] selectedNodes = this.getSelectedNodes(trees);
 		TreeComparator treeComparator = new TreeComparator();
 		Set<Node> modifiedNodes = treeComparator.compareTrees(selectedNodes[0].getSecond(), selectedNodes[1].getSecond());
 		// Show as colored nodes those that are different
@@ -51,6 +54,11 @@ public class CompareTreesController {
 
 	}
 
+	/**
+	 * Shows the nodes that are different in the trees
+	 * @param trees the trees
+	 * @param modifiedNodes the nodes that are different
+	 */
 	private static void showSelectedNodes(List<JTree> trees, Set<Node> modifiedNodes) {
 		for(JTree tree: trees) {
 			// Set the custom renderer once for the entire tree
@@ -59,11 +67,11 @@ public class CompareTreesController {
 				public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 					// Get the default component for the tree node
 					Component component = super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
-					// If this row is in the set of nodes to be colored, set the font color to blue
+						// If this row is in the set of nodes to be colored, set the font color to red
 					if (modifiedNodes.stream().map(node -> node.toString()).anyMatch(str -> str.equals(value.toString())))
 						component.setForeground(Color.RED);
 					else
-						component.setForeground(Color.BLACK);
+							component.setForeground(Color.BLACK);
 					return component;
 				}
 			});
@@ -88,6 +96,11 @@ public class CompareTreesController {
 		return selectedNodes;
 	}
 
+	/**
+	 * Checks if exactly two nodes are selected in the trees
+	 * @param trees the trees
+	 * @return true if exactly two nodes are selected
+	 */
 	private boolean twoNodesSelected(List<JTree> trees) {
 		int numberOfSelectedNodes = 0;
 		for (JTree tree : trees)

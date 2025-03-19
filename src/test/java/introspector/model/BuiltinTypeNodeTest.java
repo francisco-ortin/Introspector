@@ -8,6 +8,7 @@
 
 package introspector.model;
 
+import introspector.model.BuiltinTypeNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

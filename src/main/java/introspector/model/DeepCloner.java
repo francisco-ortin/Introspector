@@ -21,6 +21,9 @@ import java.io.ByteArrayOutputStream;
  */
 public class DeepCloner {
 
+	/**
+	 * The Kryo object used to serialize and deserialize the objects to undertake deep cloning.
+	 */
 	private static final Kryo kryo = new Kryo();
 
 	static {
@@ -29,6 +32,11 @@ public class DeepCloner {
 		kryo.setRegistrationRequired(false);
 	}
 
+	/**
+	 * Deep clones a Node tree.
+	 * @param original the original Node tree.
+	 * @return a deep copy of the original Node tree.
+	 */
 	public static Node deepClone(Node original) {
 		// Serialize the object
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -43,6 +51,12 @@ public class DeepCloner {
 		return clonedObject;
 	}
 
+	/**
+	 * Deep clones an object.
+	 * @param original the original object.
+	 * @param <T> the type of the object.
+	 * @return a deep copy of the original object.
+	 */
 	public static <T> T deepClone(T original) {
 		Node originalNode = NodeFactory.createNode("root", original);
 		Node clonedNode = deepClone(originalNode);

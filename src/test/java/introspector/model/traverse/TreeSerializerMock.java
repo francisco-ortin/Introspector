@@ -8,6 +8,7 @@
 package introspector.model.traverse;
 
 import introspector.model.Node;
+import introspector.model.traverse.TreeSerializer;
 
 import java.io.FileWriter;
 import java.io.IOException;

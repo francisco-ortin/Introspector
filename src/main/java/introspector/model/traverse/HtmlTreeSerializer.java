@@ -8,14 +8,10 @@
 package introspector.model.traverse;
 
 import introspector.model.Node;
-import introspector.view.ViewHelper;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -40,6 +36,7 @@ public class HtmlTreeSerializer implements TreeSerializer {
     private final Set<Node> modifiedNodes = new HashSet<>();
 
     /**
+     * This constructor creates an object to write the tree in a file
      * @param fileName the name of the output txt file
      * @param allInfo if all the info in the nodes must be displayed (i.e., toString() method of objects wrapped by nodes)
      * @throws IOException a textual file is opened
@@ -50,6 +47,7 @@ public class HtmlTreeSerializer implements TreeSerializer {
     }
 
     /**
+     * This constructor creates an object to write the tree in a file
      * @param fileName the name of the output txt file
      * @param allInfo if all the info in the nodes must be displayed (i.e., toString() method of objects wrapped by nodes)
      * @param modifiedNodes the nodes that have been modified in the comparison of two trees
@@ -71,6 +69,7 @@ public class HtmlTreeSerializer implements TreeSerializer {
     }
 
     /**
+     * This constructor creates an object to write the tree in a file with all the information in the nodes
      * @param writer the textual output stream
      * @param allInfo if all the info in the nodes must be displayed (i.e., toString() method of objects wrapped by nodes)
      */

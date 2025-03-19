@@ -12,8 +12,17 @@ package examples.ast;
  */
 public class IntLiteral extends Expression {
 
+	/**
+	 * The value of the literal.
+	 */
 	public int value;
-	
+
+	/**
+	 * Constructor of the integer literal.
+	 * @param line Line in the source code.
+	 * @param column Column in the source code.
+	 * @param value The value of the literal.
+	 */
 	public IntLiteral(int line, int column, int value) {
 		super(line, column);
 		this.value=value;

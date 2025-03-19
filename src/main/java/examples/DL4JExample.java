@@ -9,7 +9,7 @@
 package examples;
 
 
-import introspector.view.IntrospectorView;
+import introspector.test.view.IntrospectorView;
 import org.deeplearning4j.nn.conf.*;
 import org.deeplearning4j.nn.conf.layers.*;
 import org.deeplearning4j.nn.conf.layers.recurrent.Bidirectional;

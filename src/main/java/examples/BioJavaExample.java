@@ -9,7 +9,7 @@
 package examples;
 
 import introspector.model.IntrospectorModel;
-import introspector.view.IntrospectorView;
+import introspector.test.view.IntrospectorView;
 import org.biojava.nbio.core.sequence.DNASequence;
 import org.biojava.nbio.core.sequence.transcription.TranscriptionEngine;
 import org.biojava.nbio.core.sequence.ProteinSequence;

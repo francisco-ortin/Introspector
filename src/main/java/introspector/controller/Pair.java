@@ -11,6 +11,8 @@ import java.util.AbstractMap;
 
 /**
  * A basic tuple of two elements.
+ * @param <T1> the type of the first element
+ * @param <T2> the type of the second element
  */
 public class Pair<T1, T2> extends AbstractMap.SimpleEntry<T1, T2> {
 	public Pair(T1 key, T2 value) {

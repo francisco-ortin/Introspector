@@ -7,6 +7,7 @@
 
 package introspector;
 
+import introspector.Introspector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ public class IntrospectorCompareTreesTest {
 
     @Test
     public void testCompareTreesBuiltinRight()  {
-        assertTrue(Introspector.compareTrees(33, 33));
+        Assertions.assertTrue(Introspector.compareTrees(33, 33));
         assertTrue(Introspector.compareTrees("hi", "hi"));
         assertTrue(Introspector.compareTrees(3.4, 3.4));
         assertTrue(Introspector.compareTrees(null, null));

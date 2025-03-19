@@ -22,6 +22,7 @@ public class NodeFactory {
 
 	/**
 	 * Method to know if the {@code type} parameter is a built-in type.
+	 * @param <T> The type of the object
 	 * @param type The type to know whether it is built-in
 	 * @return Whether the type is built-in
 	 */
@@ -37,6 +38,7 @@ public class NodeFactory {
 
 	/**
 	 * Method to know if a the {@code type} parameter is an enum type.
+	 * @param <T> The type of the object
 	 * @param type The type to know whether it is an enum
 	 * @return Whether the type is an enum
 	 */

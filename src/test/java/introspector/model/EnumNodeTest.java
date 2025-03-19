@@ -10,6 +10,8 @@ package introspector.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import introspector.model.AbstractNode;
+import introspector.model.NodeFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +28,7 @@ class EnumNodeTest {
 
     @BeforeEach
     void createColors() {
-        this.blueNode = (AbstractNode)NodeFactory.createNode("BlueNode", Color.BLUE);
+        this.blueNode = (AbstractNode) NodeFactory.createNode("BlueNode", Color.BLUE);
         this.greenNode = (AbstractNode)NodeFactory.createNode("GreenNode", Color.GREEN);
         this.redNode =(AbstractNode) NodeFactory.createNode("RedNode", Color.RED);
     }

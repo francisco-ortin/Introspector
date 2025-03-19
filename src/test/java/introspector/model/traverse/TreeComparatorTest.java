@@ -8,6 +8,7 @@ package introspector.model.traverse;
 import javax.swing.tree.TreePath;
 
 import introspector.model.NodeFactory;
+import introspector.model.traverse.TreeComparator;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

@@ -5,17 +5,13 @@ package examples; /**
  * @author Francisco Ortin
  */
 
-import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * Example and simple use of Introspector.
- * This example shows how to show multiple trees in the same window.
+ * Example use of Introspector showing how to show multiple trees in the same window.
  */
 public class MultipleTreesExample {
 
@@ -42,6 +38,7 @@ public class MultipleTreesExample {
 	 * @param id primary key of the person
 	 * @param firstName first name of the person
 	 * @param lastName family name of the person
+	 * @param anything any object
 	 */
 	record Person(int id, String firstName, String lastName, Object anything) {
 	}

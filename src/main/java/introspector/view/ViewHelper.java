@@ -7,14 +7,8 @@
 
 package introspector.view;
 
-import introspector.controller.ExpandTreeController;
-import introspector.controller.ExportTreeController;
-import introspector.controller.NodeSelectedController;
-import introspector.controller.TreeMouseClickController;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.tree.TreeModel;
 import java.awt.*;
 import java.io.File;
 import java.net.URL;

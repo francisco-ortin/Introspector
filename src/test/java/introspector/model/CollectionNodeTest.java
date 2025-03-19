@@ -8,6 +8,8 @@
 
 package introspector.model;
 
+import introspector.model.CollectionNode;
+import introspector.model.Node;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

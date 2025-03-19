@@ -9,8 +9,6 @@ package examples;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
 
-import java.util.Optional;
-
 /**
  * Example use of Introspector with graphs where cycles exist (not as a tree).
  * The cycles are represented as repeated nodes, so they could be expanded infinitive.

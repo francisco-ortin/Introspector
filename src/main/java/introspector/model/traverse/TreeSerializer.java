@@ -20,11 +20,13 @@ public interface TreeSerializer {
 
     /**
      * This method is called at the beginning of the tree traversal
+     * @throws IOException if there is an error writing the tree
      */
     void beginTraverse() throws IOException;
 
     /**
      * This method is called after the whole tree has been traversed
+     * @throws IOException if there is an error writing the tree
      */
     void endTraverse() throws IOException;
 
@@ -33,6 +35,7 @@ public interface TreeSerializer {
      * @param node the node that is up to be traversed
      * @param depth the depth of the node
      * @param hasBeenVisited if the node has already been visited in the current traversal (to detect cycles)
+     * @throws IOException if there is an error writing the tree
      */
     void beforeTraversing(Node node, int depth, boolean hasBeenVisited) throws IOException;
 
@@ -41,6 +44,7 @@ public interface TreeSerializer {
      * @param node the node that is up being traversed
      * @param depth the depth of the node
      * @param hasBeenVisited if the node has already been visited in the current traversal (to detect cycles)
+     * @throws IOException if there is an error writing the tree
      */
     void traversing(Node node, int depth, boolean hasBeenVisited) throws IOException;
 
@@ -49,6 +53,7 @@ public interface TreeSerializer {
      * @param node the node that has just been traversed
      * @param depth the depth of the node
      * @param hasBeenVisited if the node has already been visited in the current traversal (to detect cycles)
+     * @throws IOException if there is an error writing the tree
      */
     void afterTraversing(Node node, int depth, boolean hasBeenVisited) throws IOException;
 

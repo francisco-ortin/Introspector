@@ -12,9 +12,21 @@ package examples.ast;
  */
 public abstract class ASTNode {
 
+    /**
+     * Line where the node is located in the source code.
+     */
     int line;
+
+    /**
+     * Column where the node is located in the source code.
+     */
     int column;
 
+    /**
+     * Constructor of the ASTNode class.
+     * @param line Line where the node is located in the source code.
+     * @param column Column where the node is located in the source code.
+     */
     public ASTNode(int line, int column) {
         this.line = line;
         this.column = column;

@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Example and simple use of Introspector.
- * This example shows how to compare the same tree at different times.
+ * Example and simple use of Introspector showing how to compare the same tree at different times.
  */
 public class SameTreeComparisonOverTimeExample {
 

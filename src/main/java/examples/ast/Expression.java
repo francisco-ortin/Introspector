@@ -12,12 +12,23 @@ package examples.ast;
  * Expressions of the language.
  */
 public abstract class Expression extends ASTNode {
-	
+
+	/**
+	 * The type of the expression.
+	 */
 	public Type type;
-	
+
+	/**
+	 * Constructor
+	 * @param line
+	 * @param column
+	 */
 	public Expression(int line, int column) {
 		super(line, column);
 	}
 
+	/**
+	 * Whether the expression could be assigned to.
+	 */
 	public boolean lvalue;
 }

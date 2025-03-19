@@ -11,7 +11,6 @@ import introspector.controller.*;
 import introspector.model.IntrospectorModel;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Objects;
 import javax.swing.*;
@@ -296,6 +295,7 @@ public class IntrospectorView extends JFrame {
 	}
 
 	/**
+	 * Returns the list of JTrees in the view.
 	 * @return the JTree in the view
 	 */
 	public List<JTree> getTrees() {
@@ -331,6 +331,7 @@ public class IntrospectorView extends JFrame {
 	/**
 	 * A tree window is created and displayed: default size and visible
 	 * @param title the title of the window
+	 * @param treeName the name of the tree
 	 * @param model the model to be shown as a tree
 	 */
 	public IntrospectorView(String title, String treeName, Object model) {
@@ -348,6 +349,7 @@ public class IntrospectorView extends JFrame {
 	/**
 	 * A tree window is created: default size
 	 * @param title the title of the window
+	 * @param treeName the name of the tree
 	 * @param model the model to be shown as a tree
 	 * @param show whether the window must be shown
 	 */

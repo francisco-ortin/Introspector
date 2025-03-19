@@ -8,14 +8,12 @@
 package introspector.controller;
 
 import introspector.model.Node;
-import introspector.model.NodeFactory;
 import introspector.model.traverse.HtmlTreeSerializer;
 import introspector.model.traverse.TxtTreeSerializer;
 import introspector.model.traverse.WriteTreeTraversal;
 import introspector.view.ViewHelper;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.TreePath;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +36,7 @@ public class ExportTreeController {
 	private final JFrame frame;
 
 	/**
+	 * Constructor of the controller.
 	 * @param frame the parent frame
 	 * @param trees the JTrees where the tree is displayed
 	 */
@@ -47,6 +46,7 @@ public class ExportTreeController {
 	}
 
 	/**
+	 * Constructor of the controller.
 	 * @param frame the parent frame
 	 * @param tree the JTree where the tree is displayed
 	 */

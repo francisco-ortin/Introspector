@@ -1,9 +1,11 @@
-package examples; /**
+/**
  * Introspector, a tool to visualize as trees the structure of runtime Java programs.
  * Copyright (c) <a href="https://reflection.uniovi.es/ortin/">Francisco Ortin</a>.
  * MIT license.
  * @author Francisco Ortin
  */
+
+package examples;
 
 import introspector.Introspector;
 import introspector.model.IntrospectorModel;
@@ -14,8 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Example and simple use of Introspector.
- * This example shows how to compare two trees visually.
+ * Example use of Introspector showing how to compare two trees visually.
  */
 public class TwoTreesComparisonVisualExample {
 
@@ -94,6 +95,7 @@ public class TwoTreesComparisonVisualExample {
 	 * @param id primary key of the person
 	 * @param firstName first name of the person
 	 * @param lastName family name of the person
+	 * @param anything any other information
 	 */
 	record Person(int id, String firstName, String lastName, Object anything) {
 	}

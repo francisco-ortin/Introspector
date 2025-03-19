@@ -12,7 +12,7 @@ import introspector.view.IntrospectorView;
 import java.util.Optional;
 
 /**
- * Example use of Introspector with optional fields.
+ * Example use of Introspector with Optional fields.
  */
 public class OptionalExample {
 

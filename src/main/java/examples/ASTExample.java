@@ -27,6 +27,7 @@ public class ASTExample {
 	 * a = (-b+3)*c;
 	 * write a,c*2;
 	 * </pre>
+	 * @return the root of the AST
 	 */
 	public static ASTNode createTree() {
 		Statement s1, s2, s3, s4, s5;

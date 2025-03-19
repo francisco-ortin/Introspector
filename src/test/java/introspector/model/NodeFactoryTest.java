@@ -7,6 +7,8 @@
 
 package introspector.model;
 
+import introspector.model.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.management.AttributeList;
@@ -31,7 +33,7 @@ class NodeFactoryTest {
     void isBuiltinType() {
         assertAll(
                 // builtin types
-                ()-> assertTrue(NodeFactory.isBuiltinType(boolean.class)),
+                ()-> Assertions.assertTrue(NodeFactory.isBuiltinType(boolean.class)),
                 ()-> assertTrue(NodeFactory.isBuiltinType(byte.class)),
                 ()-> assertTrue(NodeFactory.isBuiltinType(short.class)),
                 ()-> assertTrue(NodeFactory.isBuiltinType(int.class)),

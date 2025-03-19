@@ -9,12 +9,8 @@ package introspector.controller;
 
 import introspector.view.IntrospectorView;
 
-import javax.swing.*;
-import javax.swing.tree.TreePath;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * This controller implements the logic to resize the window and print the new size.
