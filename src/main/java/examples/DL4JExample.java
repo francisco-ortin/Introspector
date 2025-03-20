@@ -1,7 +1,7 @@
 /**
  * Example use of Introspector with the Deeplearning4j (DL4J) library.
  * To compile the following file:
- * 1) Un comment the following class.
+ * 1) Uncomment the following class.
  * 2) Use the pom-dl4j.xml file to compile the project with maven.
  */
 
@@ -100,16 +100,16 @@ public class DL4JExample {
 				.build();
 
 		// Create and initialize the network
-		MultiLayerNetwork model = new MultiLayerNetwork(conf);
-		model.init();
+		MultiLayerNetwork network = new MultiLayerNetwork(conf);
+		network.init();
 
-		new IntrospectorView("DJ4J Introspection", "Deep Neural Network", model);
+		new IntrospectorView("DJ4J Introspection", "Deep Neural Network", network);
 
 		// Add a listener to print the loss during training
-		model.setListeners(new ScoreIterationListener(10));
+		network.setListeners(new ScoreIterationListener(10));
 
 		// Print the network architecture
-		System.out.println(model.summary());
+		System.out.println(network.summary());
 	}
 }
 

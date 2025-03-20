@@ -1,7 +1,7 @@
 /**
  * Example use of Introspector with the BioJava library.
  * To compile the following file:
- * 1) Un comment the following class.
+ * 1) Uncomment the following class.
  * 2) Use the pom-biojava.xml file to compile the project with maven.
  */
 
