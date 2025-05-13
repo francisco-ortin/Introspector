@@ -40,7 +40,7 @@ public class CompareTreesController {
 			return;
 		}
 		// get the two selected nodes
-		Pair[] selectedNodes = this.getSelectedNodes(trees);
+		Pair<JTree, TreePath>[] selectedNodes = this.getSelectedNodes(trees);
 		TreeComparator treeComparator = new TreeComparator();
 		Set<Node> modifiedNodes = treeComparator.compareTrees(selectedNodes[0].getSecond(), selectedNodes[1].getSecond());
 		// Show as colored nodes those that are different
