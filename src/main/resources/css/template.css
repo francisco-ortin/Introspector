@@ -46,6 +46,10 @@
       color: red;
     }
 
+	.tree li > details > summary.modified {
+	  color: red;
+	}
+
     .tree summary{
       display : block;
       cursor  : pointer;

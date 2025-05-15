@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Example use of introspector nodes without using the view.
+ * Example use of Introspector nodes without using the view.
  * Creates different types of nodes and show them as text.
  */
 public class ShowDifferentTreesExample {

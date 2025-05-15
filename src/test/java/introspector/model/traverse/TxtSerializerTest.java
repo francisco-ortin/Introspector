@@ -48,7 +48,7 @@ class TxtSerializerTest {
         Writer writer = new StringWriter();
         TxtTreeSerializer serializer = new TxtTreeSerializer(writer);
         serializer.traversing(node, 0, true);
-        assertEquals("string (String) <cyclic reference>: hi.\n", writer.toString());
+        assertEquals("string (String) <revisited node>: hi.\n", writer.toString());
     }
 
     @Test

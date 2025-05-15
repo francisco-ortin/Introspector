@@ -47,7 +47,7 @@ public class Introspector {
 	}
 
 	/**
-	 * Writes any Java object as a tree in a textual file, showing oll the info of the objects
+	 * Writes any Java object as a tree in a textual file, showing all the info of the objects
 	 * @param treeRoot the object to be considered as the root node of the tree
 	 * @param rootName the used to display the root node
 	 * @param outputFileName the output file name
@@ -76,7 +76,7 @@ public class Introspector {
 	}
 
 	/**
-	 * Writes any Java object as a tree in an HTML file, showing oll the info of the objects
+	 * Writes any Java object as a tree in an HTML file, showing all the info of the objects
 	 * @param treeRoot the object to be considered as the root node of the tree
 	 * @param rootName the used to display the root node
 	 * @param outputFileName the output file name

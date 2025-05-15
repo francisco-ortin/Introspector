@@ -10,6 +10,7 @@ package introspector.model.traverse;
 import introspector.model.Node;
 import introspector.model.NodeFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,11 +53,11 @@ public class TraverseHelper {
 	}
 
 	/**
-	 * Returns whether a node is a cyclic reference. That is, it has been already traversed and hence
+	 * Returns whether a node is a cyclic or alias reference. That is, it has been already traversed and hence
 	 * the tree is actually a graph.
 	 * @param node the node traversed
 	 * @param alreadyTraversed a set of previously traversed nodes
-	 * @return whether the node is a cyclic reference
+	 * @return whether the node is a cyclic or alias reference
 	 */
 	static boolean hasBeenVisited(Node node, Set<Node> alreadyTraversed) {
 		return couldBeVisitedTwice(node) &&
@@ -64,11 +65,11 @@ public class TraverseHelper {
 	}
 
 	/**
-	 * Returns whether a pair of nodes have a cyclic reference. That is, it has been already traversed and hence
+	 * Returns whether a pair of nodes have a cyclic or alias reference. That is, it has been already traversed and hence
 	 * the tree is actually a graph.
 	 * @param nodePair the node traversed
 	 * @param alreadyTraversed a set of previously traversed nodes
-	 * @return whether the node is a cyclic reference
+	 * @return whether the node is a cyclic or alias reference
 	 */
 	static boolean hasBeenVisited(SymmetricPair<Node, Node> nodePair, Set<SymmetricPair<Node, Node>> alreadyTraversed) {
 		// they could be visited twice and they have been visited and...
@@ -91,7 +92,7 @@ public class TraverseHelper {
 			alreadyTraversed.add(node);
 		}
 		if (TraverseHelper.couldBeVisitedTwice(node))
-			// if it could be traversed twice (cyclic reference) then it should not be traversed when it has been visited
+			// if it could be traversed twice (cyclic or alias reference) then it should not be traversed when it has been visited
 			return !hasBeenVisited;
 		else // if it could be traversed once (no loop) then it should be traversed
 			return true;
@@ -109,11 +110,29 @@ public class TraverseHelper {
 			alreadyTraversed.add(nodePair);
 		}
 		if (TraverseHelper.couldBeVisitedTwice(nodePair))
-			// if it could be traversed twice (cyclic reference) then it should not be traversed when it has been visited
+			// if it could be traversed twice (cyclic or alias reference) then it should not be traversed when it has been visited
 			return !hasBeenVisited;
 		else // if it could be traversed once (no loop) then it should be traversed
 			return true;
 	}
 
 
+	/**
+	 * Adds the new children to the modified nodes.
+	 * @param children1 One list of nodes
+	 * @param children2 Another list of nodes
+	 * @param modifiedNodes The set of modified nodes where the new children will be added
+	 */
+    public static void addNewChildren(List<Node> children1, List<Node> children2, Set<Node> modifiedNodes) {
+		if (children1 == null || children2 == null)
+			return;
+		if (children1.size() == children2.size())
+			return; // they are the same size
+		int minChildrenCount = Math.min(children1.size(), children2.size());
+		// add the new children to the modified nodes
+		List<Node> biggesList = children1.size() > children2.size() ? children1 : children2;
+		for (int i=minChildrenCount; i < biggesList.size(); i++) {
+			modifiedNodes.add(biggesList.get(i));
+		}
+    }
 }

@@ -122,7 +122,7 @@ class TreeComparatorTest {
         assertLength(treeComparator.compareTrees(createNode("root 1", new ArrayList<>(Arrays.asList(1, 2, 3))),
                 createNode("root 2", new ArrayList<>(Arrays.asList(1, -1, 3)))), 2);
         assertLength(treeComparator.compareTrees(createNode("root 1", new ArrayList<>(Arrays.asList(1, 2, 3))),
-                createNode("root 2", new ArrayList<>(Arrays.asList(1, 2)))), 2);
+                createNode("root 2", new ArrayList<>(Arrays.asList(1, 2)))), 3);
         assertLength(treeComparator.compareTrees(createNode("root 1", new ArrayList<>(Arrays.asList(1, 2, 3))),
                 createNode("root 2", new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0)))), 6);
         assertLength(treeComparator.compareTrees(createNode("root 1", new ArrayList<>(Arrays.asList(1, 2, 3))),
@@ -148,8 +148,8 @@ class TreeComparatorTest {
 
     @Test
     void testCompareMapWrong() {
-        assertLength(treeComparator.compareTrees(createNode("root 1", Map.of("One", 1, "Two", 2, "Three", 3)),
-                createNode("root 2", Map.of("One", 1, "Two", 2))), 2);
+        assertLength(treeComparator.compareTrees(createNode("root 1", Map.of("1-One", 1, "2-Two", 2, "3-Three", 3)),
+                createNode("root 2", Map.of("1-One", 1, "2-Two", 2))), 3);
         assertLength(treeComparator.compareTrees(createNode("root 1", Map.of("One", 1, "Two", 2, "Three", 3)),
                 createNode("root 2", Map.of(1, "One", 2, "Two", 3, "Three"))), 6);
         Map<Object, Object> map1 = new HashMap<>(); map1.put(1, "One"); map1.put("Two", "Two"); map1.put("Three", 3);

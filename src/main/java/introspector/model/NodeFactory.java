@@ -55,6 +55,8 @@ public class NodeFactory {
 	public static Node createNode(String name, Object value) {
 		if (value == null)
 			return createNode(name, null, NullType.class);
+		if (value instanceof IntrospectorModel model)
+			return createNode(name, model.getRoot().getValue(), model.getRoot().getValue().getClass());
 		return createNode(name, value, value.getClass());
 	}
 

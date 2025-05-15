@@ -88,15 +88,15 @@ public class CollectionNode extends AbstractNode implements Node  {
 			}
 			List<Node> children1 = this.getChildren();
 			List<Node> children2 = mapNode2.getChildren();
-			// they must have the same number of children
+			// they may not have the same number of children
 			if (children1.size() != children2.size()) {
 				modifiedNodes.add(this);
 				modifiedNodes.add(mapNode2);
-				return modifiedNodes;
 			}
-			// they must have the same children
-			for (int i = 0; i < children1.size(); i++)
+			int minChildrenCount = Math.min(children1.size(), children2.size());
+			for (int i = 0; i < minChildrenCount; i++)
 				children1.get(i).compareTrees(children2.get(i), equalName, modifiedNodes, alreadyTraversed);
+			TraverseHelper.addNewChildren(children1, children2, modifiedNodes);
 			return modifiedNodes;
 		}
 		// node2 is not a Collection => they are different

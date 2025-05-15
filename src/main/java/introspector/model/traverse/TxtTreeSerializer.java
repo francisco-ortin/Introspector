@@ -156,7 +156,7 @@ public class TxtTreeSerializer implements TreeSerializer {
             Class<?> type = node.getType();
             sb.append(" (").append(type.getSimpleName()).append(")");
             if (hasBeenVisited)
-                sb.append(" <cyclic reference>"); // there is a cycle in the data structure (it is a graph)
+                sb.append(" <revisited node>"); // there is a cycle in the data structure (it is a graph)
             sb.append(": ");
             if (node.getValue() == null)
                 sb.append("null");

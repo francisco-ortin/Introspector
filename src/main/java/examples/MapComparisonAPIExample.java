@@ -7,14 +7,12 @@ package examples; /**
 
 import introspector.Introspector;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
- * Example use of Introspector showing how to compare two trees programmatically with no visual representation.
+ * Example use of Introspector showing how to compare two trees with maps programmatically with no visual representation.
  */
-public class TwoTreesComparisonAPIExample {
+public class MapComparisonAPIExample {
 
 	/**
 	 * Main method that creates two trees and compares them.
@@ -24,10 +22,10 @@ public class TwoTreesComparisonAPIExample {
 		RootClass tree1 = new RootClass();
 		RootClass tree2 = new RootClass();
 		tree2.color = Color.blue; // Change the color of the root node
-		tree2.stringChildren.set(4, "new value"); // change the value of one array element
-		tree2.stringChildren.add("new child"); // add a new child
+		tree2.mapChildren.put("StrChild4", -1); // change the value of one map element
+		tree2.mapChildren.put("new child", 22); // add a new child to the map
 		tree2.integerChild = -1; // Change the integer child
-		tree2.personRecord = new Person(12, "Francisco", "Soler", Map.of("One", 1, "Two", 2)); // Change the person record
+		tree2.personRecord = new Person(12, "Francisco", "Soler", java.util.Map.of("One", 1, "Two", 2)); // Change the person record
 
 		// textual comparison of the trees: changed nodes appear between ** and **
 		// complete information including toString
@@ -49,14 +47,14 @@ public class TwoTreesComparisonAPIExample {
 	static class RootClass {
 		private Color color = Color.red;
 		private final Node childNode = new Node("Child1");
-		private final List<String> stringChildren = new ArrayList<>();
+		private final java.util.Map<String, Integer> mapChildren = new HashMap<>();
 		int integerChild;
 		private Person personRecord;
 
 		RootClass() {
 			int i;
 			for (i = 2; i <= 10; i++)
-				this.stringChildren.add("StrChild" + i);
+				this.mapChildren.put("StrChild" + i, i);
 			this.integerChild = i;
 			this.personRecord = new Person(12, "Francisco", "Ortin", null);
 		}
