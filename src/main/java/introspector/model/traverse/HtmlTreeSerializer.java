@@ -190,12 +190,12 @@ public class HtmlTreeSerializer implements TreeSerializer {
                 write(String.format("%s<li>%s</li>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));
         }
         else {
-            if (modified)
-                write(String.format("%s<li class=\"modified\">\n", this.prefix(depth)));
-            else
-                write(String.format("%s<li>\n", this.prefix(depth)));
+            write(String.format("%s<li>\n", this.prefix(depth)));
             write(String.format("%s<details>\n", this.prefix(depth)));
-            write(String.format("%s<summary>%s</summary>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));
+            if (modified)
+                write(String.format("%s<summary class=\"modified\">%s</summary>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));
+            else
+                write(String.format("%s<summary>%s</summary>\n", this.prefix(depth), this.nodeDescription(node, hasBeenVisited)));
             write(String.format("%s<ul>\n", this.prefix(depth)));
         }
     }
@@ -225,7 +225,7 @@ public class HtmlTreeSerializer implements TreeSerializer {
             Class<?> type = node.getType();
             sb.append(" (").append(type.getSimpleName()).append(")");
             if (cycle)
-                    sb.append(" &lt;cyclic reference&gt;");
+                    sb.append(" &lt;revisited node&gt;");
             sb.append(": ");
             if (node.getValue() == null)
                 sb.append("null");

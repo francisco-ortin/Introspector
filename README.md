@@ -168,9 +168,9 @@ Then, you can run any example, (e.g., `IntrospectorDemo`) just like:
     java examples.IntrospectorDemo
 ``` 
 
-## Documentation
+## More documentation
 
-Check out the [reference documentation](https://francisco-ortin.github.io/Introspector/) of Introspector.
+Check out the [user's guide](https://github.com/francisco-ortin/Introspector/wiki) and the [reference documentation](https://francisco-ortin.github.io/Introspector/) of Introspector.
 
 
 ## License

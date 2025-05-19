@@ -35,3 +35,4 @@ bin/
 ### Maven ###
 /target/
 /dependency-reduced-pom.xml
+/introspector.iml

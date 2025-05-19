@@ -13,8 +13,6 @@ import examples.ast.*;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorView;
 
-import javax.swing.tree.TreeModel;
-
 /**
  * Shows how to use Introspector to represent an Abstract Syntax Tree (AST) used in most compilers.
  */
@@ -60,7 +58,7 @@ public class ASTExample {
 	 */
 	public static void main(String[] args) {
 		ASTNode tree = createTree();
-		TreeModel model = new IntrospectorModel("AST", tree);
+		IntrospectorModel model = new IntrospectorModel("AST", tree);
 		new IntrospectorView("Introspector", model);
 	}
 

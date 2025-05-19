@@ -25,18 +25,19 @@ public class TwoTreesComparisonAPIExample {
 		RootClass tree2 = new RootClass();
 		tree2.color = Color.blue; // Change the color of the root node
 		tree2.stringChildren.set(4, "new value"); // change the value of one array element
+		tree2.stringChildren.add("new child"); // add a new child
 		tree2.integerChild = -1; // Change the integer child
 		tree2.personRecord = new Person(12, "Francisco", "Soler", Map.of("One", 1, "Two", 2)); // Change the person record
 
 		// textual comparison of the trees: changed nodes appear between ** and **
-		// complete information
+		// complete information including toString
 		Introspector.compareTreesAsTxt(tree1, tree2, "out/full-output1.txt", "out/full-output2.txt");
-		// simple information
+		// simple information (the allInfo parameter is set to false)
 		Introspector.compareTreesAsTxt(tree1, tree2, "out/simple-output1.txt", "out/simple-output2.txt", false);
 		// the same functionality with HTML output
-		// complete information
+		// complete information including toString
 		Introspector.compareTreesAsHtml(tree1, tree2, "out/full-output1.html", "out/full-output2.html");
-		// simple information
+		// simple information (the allInfo parameter is set to false)
 		Introspector.compareTreesAsHtml(tree1, tree2, "out/simple-output1.html", "out/simple-output2.html", false);
 	}
 

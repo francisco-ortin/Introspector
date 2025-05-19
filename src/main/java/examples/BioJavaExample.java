@@ -4,12 +4,11 @@
  * 1) Uncomment the following class.
  * 2) Use the pom-biojava.xml file to compile the project with maven.
  */
-
 /*
 package examples;
 
 import introspector.model.IntrospectorModel;
-import introspector.test.view.IntrospectorView;
+import introspector.view.IntrospectorView;
 import org.biojava.nbio.core.sequence.DNASequence;
 import org.biojava.nbio.core.sequence.transcription.TranscriptionEngine;
 import org.biojava.nbio.core.sequence.ProteinSequence;
@@ -28,4 +27,4 @@ public class BioJavaExample {
 	}
 }
 
- */
+*/

@@ -39,7 +39,7 @@ public class TreeComparator {
 	 * Compares two trees and returns true if they are equal, false otherwise
 	 * @param tree1 the root of the first tree
 	 * @param tree2 the root of the second tree
-	 * @return true if the trees are equal, false otherwise.
+	 * @return the set of different nodes (if any)
 	 */
 	public Set<Node> compareTrees(Object tree1, Object tree2) {
 		if (tree1 == null && tree2 == null)
@@ -60,7 +60,7 @@ public class TreeComparator {
 	 * @param equalName whether the names of the nodes should be compared
 	 * @param modifiedNodes the list of modified nodes
 	 * @param alreadyTraversed the list of nodes that have been visited in this traversal
-	 * @return the list of modified nodes
+	 * @return the set of different nodes
 	 */
 	private Set<Node> compareNode(Object object1, Object object2, boolean equalName, Set<Node> modifiedNodes, Set<SymmetricPair<Node, Node>> alreadyTraversed) {
 		if (object1 == null && object2 != null) {

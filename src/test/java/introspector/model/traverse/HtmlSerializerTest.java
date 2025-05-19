@@ -47,7 +47,7 @@ class HtmlSerializerTest {
         Writer writer = new StringWriter();
         TreeSerializer serializer = new HtmlTreeSerializer(writer);
         serializer.traversing(node, 0, true);
-        assertEquals("<li>string (String) &lt;cyclic reference&gt;: hi.</li>\n", writer.toString());
+        assertEquals("<li>string (String) &lt;revisited node&gt;: hi.</li>\n", writer.toString());
     }
 
     @Test
